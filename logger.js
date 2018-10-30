@@ -76,8 +76,7 @@ function writeLog(logLevelId, data, asIs, logName) {
             if (useRawData)
                 logData = `${dateDisplay} - ${logData}`;
             else
-                // eslint-disable-next-line no-console
-                console[logLevel < levels.error ? `log` : `error`](dateDisplay);
+                logData = `${dateDisplay} - ${logData.replace(/\n/g, (`\n`).padEnd(dateDisplay.length + 4, ` `))}`;
         }
 
         // eslint-disable-next-line no-console
