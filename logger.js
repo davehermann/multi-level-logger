@@ -9,11 +9,53 @@ const levels = {
     fatal: 60,
 };
 
+// Default logging is set to warn
+let _logLevel = { default: levels[`warn`] },
+    _includeTimestamp = true;
+
+/*
+    logDefinition is one of the following:
+    1) a string matching a log level in the levels object
+    2) an integer value to use as the log level
+    3) an object with a _logLevel property
+        a) with a string value matching the level name
+        b) with an integer value to use as the log level
+    4) an object with each key matching a log name, and each value one of 1, 2, or 3 above
+*/
+function initialize(logDefinition, logName = `default`) {
+    switch (typeof logDefinition) {
+        case `string`:
+            _logLevel[logName] = levels[logDefinition.toLowerCase()];
+            break;
+
+        case `number`:
+            _logLevel[logName] = logDefinition;
+            break;
+
+        case `object`:
+            if (!!logDefinition.logLevel)
+                initialize(logDefinition.logLevel);
+            else
+                for (let logName in logDefinition)
+                    initialize(logDefinition[logName], logName);
+            break;
+    }
+}
+
+function setTimestamp(prependTs = true) {
+    _includeTimestamp = prependTs;
+}
+
+// Get the current log settings
+function currentLogging() {
+    return { logLevel: _logLevel, includeTimestamp: _includeTimestamp };
+}
+
 // Write the log entry
 // data - the log data to write
 // asIs - A javascript object will default to JSON output. Passing in `true` will force writing of the native object
 function writeLog(logLevelId, data, asIs, logName) {
-    let logLevel = levels[logLevelId];
+    let messageLevel = levels[logLevelId];
 
     if (typeof asIs == `string`) {
         logName = asIs;
@@ -23,11 +65,11 @@ function writeLog(logLevelId, data, asIs, logName) {
     if (!logName)
         logName = `default`;
 
-    if (global.logLevel[logName] <= logLevel) {
+    if (_logLevel[logName] <= messageLevel) {
         let useRawData = asIs || (typeof data !== `object`),
             logData = (useRawData ? data : JSON.stringify(data, null, 4));
 
-        if (global.logLevel.includeTimestamp) {
+        if (_includeTimestamp) {
             let timestamp = new Date(),
                 dateDisplay = `${timestamp.toLocaleString()}`;
 
@@ -39,7 +81,7 @@ function writeLog(logLevelId, data, asIs, logName) {
         }
 
         // eslint-disable-next-line no-console
-        console[logLevel < levels.error ? `log` : `error`](logData);
+        console[messageLevel < levels.error ? `log` : `error`](logData);
     }
 }
 
@@ -62,6 +104,10 @@ function warn(data, asIs, logName) { writeLog(`warn`, data, asIs, logName); }
 function err(data, asIs, logName) { writeLog(`error`, data, asIs, logName); }
 
 module.exports.LogLevels = levels;
+module.exports.InitializeLogging = initialize;
+module.exports.IncludeTimestamp = setTimestamp;
+module.exports.GetConfiguredLogging = currentLogging;
+
 module.exports.Dev = dev;
 module.exports.Trace = trace;
 module.exports.Debug = debug;
