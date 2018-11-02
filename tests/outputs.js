@@ -5,7 +5,7 @@ const expect = require(`chai`).expect;
 const logger = require(`../logger`);
 
 function setLevel(level) {
-    describe(`Logger set to "${level}"`, function() {
+    describe(`Logger set to ${JSON.stringify(level)}`, function() {
         before(function() {
             logger.InitializeLogging(level);
         });
@@ -48,6 +48,11 @@ function outputLog(levelName, currentLevel) {
 }
 
 function writeLog(levelName, asString, currentLevel) {
+    // When currentLevel is an object, use the logLevel property
+    if (typeof currentLevel == `object`) {
+        currentLevel = currentLevel.logLevel;
+    }
+
     let mapLevelName = (levelName == `Err` ? `Error` : levelName),
         logLevelNumber = logger.LogLevels[mapLevelName.toLowerCase()],
         useOutput = (logLevelNumber >= logger.LogLevels[`error`] ? `error` : `log`),
