@@ -102,6 +102,9 @@ function warn(data, asIs, logName) { writeLog(`warn`, data, asIs, logName); }
 // Error-level
 function err(data, asIs, logName) { writeLog(`error`, data, asIs, logName); }
 
+// Fatal-level
+function fatal(data, asIs, logName) { writeLog(`fatal`, data, asIs, logName); }
+
 module.exports.LogLevels = levels;
 module.exports.InitializeLogging = initialize;
 module.exports.IncludeTimestamp = setTimestamp;
@@ -113,3 +116,4 @@ module.exports.Debug = debug;
 module.exports.Info = info;
 module.exports.Warn = warn;
 module.exports.Err = err;
+module.exports.Fatal = fatal;
