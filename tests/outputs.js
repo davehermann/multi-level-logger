@@ -50,8 +50,9 @@ function outputLog(levelName, currentLevel) {
 function writeLog(levelName, asString, currentLevel) {
     let mapLevelName = (levelName == `Err` ? `Error` : levelName),
         logLevelNumber = logger.LogLevels[mapLevelName.toLowerCase()],
-        useOutput = (logLevelNumber >= logger.LogLevels[`error`] ? `error` : `log`);
-    let aboveLevel = (logLevelNumber >= logger.LogLevels[currentLevel.toLowerCase()]);
+        useOutput = (logLevelNumber >= logger.LogLevels[`error`] ? `error` : `log`),
+        loggingThreshold = (typeof currentLevel == `string` ? logger.LogLevels[currentLevel.toLowerCase()] : currentLevel);
+    let aboveLevel = (logLevelNumber >= loggingThreshold);
 
     it(`should${aboveLevel ? `` : ` not`} output ${asString ? `a string` : `an object`} to console.${useOutput}`, function() {
         let logData = asString ? `${levelName} level` : { level: levelName };

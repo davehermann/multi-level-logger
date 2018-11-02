@@ -21,7 +21,8 @@
 const sinon = require(`sinon`);
 
 // Application Modules
-const { Test1 } = require(`./test1`);
+const { Test1 } = require(`./test1`),
+    { Test2 } = require(`./test2`);
 
 describe(`Logger`, function() {
     // Use a sinon spy on console logging for each test
@@ -37,4 +38,5 @@ describe(`Logger`, function() {
 
     // Run Tests
     Test1();
+    Test2();
 });
