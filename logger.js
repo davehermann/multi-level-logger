@@ -71,7 +71,7 @@ function writeLog(logLevelId, data, asIs, logName) {
 
         if (_includeTimestamp) {
             let timestamp = new Date(),
-                dateDisplay = `${timestamp.toLocaleString()}`;
+                dateDisplay = timestamp.toLocaleString();
 
             if (useRawData)
                 logData = `${dateDisplay} - ${logData}`;

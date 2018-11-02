@@ -54,10 +54,28 @@ function writeLog(levelName, asString, currentLevel) {
     let aboveLevel = (logLevelNumber >= logger.LogLevels[currentLevel.toLowerCase()]);
 
     it(`should${aboveLevel ? `` : ` not`} output ${asString ? `a string` : `an object`} to console.${useOutput}`, function() {
-        logger[levelName](asString ? `${levelName} level` : { level: levelName });
-        if (aboveLevel)
+        let logData = asString ? `${levelName} level` : { level: levelName };
+
+        // Get the timestamp at the moment the log is written
+        let timestamp = new Date();
+        // Write to the log
+        logger[levelName](logData);
+
+        if (aboveLevel) {
+            // Confirm that the log was called exactly once
             expect(console[useOutput].calledOnce).to.be.true;
-        else
+
+            // Confirm the log contents
+
+            // Match the log text data generation
+            let dateDisplay = timestamp.toLocaleString(),
+                logText = asString ? logData : JSON.stringify(logData, null, 4);
+            if (logger.GetConfiguredLogging().includeTimestamp)
+                logText = `${dateDisplay} - ${logText.replace(/\n/g, (`\n`).padEnd(dateDisplay.length + 4, ` `))}`;
+
+            expect(console[useOutput].calledWith(logText)).to.be.true;
+        } else
+            // No logging should have occurred
             expect(console[useOutput].notCalled).to.be.true;
     });
 }
