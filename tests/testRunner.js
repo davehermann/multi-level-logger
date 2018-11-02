@@ -8,7 +8,7 @@
         5a) Test for each logger outputing only at its own level
 
     For each test
-        Test all logs from .Dev() to .Fatal(), and confirm no log when below the set level, and one log entry when at or above
+        Test all logs from .Dev() to .Fatal(): confirm no log when below the set level; confirm one log, and contents, when at or above
             Output without timestamp
                 String data
                 Object data
@@ -21,8 +21,7 @@
 const sinon = require(`sinon`);
 
 // Application Modules
-const { Test1 } = require(`./test1`),
-    { Test2 } = require(`./test2`);
+const { Test1, Test2 } = require(`./testList`);
 
 describe(`Logger`, function() {
     // Use a sinon spy on console logging for each test
