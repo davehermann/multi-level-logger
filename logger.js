@@ -29,7 +29,13 @@ function initialize(logDefinition, logName = `default`) {
             break;
 
         case `number`:
-            _logLevel[logName] = logDefinition;
+            // Warn for numbers above fatal, and set to fatal-level
+            // Anything below dev can remain as-is since it will write to all logs
+            if (logDefinition > levels.fatal)
+                // eslint-disable-next-line no-console
+                console.log(`Log level "${logDefinition}" is above the highest log level of "fatal: ${levels.fatal}, and will be set to "${levels.fatal}`);
+
+            _logLevel[logName] = Math.min(logDefinition, levels.fatal);
             break;
 
         case `object`:
