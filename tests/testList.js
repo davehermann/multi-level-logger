@@ -1,5 +1,5 @@
 // Application Modules
-const { SetLogLevel } = require(`./outputs`),
+const { SetLogLevel, SetMulitpleLogLevels } = require(`./outputs`),
     { LogLevels } = require(`../logger`);
 
 // Test 1) Test each preset log level set via string
@@ -27,12 +27,10 @@ function testRandomNumberLevel() {
 
 // Test 3) Set via object with a string
 function testStringThresholdViaObject() {
-    // Select a random test level
-    let levelNames = Object.keys(LogLevels),
-        testLevel = Math.round(Math.random() * levelNames.length);
+    let useLevel = getRandomLogLevel();
 
-    describe(`Test 3) Set log threshold to "${levelNames[testLevel]}" via an object`, function() {
-        SetLogLevel({ logLevel: levelNames[testLevel] });
+    describe(`Test 3) Set log threshold to "${useLevel}" via an object`, function() {
+        SetLogLevel({ logLevel: useLevel });
     });
 }
 
@@ -46,11 +44,37 @@ function testIntegerThresholdViaObject() {
     });
 }
 
+// Test 5) Multiple logs set via object with string or integer values
+function testMultipleLogs() {
+    let logLevels = {
+        logLevel: randomlySelectStringOrNumericalLevel(),
+        log1: { logLevel: randomlySelectStringOrNumericalLevel() },
+        log2: { logLevel: randomlySelectStringOrNumericalLevel() }
+    };
+
+    describe(`Test 5) Test multiple logs with different thresholds`, function() {
+        SetMulitpleLogLevels(logLevels);
+    });
+}
+
+function randomlySelectStringOrNumericalLevel() {
+    return (Math.random() >= 0.5) ? getRandomLogLevel() : getRandomLogThresholdWithinLogRange();
+}
+
 function getRandomLogThresholdWithinLogRange() {
     return Math.round(Math.random() * (LogLevels.fatal - LogLevels.dev)) + LogLevels.dev;
+}
+
+function getRandomLogLevel() {
+    // Select a random test level
+    let levelNames = Object.keys(LogLevels),
+        testLevel = Math.round(Math.random() * (levelNames.length - 1));
+
+    return levelNames[testLevel];
 }
 
 module.exports.Test1 = presetLogLevels;
 module.exports.Test2 = testRandomNumberLevel;
 module.exports.Test3 = testStringThresholdViaObject;
 module.exports.Test4 = testIntegerThresholdViaObject;
+module.exports.Test5 = testMultipleLogs;
