@@ -39,11 +39,13 @@ function initialize(logDefinition, logName = `default`) {
             break;
 
         case `object`:
-            if (!!logDefinition.logLevel)
-                initialize(logDefinition.logLevel);
-            else
-                for (let logName in logDefinition)
-                    initialize(logDefinition[logName], logName);
+            // Check the top level properties only
+            for (let prop in logDefinition) {
+                if (prop == `logLevel`)
+                    initialize(logDefinition[prop]);
+                else if ((typeof logDefinition[prop] == `object`) && !!logDefinition[prop].logLevel)
+                    initialize(logDefinition[prop].logLevel, prop);
+            }
             break;
     }
 }
