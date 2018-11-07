@@ -6,6 +6,14 @@
   "engine": {
     "node": ">=8.0.0"
   },
+  "scripts": {
+    "test": "./node_modules/.bin/mocha ./tests/testRunner.js"
+  },
   "author": "Dave Hermann",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "sinon": "^7.1.1"
+  }
 }

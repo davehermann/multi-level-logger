@@ -29,15 +29,23 @@ function initialize(logDefinition, logName = `default`) {
             break;
 
         case `number`:
-            _logLevel[logName] = logDefinition;
+            // Warn for numbers above fatal, and set to fatal-level
+            // Anything below dev can remain as-is since it will write to all logs
+            if (logDefinition > levels.fatal)
+                // eslint-disable-next-line no-console
+                console.log(`Log level "${logDefinition}" is above the highest log level of "fatal: ${levels.fatal}, and will be set to "${levels.fatal}`);
+
+            _logLevel[logName] = Math.min(logDefinition, levels.fatal);
             break;
 
         case `object`:
-            if (!!logDefinition.logLevel)
-                initialize(logDefinition.logLevel);
-            else
-                for (let logName in logDefinition)
-                    initialize(logDefinition[logName], logName);
+            // Check the top level properties only
+            for (let prop in logDefinition) {
+                if (prop == `logLevel`)
+                    initialize(logDefinition[prop]);
+                else if ((typeof logDefinition[prop] == `object`) && !!logDefinition[prop].logLevel)
+                    initialize(logDefinition[prop].logLevel, prop);
+            }
             break;
     }
 }
@@ -71,7 +79,7 @@ function writeLog(logLevelId, data, asIs, logName) {
 
         if (_includeTimestamp) {
             let timestamp = new Date(),
-                dateDisplay = `${timestamp.toLocaleString()}`;
+                dateDisplay = timestamp.toLocaleString();
 
             if (useRawData)
                 logData = `${dateDisplay} - ${logData}`;
@@ -102,6 +110,9 @@ function warn(data, asIs, logName) { writeLog(`warn`, data, asIs, logName); }
 // Error-level
 function err(data, asIs, logName) { writeLog(`error`, data, asIs, logName); }
 
+// Fatal-level
+function fatal(data, asIs, logName) { writeLog(`fatal`, data, asIs, logName); }
+
 module.exports.LogLevels = levels;
 module.exports.InitializeLogging = initialize;
 module.exports.IncludeTimestamp = setTimestamp;
@@ -113,3 +124,4 @@ module.exports.Debug = debug;
 module.exports.Info = info;
 module.exports.Warn = warn;
 module.exports.Err = err;
+module.exports.Fatal = fatal;
