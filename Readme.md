@@ -1,6 +1,6 @@
 # multi-level-logger
 
-A simple logging module with flexibility for multiple simultaneous log levels through named logs.
+A simple logging module with flexibility for multiple simultaneous log levels through named logs, and optional timestamp inclusion.
 
 ## Getting Started
 
@@ -14,6 +14,9 @@ A simple logging module with flexibility for multiple simultaneous log levels th
 const { Warn } = require("multi-level-logger");
 
 Warn("Hello multi-level-logger");
+
+// Console output
+// > 1/1/2018, 12:00:00 PM - Hello multi-level-logger
 ```
 
 ## Configuration
@@ -31,44 +34,44 @@ Configures the log level for the default log, or any named logs
     + Can be *string*, *number*, or *object*
         + **string**
             + Must match one of the **named log levels**
-            + e.g. log everything at or above *info* level
+            + Example: log everything at or above *info* level
             ```javascript
             InitializeLogging("info")
             ```
         + **number**
             + Any numerical value
-            + e.g. log everything at or above *27*
+            + Example: log everything at or above *27*
             ```javascript
             InitializeLogging(27)
             ```
                 + The named level *info* would be the lowest level to log in this example
         + **object**
             + An object that contains a **logLevel** property with a **string** or **number** value
-                + e.g.
+                + Example:
                 ```javascript
                 InitializeLogging({ logLevel: "info" })
                 ```
             + An object that contains properties corresponding to log names (see `logName` below) that have a **logLevel** property
-                + e.g.
+                + Example:
                 ```javascript
                 InitializeLogging({
                     log1: { logLevel: "warn" },
-                    log2: { logLevel: "debug" }
+                    log2: { logLevel: 18 }
                 })
                 ```
             + A default level and named logs can be mixed
-                + e.g.
+                + Example:
                 ```javascript
                 InitializeLogging({
                     logLevel: "info",
                     log1: { logLevel: "warn" },
-                    log2: { logLevel: "debug" }
+                    log2: { logLevel: 18 }
                 })
                 ```
 + `logName`
     + Defines the name of the log corresponding to the level passed into `logDefinition`
     + Has no impact when passing an **object** into `logDefinition`
-    + e.g.
+    + Example:
     ```javascript
     InitializeLogging("trace", "log3")
     ```
@@ -111,20 +114,22 @@ IncludeTimestamp(true)
 ```javascript
 { logLevel, includeTimestamp }
 ```
-+ `logLevel`
-    + An object containing all log levels defined
-        + The default will be listed via a `default` property
-    + e.g.
-    ```javascript
-    {
-        logLevel: {
-            default: "info",
-            log1: "warn",
-            log2: "debug"
-        },
-        includeTimestamp: true
-    }
-    ```
+    + `logLevel`
+        + An object containing all log levels defined
+            + The default log will be listed via a `default` property
+    + `includeTimestamp`
+        + `true` or `false`
++ Example returned object:
+```javascript
+{
+    logLevel: {
+        default: "info",
+        log1: "warn",
+        log2: 18
+    },
+    includeTimestamp: true
+}
+```
 
 ## Write Logs
 
@@ -155,8 +160,10 @@ Each of these methods has the exact same signature, taking between 1 and 3 param
 | `asIs` | boolean | no | Write object data as-is, without running `JSON.stringify()` |
 | `logName` | string | no | Specify the log to write to, or use default if no name is specified |
 
-E.g.
+Example:
 ```javascript
+const { IncludeTimestamp, Warn } = require("multi-level-logger");
+
 // Log a string to the console without a timestamp
 IncludeTimestamp(false);
 Warn("Hello multi-level-logger");
@@ -170,9 +177,19 @@ IncludeTimestamp(true);
 Warn({ prop1: true, prop2: "yes" });
 
 /*
-    > 1/1/2000, 12:00:00 PM - {
+    > 1/1/2018, 12:00:00 PM - {
                                   "prop1": true,
                                   "prop2": "yes"
                               }
 */
 ```
+
+# License
+
+*multi-level-logger* is released under the MIT License.
+See [License](./License.md) file for more details.
+
+# Contributing
+While this is well suited for projects that may need multiple logs at different log levels, this is primarily a formalized version of a personal module used in multiple projects.
+
+Pull requests may be considered provided they follow existing code's styling, are well commented, and pass all existing tests as well as provide new tests as-needed.
