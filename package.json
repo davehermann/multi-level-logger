@@ -10,6 +10,7 @@
     "test": "./node_modules/.bin/mocha ./tests/testRunner.js"
   },
   "author": "Dave Hermann",
+  "repository": "github:davehermann/multi-level-logger",
   "license": "MIT",
   "devDependencies": {
     "chai": "^4.2.0",
