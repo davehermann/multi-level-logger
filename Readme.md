@@ -10,6 +10,8 @@ A simple logging module with flexibility for multiple simultaneous log levels th
 
 ### Quick Start
 
+#### Single log
+
 ```javascript
 const { Warn } = require("multi-level-logger");
 
@@ -17,6 +19,22 @@ Warn("Hello multi-level-logger");
 
 // Console output
 // > 1/1/2018, 12:00:00 PM - Hello multi-level-logger
+```
+
+#### Multiple logs
+```javascript
+const { InitializeLogging, Trace, Info } = require("multi-level-logger");
+
+InitializeLogging({ log1: "trace", log2: "info" });
+
+Trace("Hello log1", "log1");
+// > 1/1/2018, 12:00:00 PM - Hello log1
+Info("Hello log1", "log1");
+// > 1/1/2018, 12:00:00 PM - Hello log1
+Trace("Hello log2", "log2");  // Below log2 logging level == no console output
+Info("Hello log2", "log2");
+// > 1/1/2018, 12:00:00 PM - Hello log1
+
 ```
 
 ## Configuration
