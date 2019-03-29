@@ -58,6 +58,7 @@ Configures the log level for the default log, or any named logs
             ```
         + **number**
             + Any numerical value
+                + <span style='color: seagreen;'>Any number below 0 will <u>**always**</u> write to the log</span>
             + Example: log everything at or above *27*
             ```javascript
             InitializeLogging(27)
@@ -170,6 +171,13 @@ Available methods match named log levels
 | Err() | `console.error()` |
 | Fatal() | `console.error()` |
 
+Additionally, a method is included to <u>always write to the log</u> irrespective of level
++ e.g. to provide UI elements on a console application through the log system instead of with `console.log()`
+
+| Method | Writes To |
+| ------ | --------- |
+| Log() | `console.log()` |
+
 Each of these methods has the exact same signature, taking between 1 and 3 parameters
 
 | Parameter | Type | Required | Description |
@@ -204,7 +212,7 @@ Warn({ prop1: true, prop2: "yes" });
 
 # License
 
-*multi-level-logger* is released under the MIT License.
+*multi-level-logger* is released under the MIT License.  
 See [License](./License.md) file for more details.
 
 # Contributing

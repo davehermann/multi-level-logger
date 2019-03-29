@@ -59,6 +59,7 @@ function logLevelTests(currentLevel, namedLog) {
         outputLog(`Warn`, currentLevel, namedLog);
         outputLog(`Err`, currentLevel, namedLog);
         outputLog(`Fatal`, currentLevel, namedLog);
+        outputLog(`Log`, currentLevel, namedLog);
     });
 }
 
@@ -75,11 +76,20 @@ function writeLog(levelName, asString, currentLevel, namedLog) {
         currentLevel = currentLevel.logLevel;
     }
 
-    let mapLevelName = (levelName == `Err` ? `Error` : levelName),
-        logLevelNumber = logger.LogLevels[mapLevelName.toLowerCase()],
-        useOutput = (logLevelNumber >= logger.LogLevels[`error`] ? `error` : `log`),
-        loggingThreshold = (typeof currentLevel == `string` ? logger.LogLevels[currentLevel.toLowerCase()] : currentLevel);
-    let aboveLevel = (logLevelNumber >= loggingThreshold);
+    let aboveLevel, useOutput;
+
+    // Writing to "Log" always writes
+    if (levelName == `Log`) {
+        aboveLevel = true;
+        useOutput = `log`;
+    } else {
+        let mapLevelName = (levelName == `Err` ? `Error` : levelName),
+            logLevelNumber = logger.LogLevels[mapLevelName.toLowerCase()],
+            loggingThreshold = (typeof currentLevel == `string` ? logger.LogLevels[currentLevel.toLowerCase()] : currentLevel);
+
+        useOutput = (logLevelNumber >= logger.LogLevels[`error`] ? `error` : `log`);
+        aboveLevel = (logLevelNumber >= loggingThreshold);
+    }
 
     it(`should${aboveLevel ? `` : ` not`} output ${asString ? `a string` : `an object`} to console.${useOutput}`, function() {
         let logData = asString ? `${levelName} level` : { level: levelName };

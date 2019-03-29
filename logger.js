@@ -65,6 +65,10 @@ function currentLogging() {
 function writeLog(logLevelId, data, asIs, logName) {
     let messageLevel = levels[logLevelId];
 
+    // For the always-write "Log" level, there will be no message level defined
+    if (messageLevel === undefined)
+        messageLevel = logLevelId;
+
     if (typeof asIs == `string`) {
         logName = asIs;
         asIs = undefined;
@@ -73,7 +77,8 @@ function writeLog(logLevelId, data, asIs, logName) {
     if (!logName)
         logName = `default`;
 
-    if (_logLevel[logName] <= messageLevel) {
+    // Any log level below 0 means always write the log data
+    if ((_logLevel[logName] <= messageLevel) || (messageLevel < 0)) {
         let useRawData = asIs || (typeof data !== `object`),
             logData = (useRawData ? data : JSON.stringify(data, null, 4));
 
@@ -113,6 +118,9 @@ function err(data, asIs, logName) { writeLog(`error`, data, asIs, logName); }
 // Fatal-level
 function fatal(data, asIs, logName) { writeLog(`fatal`, data, asIs, logName); }
 
+// Always write the data, irrespective of level
+function alwaysWriteToLog(data, asIs, logName) { writeLog(-1, data, asIs, logName); }
+
 module.exports.LogLevels = levels;
 module.exports.InitializeLogging = initialize;
 module.exports.IncludeTimestamp = setTimestamp;
@@ -125,3 +133,4 @@ module.exports.Info = info;
 module.exports.Warn = warn;
 module.exports.Err = err;
 module.exports.Fatal = fatal;
+module.exports.Log = alwaysWriteToLog;
