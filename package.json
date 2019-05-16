@@ -7,7 +7,8 @@
     "node": ">=8.0.0"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha ./tests/testRunner.js"
+    "test": "./node_modules/.bin/mocha ./tests/testRunner.js",
+    "test-dev": "node ./tests/dev-test.js"
   },
   "author": "Dave Hermann",
   "repository": "github:davehermann/multi-level-logger",
