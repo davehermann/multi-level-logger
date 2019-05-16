@@ -1,6 +1,6 @@
 {
   "name": "multi-level-logger",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Enabling different logs with differing log levels within a single application",
   "main": "logger.js",
   "engine": {

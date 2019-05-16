@@ -11,7 +11,8 @@ const levels = {
 
 // Default logging is set to warn
 let _logLevel = { default: levels[`warn`] },
-    _includeTimestamp = true;
+    _includeTimestamp = true,
+    _jsonFormatter = 4;
 
 /*
     logDefinition is one of the following:
@@ -50,8 +51,9 @@ function initialize(logDefinition, logName = `default`) {
     }
 }
 
-function setTimestamp(prependTs = true) {
+function setTimestamp(prependTs = true, jsonIndent = 4) {
     _includeTimestamp = prependTs;
+    _jsonFormatter = jsonIndent;
 }
 
 // Get the current log settings
@@ -80,7 +82,7 @@ function writeLog(logLevelId, data, asIs, logName) {
     // Any log level below 0 means always write the log data
     if ((_logLevel[logName] <= messageLevel) || (messageLevel < 0)) {
         let useRawData = asIs || (typeof data !== `object`),
-            logData = (useRawData ? data : JSON.stringify(data, null, 4));
+            logData = (useRawData ? data : JSON.stringify(data, null, _jsonFormatter));
 
         if (_includeTimestamp) {
             let timestamp = new Date(),

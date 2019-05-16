@@ -100,10 +100,12 @@ Configures the log level for the default log, or any named logs
 InitializeLogging("warn")
 ```
 
-#### #IncludeTimestamp(boolean)
+#### #IncludeTimestamp(boolean [, number])
 
 + Include a timestamp, using `.toLocaleString()`, in any data written to the log
 + When logging objects, the stringified JSON will be aligned with the end of the timestamp
++ The second parameter specifies the JSON spacing using in the formatting
+    + This value is passed to the [JSON.stringify() **space**](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify#Parameters) parameter
 
 **Default configuration:**
 ```javascript
@@ -208,11 +210,19 @@ Warn({ prop1: true, prop2: "yes" });
                                   "prop2": "yes"
                               }
 */
+
+// Log an object to the console with a timestamp, and no formatting
+IncludeTimestamp(true, 0);
+Warn({ prop1: true, prop2: "yes" });
+
+/*
+    > 1/1/2018, 12:00:00 PM - {"prop1":true,"prop2":"yes"}
+*/
 ```
 
 # License
 
-*multi-level-logger* is released under the MIT License.  
+*multi-level-logger* is released under the MIT License.
 See [License](./License.md) file for more details.
 
 # Contributing
