@@ -100,16 +100,23 @@ Configures the log level for the default log, or any named logs
 InitializeLogging("warn")
 ```
 
-#### #IncludeTimestamp(boolean [, number])
+#### #OutputFormatting(includeTimestamp [, jsonSpacing]) *[formerly #IncludeTimestamp()]*
 
-+ Include a timestamp, using `.toLocaleString()`, in any data written to the log
-+ When logging objects, the stringified JSON will be aligned with the end of the timestamp
-+ The second parameter specifies the JSON spacing using in the formatting
+*<u>#IncludeTimestamp()</u> has been deprecated, and will be removed in a future major version release*
+
++ `includeTimestamp`
+    + Include a timestamp, using `.toLocaleString()`, in any data written to the log
+    + **Boolean**
+    + When logging objects with the timestamp on, the stringified JSON will be aligned with the end of the timestamp
++ `jsonSpacing`
+    + Specifies the JSON spacing used in the string formatting
+    + **Number**
     + This value is passed to the [JSON.stringify() **space**](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify#Parameters) parameter
+
 
 **Default configuration:**
 ```javascript
-IncludeTimestamp(true)
+OutputFormatting(true, 4)
 ```
 
 ### Retrieving Configuration
@@ -133,14 +140,17 @@ IncludeTimestamp(true)
 
 + Retrieves the current logging configuration
 ```javascript
-{ logLevel, includeTimestamp }
+{ logLevel, includeTimestamp, jsonSpacing }
 ```
-    + `logLevel`
-        + An object containing all log levels defined
-            + The default log will be listed via a `default` property
-    + `includeTimestamp`
-        + `true` or `false`
-+ Example returned object:
++ `logLevel`
+    + An object containing all log levels defined
+        + The default log will be listed via a `default` property
++ `includeTimestamp`
+    + `true` or `false`
++ `jsonSpacing`
+    + Current configured space parameter
+
+Example returned object:
 ```javascript
 {
     logLevel: {
@@ -148,7 +158,8 @@ IncludeTimestamp(true)
         log1: "warn",
         log2: 18
     },
-    includeTimestamp: true
+    includeTimestamp: true,
+    jsonSpacing: 4
 }
 ```
 
@@ -190,10 +201,10 @@ Each of these methods has the exact same signature, taking between 1 and 3 param
 
 Example:
 ```javascript
-const { IncludeTimestamp, Warn } = require("multi-level-logger");
+const { OutputFormatting, Warn } = require("multi-level-logger");
 
 // Log a string to the console without a timestamp
-IncludeTimestamp(false);
+OutputFormatting(false);
 Warn("Hello multi-level-logger");
 
 /*
@@ -201,7 +212,7 @@ Warn("Hello multi-level-logger");
 */
 
 // Log an object to the console with a timestamp
-IncludeTimestamp(true);
+OutputFormatting(true);
 Warn({ prop1: true, prop2: "yes" });
 
 /*
@@ -212,7 +223,7 @@ Warn({ prop1: true, prop2: "yes" });
 */
 
 // Log an object to the console with a timestamp, and no formatting
-IncludeTimestamp(true, 0);
+OutputFormatting(true, 0);
 Warn({ prop1: true, prop2: "yes" });
 
 /*
