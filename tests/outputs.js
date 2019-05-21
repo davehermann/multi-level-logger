@@ -35,7 +35,7 @@ function setMultipleLevels(levels) {
 function timestampTests(level, namedLog) {
     describe(`Output without timestamp`, function() {
         before(`Turn off timestamp`, function() {
-            logger.IncludeTimestamp(false);
+            logger.OutputFormatting(false);
         });
 
         logLevelTests(level, namedLog);
@@ -43,7 +43,7 @@ function timestampTests(level, namedLog) {
 
     describe(`Output including timestamp`, function() {
         before(`Turn on timestamp`, function() {
-            logger.IncludeTimestamp(true);
+            logger.OutputFormatting(true);
         });
 
         logLevelTests(level, namedLog);

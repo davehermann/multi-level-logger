@@ -51,14 +51,14 @@ function initialize(logDefinition, logName = `default`) {
     }
 }
 
-function setTimestamp(prependTs = true, jsonIndent = 4) {
+function outputFormatting(prependTs = true, jsonIndent = 4) {
     _includeTimestamp = prependTs;
     _jsonFormatter = jsonIndent;
 }
 
 // Get the current log settings
 function currentLogging() {
-    return { logLevel: _logLevel, includeTimestamp: _includeTimestamp };
+    return { logLevel: _logLevel, includeTimestamp: _includeTimestamp, jsonSpacing: _jsonFormatter };
 }
 
 // Write the log entry
@@ -125,7 +125,9 @@ function alwaysWriteToLog(data, asIs, logName) { writeLog(-1, data, asIs, logNam
 
 module.exports.LogLevels = levels;
 module.exports.InitializeLogging = initialize;
-module.exports.IncludeTimestamp = setTimestamp;
+module.exports.OutputFormatting = outputFormatting;
+// Deprecated, in favor of .OutputFormatting
+module.exports.IncludeTimestamp = outputFormatting;
 module.exports.GetConfiguredLogging = currentLogging;
 
 module.exports.Dev = dev;

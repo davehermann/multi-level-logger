@@ -19,16 +19,16 @@ console.log(`\n-- Test 2: Log an object --`)
 logger.Log(testObject);
 
 // Log without a timestamp
-logger.IncludeTimestamp(false);
+logger.OutputFormatting(false);
 console.log(`\n-- Test 3: Log without a timestamp --`)
 logger.Log(testString);
 
 // Log without a timestamp, and with object spacing of 2
-logger.IncludeTimestamp(false, 2);
+logger.OutputFormatting(false, 2);
 console.log(`\n-- Test 4: Log without a timestamp, and with object spacing of 2 --`)
 logger.Log(testObject);
 
 // Log without a timestamp, and with no spacing in the object
-logger.IncludeTimestamp(false, 0);
+logger.OutputFormatting(false, 0);
 console.log(`\n-- Test 5: Log without a timestamp, and with no spacing in the object --`)
 logger.Log(testObject);
