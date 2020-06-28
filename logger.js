@@ -1,4 +1,6 @@
-// Log levels
+/**
+ * Available log levels
+ */
 const levels = {
     dev: 0,
     trace: 10,
@@ -9,20 +11,25 @@ const levels = {
     fatal: 60,
 };
 
-// Default logging is set to warn
+/**
+ * By default
+ * Log level is WARN
+ * Timestamp is included
+ * JSON formatting uses 4 spaces
+ */
 let _logLevel = { default: levels[`warn`] },
     _includeTimestamp = true,
     _jsonFormatter = 4;
 
-/*
-    logDefinition is one of the following:
-    1) a string matching a log level in the levels object
-    2) an integer value to use as the log level
-    3) an object with a _logLevel property
-        a) with a string value matching the level name
-        b) with an integer value to use as the log level
-    4) an object with each key matching a log name, and each value one of 1, 2, or 3 above
-*/
+/**
+ * Initial logging configuration
+ * @param {String|Number|Object} logDefinition - The log level initializer matching one of four types
+ *      1. *String* - a string matching a log level in the levels object
+ *      1. *Number* - an integer value to use as the log level
+ *      1. *Object* - an object with a `logLevel` property, matching 1 or 2 above
+ *      1. *Object* - an object with each key matching a named log, and the value as 1, 2, or 3 above
+ * @param {String} logName - Name of the log, defaulting to "default"
+ */
 function initialize(logDefinition, logName = `default`) {
     switch (typeof logDefinition) {
         case `string`:
@@ -51,19 +58,40 @@ function initialize(logDefinition, logName = `default`) {
     }
 }
 
+/**
+ * Set the formatting for output
+ * @param {Boolean} prependTs - Include a timestamp before all logged entries
+ * @param {Number} jsonIndent - Number of spaces to pass to `JSON.stringify()`
+ */
 function outputFormatting(prependTs = true, jsonIndent = 4) {
     _includeTimestamp = prependTs;
     _jsonFormatter = jsonIndent;
 }
 
-// Get the current log settings
+/**
+ * Include a timestamp in the logged message
+ *   + **Deprecated** - will be removed in a future version
+ *   + Use `OutputFormatting()` instead
+ * @param {Boolean} prependTs
+ */
+function includeTimestamp(prependTs = true) {
+    outputFormatting(prependTs);
+}
+
+/**
+ * Get the current log settings
+ */
 function currentLogging() {
     return { logLevel: _logLevel, includeTimestamp: _includeTimestamp, jsonSpacing: _jsonFormatter };
 }
 
-// Write the log entry
-// data - the log data to write
-// asIs - A javascript object will default to JSON output. Passing in `true` will force writing of the native object
+/**
+ * Write the log entry
+ * @param {String|Number} logLevelId - ID level of the log (anything less than zero always writes)
+ * @param {String|Object} data - Data to write to the log
+ * @param {Boolean} [asIs] - Override the conversion of an *Object* to JSON
+ * @param {String} [logName] - Name of the log to write to
+ */
 function writeLog(logLevelId, data, asIs, logName) {
     let messageLevel = levels[logLevelId];
 
@@ -99,35 +127,76 @@ function writeLog(logLevelId, data, asIs, logName) {
     }
 }
 
-// Development-only level (Not recommended)
+/**
+ * Development-level logs; lowest named level; equivalent to 0
+ * @param {String|Object} data - Data to write to the log
+ * @param {Boolean} [asIs] - Override the conversion of an *Object* to JSON
+ * @param {String} [logName] - Name of the log to write to
+ */
 function dev(data, asIs, logName) { writeLog(`dev`, data, asIs, logName); }
 
-// Trace-level
+/**
+ * Trace-level; equivalent to 10
+ * @param {String|Object} data - Data to write to the log
+ * @param {Boolean} [asIs] - Override the conversion of an *Object* to JSON
+ * @param {String} [logName] - Name of the log to write to
+ */
 function trace(data, asIs, logName) { writeLog(`trace`, data, asIs, logName); }
 
-// Debug-level
+/**
+ * Debug-level; equivalent to 20
+ * @param {String|Object} data - Data to write to the log
+ * @param {Boolean} [asIs] - Override the conversion of an *Object* to JSON
+ * @param {String} [logName] - Name of the log to write to
+ */
 function debug(data, asIs, logName) { writeLog(`debug`, data, asIs, logName); }
 
-// Info-level
+/**
+ * Info-level; equivalent to 30
+ * @param {String|Object} data - Data to write to the log
+ * @param {Boolean} [asIs] - Override the conversion of an *Object* to JSON
+ * @param {String} [logName] - Name of the log to write to
+ */
 function info(data, asIs, logName) { writeLog(`info`, data, asIs, logName); }
 
-// Warn level
+/**
+ * Warn-level; equivalent to 40
+ * @param {String|Object} data - Data to write to the log
+ * @param {Boolean} [asIs] - Override the conversion of an *Object* to JSON
+ * @param {String} [logName] - Name of the log to write to
+ */
 function warn(data, asIs, logName) { writeLog(`warn`, data, asIs, logName); }
 
-// Error-level
+/**
+ * Error-level; equivalent to 50
+ * @param {String|Object} data - Data to write to the log
+ * @param {Boolean} [asIs] - Override the conversion of an *Object* to JSON
+ * @param {String} [logName] - Name of the log to write to
+ */
 function err(data, asIs, logName) { writeLog(`error`, data, asIs, logName); }
 
-// Fatal-level
+/**
+ * Fatal-level; equivalent to 60
+ * @param {String|Object} data - Data to write to the log
+ * @param {Boolean} [asIs] - Override the conversion of an *Object* to JSON
+ * @param {String} [logName] - Name of the log to write to
+ */
 function fatal(data, asIs, logName) { writeLog(`fatal`, data, asIs, logName); }
 
 // Always write the data, irrespective of level
+/**
+ * Always write the log data, like a `console.log()` function
+ * @param {String|Object} data - Data to write to the log
+ * @param {Boolean} [asIs] - Override the conversion of an *Object* to JSON
+ * @param {String} [logName] - Name of the log to write to
+ */
 function alwaysWriteToLog(data, asIs, logName) { writeLog(-1, data, asIs, logName); }
 
 module.exports.LogLevels = levels;
 module.exports.InitializeLogging = initialize;
 module.exports.OutputFormatting = outputFormatting;
 // Deprecated, in favor of .OutputFormatting
-module.exports.IncludeTimestamp = outputFormatting;
+module.exports.IncludeTimestamp = includeTimestamp;
 module.exports.GetConfiguredLogging = currentLogging;
 
 module.exports.Dev = dev;
