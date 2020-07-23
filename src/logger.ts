@@ -1,4 +1,4 @@
-import { ILogDefinition, IBaseConfiguration, ILogOptions } from "./interfaces";
+import { ILogDefinition, IBaseConfiguration, ILogOptions, ILogOptionConfiguration } from "./interfaces";
 import { levels } from "./levels";
 import { LogWriter } from "./writeLog";
 
@@ -52,12 +52,13 @@ function initialize(logDefinition: string | number | ILogDefinition, logName = `
 
 /**
  * Set the formatting for output
- * @param prependTs - Include a timestamp before all logged entries
- * @param jsonIndent - Number of spaces to pass to `JSON.stringify()`
+ * @param options - formatting options
  */
-function outputFormatting(prependTs = true, jsonIndent = 4): void {
-    _configuration.includeTimestamp = prependTs;
-    _configuration.jsonFormatter = jsonIndent;
+function outputFormatting({ includeTimestamp, includeCodeLocation, jsonFormatter, useColors }: ILogOptionConfiguration): void {
+    if (includeTimestamp !== undefined) _configuration.includeTimestamp = includeTimestamp;
+    if (includeCodeLocation !== undefined) _configuration.includeCodeLocation = includeCodeLocation;
+    if (jsonFormatter !== undefined) _configuration.jsonFormatter = jsonFormatter;
+    if (useColors !== undefined) _configuration.useColors = useColors;
 }
 
 /**
