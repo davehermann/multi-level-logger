@@ -38,6 +38,8 @@ interface IBaseConfiguration {
     includeCodeLocation: boolean;
     /** Amount of whitespace to include for the JSON.stringify() function */
     jsonFormatter: number;
+    /** Display colors in a terminal capable of showing them */
+    useColors: boolean;
 }
 
 /** Log writting configuration for the single message */
@@ -48,6 +50,8 @@ interface ILogOptionConfiguration {
     includeCodeLocation?: boolean;
     /** Amount of whitespace to include for the JSON.stringify() function */
     jsonFormatter?: number;
+    /** Display colors in a terminal capable of showing them */
+    useColors?: boolean;
 }
 
 /** Configuration and options passed to the log writting function */

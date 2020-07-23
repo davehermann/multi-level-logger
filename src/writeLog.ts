@@ -1,16 +1,16 @@
 import { ILogOptionConfiguration, ILog, IStackTraceObject } from "./interfaces";
-import { levels } from "./levels";
+import { levels, colors } from "./levels";
 
-function formatStackTrace(callSite: NodeJS.CallSite) {
+function formatStackTrace(callSite: NodeJS.CallSite): Array<string> {
     const functionName = callSite.getFunctionName(),
         // Drop the working directory from the file name
         fileName = callSite.getFileName().replace(process.cwd(), `.`),
         lineNumber = callSite.getLineNumber();
 
-    return `${functionName}() [line ${lineNumber}: ${fileName}]`;
+    return [`${functionName}()`, `[line ${lineNumber}: ${fileName}]`];
 }
 
-function reportLineNumber(belowFn?) {
+function reportLineNumber(belowFn?): Array<string> {
     const dummyObject: IStackTraceObject = {},
         v8Limit = Error.stackTraceLimit,
         originalStackTrace = Error.prepareStackTrace;
@@ -33,6 +33,13 @@ function reportLineNumber(belowFn?) {
     return formatStackTrace(callerStack[0]);
 }
 
+function colorLog(logString, color, options: ILogOptionConfiguration) {
+    if (options.useColors)
+        return `${color}${logString}${colors.reset}`;
+
+    return logString;
+}
+
 function logWriter(data: string | Record<string, unknown>, { configuration, messageLevel, options = {} }: ILog): void {
     const { configuration: configurationOverride = {} } = options;
     let { logName, asIs } = options;
@@ -41,13 +48,19 @@ function logWriter(data: string | Record<string, unknown>, { configuration, mess
     if ((messageLevel >= levels.error) && (asIs === undefined))
         asIs = true;
 
-    const { includeTimestamp: overrideTimestamp, includeCodeLocation: overrideCodeLocation, jsonFormatter: overrideJsonFormatter } = configurationOverride;
+    const {
+        includeTimestamp: overrideTimestamp,
+        includeCodeLocation: overrideCodeLocation,
+        jsonFormatter: overrideJsonFormatter,
+        useColors: overrideUseColors,
+    } = configurationOverride;
 
     // Apply configuration overrides
     const localConfiguration: ILogOptionConfiguration = {
         includeTimestamp: (overrideTimestamp !== undefined) ? overrideTimestamp : configuration.includeTimestamp,
         includeCodeLocation: (overrideCodeLocation !== undefined) ? overrideCodeLocation : configuration.includeCodeLocation,
         jsonFormatter: (overrideJsonFormatter !== undefined) ? overrideJsonFormatter : configuration.jsonFormatter,
+        useColors: (overrideUseColors !== undefined) ? overrideUseColors : configuration.useColors,
     };
 
     if (!logName || !configuration.logLevel[logName])
@@ -64,26 +77,30 @@ function logWriter(data: string | Record<string, unknown>, { configuration, mess
             const timestamp = new Date(),
                 dateDisplay = timestamp.toLocaleString();
 
-            additionalData.push(dateDisplay);
+            additionalData.push({ text: colorLog(dateDisplay, colors.brightBlue, localConfiguration), length: dateDisplay.length });
         }
 
         if (localConfiguration.includeCodeLocation) {
             const callerStackTrace = reportLineNumber();
-            additionalData.push(callerStackTrace);
+            additionalData.push({ text: `${colorLog(callerStackTrace[0], colors.brightYellow, localConfiguration)} ${colorLog(callerStackTrace[1], colors.green, localConfiguration)}`, length: callerStackTrace.length });
         }
 
-        let displayData = additionalData.join(` - `);
+        let displayData = additionalData.map(s => s.text).join(` - `);
 
         // Always display the data on a new line when code location is included
         displayData += (localConfiguration.includeCodeLocation && !useRawData ? `\n` : ` - `);
 
         if (!useRawData) {
-            logData = logData.replace(/\n/g, (`\n`).padEnd(localConfiguration.includeCodeLocation ? 6 : (displayData.length - 3) + 4, ` `));
+            const dataLength: number = additionalData.reduce((prev, cur) => {
+                return { length: prev.length + cur.length };
+            }, { length: 0 }).length + 4;
+
+            logData = logData.replace(/\n/g, (`\n`).padEnd(localConfiguration.includeCodeLocation ? 6 : dataLength, ` `));
             if (localConfiguration.includeCodeLocation)
                 logData = `     ${logData}`;
         }
 
-        logData = `${displayData}${logData}`;
+        logData = `${displayData}${colorLog(logData, colors.bold, localConfiguration)}`;
 
         // eslint-disable-next-line no-console
         console[messageLevel < levels.error ? `log` : `error`](logData);

@@ -7,6 +7,7 @@ const _configuration: IBaseConfiguration = {
     includeTimestamp: true,
     includeCodeLocation: true,
     jsonFormatter: 4,
+    useColors: true,
 };
 
 /**
