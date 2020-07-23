@@ -34,8 +34,12 @@ function reportLineNumber(belowFn?) {
 }
 
 function logWriter(data: string | Record<string, unknown>, { configuration, messageLevel, options = {} }: ILog): void {
-    const { configuration: configurationOverride = {}, asIs } = options;
-    let { logName } = options;
+    const { configuration: configurationOverride = {} } = options;
+    let { logName, asIs } = options;
+
+    // By default, any errors should be logged asIs to handle the stack trace
+    if ((messageLevel >= levels.error) && (asIs === undefined))
+        asIs = true;
 
     const { includeTimestamp: overrideTimestamp, includeCodeLocation: overrideCodeLocation, jsonFormatter: overrideJsonFormatter } = configurationOverride;
 

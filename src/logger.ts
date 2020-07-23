@@ -106,6 +106,7 @@ function warn(data: string | Record<string, unknown>, options?: ILogOptions): vo
  *   - *equivalent to log level 50*
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
+ * @param options.asIs - defaults to **true** for error-level
  */
 function err(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriter(data, { configuration: _configuration, messageLevel: levels.error, options }); }
 /**
@@ -113,6 +114,7 @@ function err(data: string | Record<string, unknown>, options?: ILogOptions): voi
  *   - *equivalent to log level 60*
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
+ * @param options.asIs - defaults to **true** for fatal-level
  */
 function fatal(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriter(data, { configuration: _configuration, messageLevel: levels.fatal, options }); }
 /**
