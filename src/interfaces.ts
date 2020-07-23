@@ -46,7 +46,7 @@ interface ILogOptionConfiguration {
 
 interface ILog {
     configuration: IBaseConfiguration;
-    logLevelId: string | number;
+    messageLevel: number;
     options?: ILogOptions;
 }
 
@@ -62,6 +62,10 @@ interface ILogOptions {
     logName?: string;
 }
 
+interface IStackTraceObject {
+    stack?: Array<NodeJS.CallSite>;
+}
+
 export {
     LogDefinition,
     Settings,
@@ -69,4 +73,5 @@ export {
     IBaseConfiguration,
     ILog,
     ILogOptions,
+    IStackTraceObject,
 };

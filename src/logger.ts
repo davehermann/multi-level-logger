@@ -1,8 +1,8 @@
 import { LogDefinition, Settings, IBaseConfiguration, ILogOptions } from "./interfaces";
 import { levels } from "./levels";
-import { LogWriter, WriteLog } from "./writeLog";
+import { LogWriter } from "./writeLog";
 
-let _configuration: IBaseConfiguration = {
+const _configuration: IBaseConfiguration = {
     logLevel: { default: levels.warn },
     includeTimestamp: true,
     includeCodeLocation: true,
@@ -21,7 +21,7 @@ let _configuration: IBaseConfiguration = {
 function initialize(logDefinition: string, logName?: string): void;
 function initialize(logDefinition: number, logName?: string): void;
 function initialize(logDefinition: LogDefinition, logName?: string): void;
-function initialize(logDefinition: any, logName = `default`) {
+function initialize(logDefinition: string | number | LogDefinition, logName = `default`): void {
     switch (typeof logDefinition) {
         case `string`:
             _configuration.logLevel[logName] = levels[logDefinition.toLowerCase()];
@@ -39,7 +39,7 @@ function initialize(logDefinition: any, logName = `default`) {
 
         case `object`:
             // Check the top level properties only
-            for (let prop in logDefinition) {
+            for (const prop in logDefinition) {
                 if (prop == `logLevel`)
                     initialize(logDefinition[prop]);
                 else if ((typeof logDefinition[prop] == `object`) && !!logDefinition[prop].logLevel)
@@ -54,7 +54,7 @@ function initialize(logDefinition: any, logName = `default`) {
  * @param prependTs - Include a timestamp before all logged entries
  * @param jsonIndent - Number of spaces to pass to `JSON.stringify()`
  */
-function outputFormatting(prependTs: boolean = true, jsonIndent: number = 4) {
+function outputFormatting(prependTs = true, jsonIndent = 4): void {
     _configuration.includeTimestamp = prependTs;
     _configuration.jsonFormatter = jsonIndent;
 }
@@ -66,16 +66,62 @@ function currentLogging(): Settings {
     return { logLevel: _configuration.logLevel, includeTimestamp: _configuration.includeTimestamp, jsonSpacing: _configuration.jsonFormatter };
 }
 
-function dev(data: any, asIs?: boolean | string, logName?: string) { WriteLog(_configuration, `dev`, data, asIs, logName); }
-function trace(data: any, asIs?: boolean | string, logName?: string) { WriteLog(_configuration, `trace`, data, asIs, logName); }
-function debug(data: any, asIs?: boolean | string, logName?: string) { WriteLog(_configuration, `debug`, data, asIs, logName); }
 /**
- * Info-level; equivalent to 30
+ * Dev-level
+ *   - *equivalent to log level 0*
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
  */
-function info(data: string | Record<string, unknown>, options?: ILogOptions) { LogWriter(data, { configuration: _configuration, logLevelId: `info`, options }); };
-function err(data: any, asIs?: boolean | string, logName?: string) { WriteLog(_configuration, `error`, data, asIs, logName); }
+function dev(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriter(data, { configuration: _configuration, messageLevel: levels.dev, options }); }
+/**
+ * Trace-level
+ *   - *equivalent to log level 10*
+ * @param data - Data to write to the log
+ * @param options - Additional options for controlling log output
+ */
+function trace(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriter(data, { configuration: _configuration, messageLevel: levels.trace, options }); }
+/**
+ * Debug-level
+ *   - *equivalent to log level 20*
+ * @param data - Data to write to the log
+ * @param options - Additional options for controlling log output
+ */
+function debug(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriter(data, { configuration: _configuration, messageLevel: levels.debug, options }); }
+/**
+ * Info-level
+ *   - *equivalent to log level 30*
+ * @param data - Data to write to the log
+ * @param options - Additional options for controlling log output
+ */
+function info(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriter(data, { configuration: _configuration, messageLevel: levels.info, options }); }
+/**
+ * Warn-level
+ *   - *equivalent to log level 40*
+ * @param data - Data to write to the log
+ * @param options - Additional options for controlling log output
+ */
+function warn(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriter(data, { configuration: _configuration, messageLevel: levels.warn, options }); }
+/**
+ * Error-level
+ *   - *equivalent to log level 50*
+ * @param data - Data to write to the log
+ * @param options - Additional options for controlling log output
+ */
+function err(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriter(data, { configuration: _configuration, messageLevel: levels.error, options }); }
+/**
+ * Fatal-level
+ *   - *equivalent to log level 60*
+ * @param data - Data to write to the log
+ * @param options - Additional options for controlling log output
+ */
+function fatal(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriter(data, { configuration: _configuration, messageLevel: levels.fatal, options }); }
+/**
+ * Always write log data irrespective of level
+ *   - *equivalent to console.log()*
+ * @param data - Data to write to the log
+ * @param options - Additional options for controlling log output
+ */
+function alwaysWriteToLog(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriter(data, { configuration: _configuration, messageLevel: -1, options }); }
 
 export {
     levels as LogLevels,
@@ -87,5 +133,8 @@ export {
     trace as Trace,
     debug as Debug,
     info as Info,
+    warn as Warn,
     err as Err,
+    fatal as Fatal,
+    alwaysWriteToLog as Log,
 };
