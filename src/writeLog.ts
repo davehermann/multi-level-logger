@@ -1,4 +1,4 @@
-import { IBaseConfiguration, ILog, IStackTraceObject } from "./interfaces";
+import { ILogOptionConfiguration, ILog, IStackTraceObject } from "./interfaces";
 import { levels } from "./levels";
 
 function formatStackTrace(callSite: NodeJS.CallSite) {
@@ -40,14 +40,13 @@ function logWriter(data: string | Record<string, unknown>, { configuration, mess
     const { includeTimestamp: overrideTimestamp, includeCodeLocation: overrideCodeLocation, jsonFormatter: overrideJsonFormatter } = configurationOverride;
 
     // Apply configuration overrides
-    const localConfiguration: IBaseConfiguration = {
-        logLevel: configuration.logLevel,
+    const localConfiguration: ILogOptionConfiguration = {
         includeTimestamp: (overrideTimestamp !== undefined) ? overrideTimestamp : configuration.includeTimestamp,
         includeCodeLocation: (overrideCodeLocation !== undefined) ? overrideCodeLocation : configuration.includeCodeLocation,
         jsonFormatter: (overrideJsonFormatter !== undefined) ? overrideJsonFormatter : configuration.jsonFormatter,
     };
 
-    if (!logName || !localConfiguration.logLevel[logName])
+    if (!logName || !configuration.logLevel[logName])
         logName = `default`;
 
     // Any log level below 0 means always write the log data

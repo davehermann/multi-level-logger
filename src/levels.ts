@@ -1,9 +1,9 @@
-import { StandardLevels } from "./interfaces";
+import { IStandardLevels } from "./interfaces";
 
 /**
  * Available log levels
  */
-const levels: StandardLevels = {
+const levels: IStandardLevels = {
     dev: 0,
     trace: 10,
     debug: 20,

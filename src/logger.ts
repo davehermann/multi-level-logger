@@ -1,4 +1,4 @@
-import { LogDefinition, Settings, IBaseConfiguration, ILogOptions } from "./interfaces";
+import { ILogDefinition, IBaseConfiguration, ILogOptions } from "./interfaces";
 import { levels } from "./levels";
 import { LogWriter } from "./writeLog";
 
@@ -20,8 +20,8 @@ const _configuration: IBaseConfiguration = {
  */
 function initialize(logDefinition: string, logName?: string): void;
 function initialize(logDefinition: number, logName?: string): void;
-function initialize(logDefinition: LogDefinition, logName?: string): void;
-function initialize(logDefinition: string | number | LogDefinition, logName = `default`): void {
+function initialize(logDefinition: ILogDefinition, logName?: string): void;
+function initialize(logDefinition: string | number | ILogDefinition, logName = `default`): void {
     switch (typeof logDefinition) {
         case `string`:
             _configuration.logLevel[logName] = levels[logDefinition.toLowerCase()];
@@ -62,8 +62,8 @@ function outputFormatting(prependTs = true, jsonIndent = 4): void {
 /**
  * Get the current log settings
  */
-function currentLogging(): Settings {
-    return { logLevel: _configuration.logLevel, includeTimestamp: _configuration.includeTimestamp, jsonSpacing: _configuration.jsonFormatter };
+function currentLogging(): IBaseConfiguration {
+    return _configuration;
 }
 
 /**
