@@ -3,10 +3,6 @@
         "declaration": true,
         "module": "commonjs",
         "moduleResolution": "node",
-        "outDir": "./dist",
         "target": "ES2017"
-    },
-    "files": [
-        "./src/logger.ts"
-    ]
+    }
 }

@@ -7,9 +7,10 @@
     "node": ">=8.0.0"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --build ./src",
+    "build:test": "tsc --build ./tests",
     "test": "./node_modules/.bin/mocha ./tests/testRunner.js",
-    "test-dev": "node ./tests/dev-test.js"
+    "test-dev": "node ./dist/test/dev-test.js"
   },
   "author": "Dave Hermann",
   "repository": "github:davehermann/multi-level-logger",
