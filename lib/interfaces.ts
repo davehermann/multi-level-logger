@@ -1,22 +1,5 @@
 import { colors } from "./levels";
 
-interface IStandardLevels {
-    /** 0 */
-    dev: number;
-    /** 10 */
-    trace: number;
-    /** 20 */
-    debug: number;
-    /** 30 */
-    info: number;
-    /** 40 */
-    warn: number;
-    /** 50 */
-    error: number;
-    /** 60 */
-    fatal: number;
-}
-
 /** Interface for object used as log initializer */
 interface ILogDefinition {
     logLevel?: string;
@@ -125,5 +108,4 @@ export {
     ILogOptions,
     ILogOptionConfiguration,
     IStackTraceObject,
-    IStandardLevels,
 };

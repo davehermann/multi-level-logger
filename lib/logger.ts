@@ -33,7 +33,7 @@ function initialize(logDefinition: string | number | ILogDefinition, logName = `
             // Anything below dev can remain as-is since it will write to all logs
             if (logDefinition > levels.fatal)
                 // eslint-disable-next-line no-console
-                console.log(`Log level "${logDefinition}" is above the highest log level of "fatal" (${levels.fatal}), and will be set to "${levels.fatal}"`);
+                console.warn(`Log level "${logDefinition}" is above the highest log level of "fatal" (${levels.fatal}), and will be set to "${levels.fatal}"`);
 
             _configuration.logLevel[logName] = Math.min(logDefinition, levels.fatal);
             break;
