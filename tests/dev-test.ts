@@ -43,3 +43,13 @@ OutputFormatting({ includeTimestamp: true, includeCodeLocation: false, jsonForma
 // eslint-disable-next-line no-console
 console.log(`\n-- Test 6: Log without a code location --`);
 Log(testObject);
+
+// Log without colors, using an in-line configuration
+// eslint-disable-next-line no-console
+console.log(`\n-- Test 7: Log without colors, using an in-line configuration --`);
+Log(testObject, { configuration: { useColors: false } });
+
+// Log without colors, using an in-line configuration, and add code location back in
+// eslint-disable-next-line no-console
+console.log(`\n-- Test 7: Log without colors, using an in-line configuration, and add code location back in --`);
+Log(testObject, { configuration: { useColors: false, includeCodeLocation: true } });
