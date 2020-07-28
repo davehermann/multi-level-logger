@@ -1,3 +1,5 @@
+import { colors } from "./levels";
+
 interface IStandardLevels {
     /** 0 */
     dev: number;
@@ -15,6 +17,7 @@ interface IStandardLevels {
     fatal: number;
 }
 
+/** Interface for object used as log initializer */
 interface ILogDefinition {
     logLevel?: string;
     [x:string]: any;
@@ -82,12 +85,45 @@ interface IStackTraceObject {
     stack?: Array<NodeJS.CallSite>;
 }
 
+/** Color parameters */
+interface ILogColor {
+    /** Text to color */
+    logString: string;
+    /** Color value */
+    color: colors;
+    /** Logging options */
+    options: ILogOptionConfiguration;
+}
+
+/** Pre-entry display data (e.g. timestamp) */
+interface IAdditionalData {
+    /** Data to display, or sub-list of data to display */
+    text: string | Array<IAdditionalData>;
+    /** Color for display of data */
+    color?: colors;
+}
+
+/** Displaying timestamp and code location data, with color highlights */
+interface IAdditionalDataDisplay {
+    /** Pre-entry display data */
+    additionalData: Array<IAdditionalData>
+    /** Log writting configuration for the single message */
+    options: ILogOptionConfiguration;
+    /** Is this an error-level log */
+    isError: boolean;
+    /** Is this a sublist of data */
+    isSublist?: boolean;
+}
+
 export {
-    ILogDefinition,
-    IStandardLevels,
+    IAdditionalData,
+    IAdditionalDataDisplay,
     IBaseConfiguration,
     ILog,
+    ILogColor,
+    ILogDefinition,
     ILogOptions,
     ILogOptionConfiguration,
     IStackTraceObject,
+    IStandardLevels,
 };

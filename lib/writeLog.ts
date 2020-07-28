@@ -1,4 +1,4 @@
-import { ILogOptionConfiguration, ILog, IStackTraceObject } from "./interfaces";
+import { IAdditionalData, IAdditionalDataDisplay, ILogOptionConfiguration, ILog, IStackTraceObject, ILogColor } from "./interfaces";
 import { levels, colors } from "./levels";
 
 function formatStackTrace(callSite: NodeJS.CallSite): Array<string> {
@@ -33,15 +33,49 @@ function reportLineNumber(belowFn?): Array<string> {
     return formatStackTrace(callerStack[0]);
 }
 
-function colorLog(logString, color, options: ILogOptionConfiguration) {
+function colorLog({ logString, color, options }: ILogColor) {
     if (options.useColors)
         return `${color}${logString}${colors.reset}`;
 
     return logString;
 }
 
+function displayAdditionalData({ additionalData, options, isError, isSublist }: IAdditionalDataDisplay): string {
+    const displayData = [];
+    let mergedData = null;
+
+    while (additionalData.length > 0) {
+        const nextData = additionalData.shift();
+
+        if (typeof nextData.text === `string`) {
+            // For errors, just add the text itself
+            if (isError)
+                displayData.push(nextData.text);
+            else
+                // Otherwise, color the text
+                displayData.push(colorLog({ logString: nextData.text, options, color: nextData.color }));
+        } else
+            // Handle inner arrays
+            displayData.push(displayAdditionalData({ additionalData: nextData.text, options, isError, isSublist: true }));
+    }
+
+    // Join a sublist with a space
+    if (isSublist)
+        mergedData = displayData.join(` `);
+    else {
+        // Top-level display is joined by a dash, and errors are fully colored
+        mergedData = displayData.join(` - `);
+
+        if (isError)
+            mergedData = colorLog({ logString: mergedData, options, color: colors.brightRed });
+    }
+
+    return mergedData;
+}
+
 function logWriter(data: string | Record<string, unknown>, { configuration, messageLevel, options = {} }: ILog): void {
-    const { configuration: configurationOverride = {} } = options;
+    const isError = messageLevel >= levels.error,
+        { configuration: configurationOverride = {} } = options;
     let { logName, asIs } = options;
 
     // By default, any errors should be logged asIs to handle the stack trace
@@ -72,38 +106,49 @@ function logWriter(data: string | Record<string, unknown>, { configuration, mess
         let logData = (useRawData ? data.toString() : JSON.stringify(data, null, localConfiguration.jsonFormatter));
 
         // Handle timestamp and code location
-        const additionalData = [];
+        const additionalData: Array<IAdditionalData> = [];
+        let additionalDataLength = 0;
+
         if (localConfiguration.includeTimestamp) {
             const timestamp = new Date(),
                 dateDisplay = timestamp.toLocaleString();
 
-            additionalData.push({ text: colorLog(dateDisplay, colors.brightBlue, localConfiguration), length: dateDisplay.length });
+            additionalData.push({ text: dateDisplay, color: colors.brightBlue });
+            additionalDataLength += dateDisplay.length;
+            // additionalData.push({ text: colorLog({ logString: dateDisplay, color: colors.brightBlue, options: localConfiguration, isError }), length: dateDisplay.length });
         }
 
         if (localConfiguration.includeCodeLocation) {
             const callerStackTrace = reportLineNumber();
-            additionalData.push({ text: `${colorLog(callerStackTrace[0], colors.brightYellow, localConfiguration)} ${colorLog(callerStackTrace[1], colors.green, localConfiguration)}`, length: callerStackTrace.length });
+            additionalData.push({
+                text: [
+                    { text: callerStackTrace[0], color:  colors.brightYellow },
+                    { text: callerStackTrace[1], color: colors.green }
+                ]
+            });
+            additionalDataLength += callerStackTrace[0].length + callerStackTrace[1].length;
+            // additionalData.push({ text: `${colorLog({ logString: callerStackTrace[0], color: colors.brightYellow, options: localConfiguration, isError })} ${colorLog({ logString: callerStackTrace[1], color: colors.green, options: localConfiguration, isError })}`, length: callerStackTrace.length });
         }
 
-        let displayData = additionalData.map(s => s.text).join(` - `);
+        let displayData = displayAdditionalData({ additionalData, options: localConfiguration, isError });
+
+        // let displayData = additionalData.map(s => s.text).join(` - `);
 
         // Always display the data on a new line when code location is included
         displayData += (localConfiguration.includeCodeLocation && !useRawData ? `\n` : ` - `);
 
         if (!useRawData) {
-            const dataLength: number = additionalData.reduce((prev, cur) => {
-                return { length: prev.length + cur.length };
-            }, { length: 0 }).length + 4;
+            const dataLength: number = additionalDataLength + 4;
 
             logData = logData.replace(/\n/g, (`\n`).padEnd(localConfiguration.includeCodeLocation ? 6 : dataLength, ` `));
             if (localConfiguration.includeCodeLocation)
                 logData = `     ${logData}`;
         }
 
-        logData = `${displayData}${colorLog(logData, colors.bold, localConfiguration)}`;
+        logData = `${displayData}${colorLog({ logString: logData, color: isError ? colors.background_red : colors.bold, options: localConfiguration })}`;
 
         // eslint-disable-next-line no-console
-        console[messageLevel < levels.error ? `log` : `error`](logData);
+        console[isError ? `log` : `error`](logData);
     }
 }
 

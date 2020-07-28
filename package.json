@@ -2,12 +2,12 @@
   "name": "multi-level-logger",
   "version": "1.3.2",
   "description": "Enabling different logs with differing log levels within a single application",
-  "main": "./dist/logger.js",
+  "main": "./dist/lib/logger.js",
   "engine": {
     "node": ">=8.0.0"
   },
   "scripts": {
-    "build": "tsc --build ./src",
+    "build": "tsc --build ./lib",
     "build:test": "tsc --build ./tests",
     "test": "./node_modules/.bin/mocha ./tests/testRunner.js",
     "test-dev": "node ./dist/test/dev-test.js"
