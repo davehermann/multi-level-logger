@@ -4,19 +4,27 @@ import { LogWriter } from "./writeLog";
 
 const _configuration = <IBaseConfiguration>{};
 
-/** Reset the configuration object to default settings */
-function resetLogging() {
-    _configuration.logLevel = { default: levels.warn };
-    _configuration.includeTimestamp = true;
-    _configuration.includeCodeLocation = true;
-    _configuration.jsonFormatter = 4;
-    _configuration.useColors = true;
+/**
+ * Reset the configuration object to default settings
+ * @param forceReset - Reset the configuration when a configuration object already exists
+ */
+function resetLogging(forceReset?: boolean) {
+    // Initialize an uninitialized configuration, or if forcing
+    if (!_configuration.logLevel || forceReset) {
+        const defaultLogLevel = levels[(process.env.LOG_LEVEL ?? process.env.log_level ?? `warn`).toLowerCase()];
+
+        _configuration.logLevel = { default: defaultLogLevel };
+        _configuration.includeTimestamp = true;
+        _configuration.includeCodeLocation = true;
+        _configuration.jsonFormatter = 4;
+        _configuration.useColors = true;
+    }
 }
 
 /** Used to proxy log writting while ensuring configuration */
 function LogWriterProxy(data: string | Record<string, unknown>, options: ILog): void {
-    // Initialize an uninitialized configuration
-    if (!_configuration.logLevel) resetLogging();
+    // Set the configuration
+    resetLogging();
 
     // Write the log
     LogWriter(data, options);
@@ -35,7 +43,8 @@ function initialize(logDefinition: string, logName?: string): void;
 function initialize(logDefinition: number, logName?: string): void;
 function initialize(logDefinition: ILogDefinition, logName?: string): void;
 function initialize(logDefinition: string | number | ILogDefinition, logName = `default`): void {
-    resetLogging();
+    // Reset the configuration
+    resetLogging(true);
 
     switch (typeof logDefinition) {
         case `string`:
@@ -69,8 +78,8 @@ function initialize(logDefinition: string | number | ILogDefinition, logName = `
  * @param options - formatting options
  */
 function outputFormatting({ includeTimestamp, includeCodeLocation, jsonFormatter, useColors }: ILogOptionConfiguration): void {
-    // Initialize an uninitialized configuration
-    if (!_configuration.logLevel) resetLogging();
+    // Set the configuration
+    resetLogging();
 
     if (includeTimestamp !== undefined) _configuration.includeTimestamp = includeTimestamp;
     if (includeCodeLocation !== undefined) _configuration.includeCodeLocation = includeCodeLocation;
