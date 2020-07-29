@@ -1,14 +1,26 @@
-import { ILogDefinition, IBaseConfiguration, ILogOptions, ILogOptionConfiguration } from "./interfaces";
+import { ILogDefinition, ILog, IBaseConfiguration, ILogOptions, ILogOptionConfiguration } from "./interfaces";
 import { levels } from "./levels";
 import { LogWriter } from "./writeLog";
 
-const _configuration: IBaseConfiguration = {
-    logLevel: { default: levels.warn },
-    includeTimestamp: true,
-    includeCodeLocation: true,
-    jsonFormatter: 4,
-    useColors: true,
-};
+const _configuration = <IBaseConfiguration>{};
+
+/** Reset the configuration object to default settings */
+function resetLogging() {
+    _configuration.logLevel = { default: levels.warn };
+    _configuration.includeTimestamp = true;
+    _configuration.includeCodeLocation = true;
+    _configuration.jsonFormatter = 4;
+    _configuration.useColors = true;
+}
+
+/** Used to proxy log writting while ensuring configuration */
+function LogWriterProxy(data: string | Record<string, unknown>, options: ILog): void {
+    // Initialize an uninitialized configuration
+    if (!_configuration.logLevel) resetLogging();
+
+    // Write the log
+    LogWriter(data, options);
+}
 
 /**
  *
@@ -23,6 +35,8 @@ function initialize(logDefinition: string, logName?: string): void;
 function initialize(logDefinition: number, logName?: string): void;
 function initialize(logDefinition: ILogDefinition, logName?: string): void;
 function initialize(logDefinition: string | number | ILogDefinition, logName = `default`): void {
+    resetLogging();
+
     switch (typeof logDefinition) {
         case `string`:
             _configuration.logLevel[logName] = levels[logDefinition.toLowerCase()];
@@ -55,6 +69,9 @@ function initialize(logDefinition: string | number | ILogDefinition, logName = `
  * @param options - formatting options
  */
 function outputFormatting({ includeTimestamp, includeCodeLocation, jsonFormatter, useColors }: ILogOptionConfiguration): void {
+    // Initialize an uninitialized configuration
+    if (!_configuration.logLevel) resetLogging();
+
     if (includeTimestamp !== undefined) _configuration.includeTimestamp = includeTimestamp;
     if (includeCodeLocation !== undefined) _configuration.includeCodeLocation = includeCodeLocation;
     if (jsonFormatter !== undefined) _configuration.jsonFormatter = jsonFormatter;
@@ -74,35 +91,35 @@ function currentLogging(): IBaseConfiguration {
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
  */
-function dev(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriter(data, { configuration: _configuration, messageLevel: levels.dev, options }); }
+function dev(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels.dev, options }); }
 /**
  * Trace-level
  *   - *equivalent to log level 10*
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
  */
-function trace(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriter(data, { configuration: _configuration, messageLevel: levels.trace, options }); }
+function trace(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels.trace, options }); }
 /**
  * Debug-level
  *   - *equivalent to log level 20*
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
  */
-function debug(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriter(data, { configuration: _configuration, messageLevel: levels.debug, options }); }
+function debug(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels.debug, options }); }
 /**
  * Info-level
  *   - *equivalent to log level 30*
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
  */
-function info(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriter(data, { configuration: _configuration, messageLevel: levels.info, options }); }
+function info(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels.info, options }); }
 /**
  * Warn-level
  *   - *equivalent to log level 40*
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
  */
-function warn(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriter(data, { configuration: _configuration, messageLevel: levels.warn, options }); }
+function warn(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels.warn, options }); }
 /**
  * Error-level
  *   - *equivalent to log level 50*
@@ -110,7 +127,7 @@ function warn(data: string | Record<string, unknown>, options?: ILogOptions): vo
  * @param options - Additional options for controlling log output
  * @param options.asIs - defaults to **true** for error-level
  */
-function err(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriter(data, { configuration: _configuration, messageLevel: levels.error, options }); }
+function err(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels.error, options }); }
 /**
  * Fatal-level
  *   - *equivalent to log level 60*
@@ -118,14 +135,14 @@ function err(data: string | Record<string, unknown>, options?: ILogOptions): voi
  * @param options - Additional options for controlling log output
  * @param options.asIs - defaults to **true** for fatal-level
  */
-function fatal(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriter(data, { configuration: _configuration, messageLevel: levels.fatal, options }); }
+function fatal(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels.fatal, options }); }
 /**
  * Always write log data irrespective of level
  *   - *equivalent to console.log()*
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
  */
-function alwaysWriteToLog(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriter(data, { configuration: _configuration, messageLevel: -1, options }); }
+function alwaysWriteToLog(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriterProxy(data, { configuration: _configuration, messageLevel: -1, options }); }
 
 export {
     levels as LogLevels,
