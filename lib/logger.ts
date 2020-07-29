@@ -39,9 +39,6 @@ function LogWriterProxy(data: string | Record<string, unknown>, options: ILog): 
  *      1. *Object* - an object with each key matching a named log, and the value as 1, 2, or 3 above
  * @param logName - Name of the log, defaulting to "default"
  */
-function initialize(logDefinition: string, logName?: string): void;
-function initialize(logDefinition: number, logName?: string): void;
-function initialize(logDefinition: ILogDefinition, logName?: string): void;
 function initialize(logDefinition: string | number | ILogDefinition, logName = `default`): void {
     // Reset the configuration
     resetLogging(true);
