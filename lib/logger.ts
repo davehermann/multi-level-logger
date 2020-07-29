@@ -38,10 +38,12 @@ function LogWriterProxy(data: string | Record<string, unknown>, options: ILog): 
  *      1. *Object* - an object with a `logLevel` property, matching 1 or 2 above
  *      1. *Object* - an object with each key matching a named log, and the value as 1, 2, or 3 above
  * @param logName - Name of the log, defaulting to "default"
+ * @param _subLog - INTERNAL TRACKING ONLY
  */
-function initialize(logDefinition: string | number | ILogDefinition, logName = `default`): void {
+function initialize(logDefinition: string | number | ILogDefinition, logName = `default`, _subLog = false): void {
     // Reset the configuration
-    resetLogging(true);
+    if (!_subLog)
+        resetLogging(true);
 
     switch (typeof logDefinition) {
         case `string`:
@@ -62,9 +64,9 @@ function initialize(logDefinition: string | number | ILogDefinition, logName = `
             // Check the top level properties only
             for (const prop in logDefinition) {
                 if (prop == `logLevel`)
-                    initialize(logDefinition[prop]);
+                    initialize(logDefinition[prop], undefined, true);
                 else if ((typeof logDefinition[prop] == `object`) && !!logDefinition[prop].logLevel)
-                    initialize(logDefinition[prop].logLevel, prop);
+                    initialize(logDefinition[prop].logLevel, prop, true);
             }
             break;
     }

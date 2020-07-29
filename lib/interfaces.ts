@@ -2,6 +2,7 @@ import { colors } from "./levels";
 
 /** Interface for object used as log initializer */
 interface ILogDefinition {
+    /** Named log level, threshold numerical log value, or log level enumeration */
     logLevel?: string | number;
     [x:string]: any;
 }
