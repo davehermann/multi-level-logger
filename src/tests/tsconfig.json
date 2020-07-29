@@ -1,9 +1,9 @@
 {
-    "extends": "../tsconfig-base.json",
+    "extends": "../../tsconfig-base.json",
     "compilerOptions": {
         "target": "ES2017",
         "moduleResolution": "node",
-        "outDir": "../dist/test"
+        "outDir": "../../dist/test"
     },
     "references": [
         { "path": "../lib" }

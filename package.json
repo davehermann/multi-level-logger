@@ -7,8 +7,8 @@
     "node": ">=8.0.0"
   },
   "scripts": {
-    "build": "tsc --build ./lib",
-    "build:test": "tsc --build ./tests",
+    "build": "tsc --build ./src/lib",
+    "build:test": "tsc --build ./src/tests",
     "test": "./node_modules/.bin/mocha ./dist/test/testRunner.js",
     "test-dev": "node ./dist/test/dev-test.js"
   },
