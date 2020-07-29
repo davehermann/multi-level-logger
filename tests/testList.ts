@@ -24,12 +24,37 @@ function testRandomNumberLevel(): void {
     });
 }
 
+/** Test 3) Set via object with a random named level */
+function testStringThresholdViaObject(): void {
+    const useLevel = getRandomLogLevelByName();
+
+    describe(`Test 3) Set log threshold to "${useLevel}" via an object`, function() {
+        SetLogLevel({ logLevel: useLevel });
+    });
+}
+
+/** Get a random numeric log level to display */
 function getRandomLogThresholdWithinLogRange(): number {
     return Math.round(Math.random() * (LogLevels.fatal - LogLevels.dev)) + LogLevels.dev;
+}
+
+/** Get a random log level name from the configured names */
+function getRandomLogLevelByName(): string {
+    // Select a random test level
+    const levelNames: Array<string> = [];
+
+    for (const name in LogLevels)
+        if (typeof LogLevels[name] === `number`)
+            levelNames.push(name);
+
+    const testLevel = Math.round(Math.random() * (levelNames.length - 1));
+
+    return levelNames[testLevel];
 }
 
 
 export {
     presetLogLevels as Test1,
     testRandomNumberLevel as Test2,
+    testStringThresholdViaObject as Test3,
 };
