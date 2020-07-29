@@ -33,6 +33,16 @@ function testStringThresholdViaObject(): void {
     });
 }
 
+/** Test 4) Set via object with a random integer level */
+function testIntegerThresholdViaObject(): void {
+    // Select a random test level
+    const testLevel = getRandomLogThresholdWithinLogRange();
+
+    describe(`Test 4) Set log threshold to ${testLevel} via an object`, function() {
+        SetLogLevel({ logLevel: testLevel });
+    });
+}
+
 /** Get a random numeric log level to display */
 function getRandomLogThresholdWithinLogRange(): number {
     return Math.round(Math.random() * (LogLevels.fatal - LogLevels.dev)) + LogLevels.dev;
@@ -57,4 +67,5 @@ export {
     presetLogLevels as Test1,
     testRandomNumberLevel as Test2,
     testStringThresholdViaObject as Test3,
+    testIntegerThresholdViaObject as Test4,
 };

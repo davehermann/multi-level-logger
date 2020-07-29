@@ -2,7 +2,7 @@ import { colors } from "./levels";
 
 /** Interface for object used as log initializer */
 interface ILogDefinition {
-    logLevel?: string;
+    logLevel?: string | number;
     [x:string]: any;
 }
 
