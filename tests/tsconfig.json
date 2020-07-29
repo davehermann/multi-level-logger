@@ -1,12 +1,14 @@
 {
     "extends": "../tsconfig-base.json",
     "compilerOptions": {
+        "target": "ES2017",
+        "moduleResolution": "node",
         "outDir": "../dist/test"
     },
     "references": [
         { "path": "../lib" }
     ],
-    "files": [
-        "./dev-test.ts"
+    "include": [
+        "*.ts"
     ]
 }
