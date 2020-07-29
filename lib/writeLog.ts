@@ -134,11 +134,13 @@ function logWriter(data: string | Record<string, unknown>, { configuration, mess
 
         // let displayData = additionalData.map(s => s.text).join(` - `);
 
-        // Always display the data on a new line when code location is included
-        displayData += (localConfiguration.includeCodeLocation && !useRawData ? `\n` : ` - `);
+        // Check for inclusion of additional data
+        if (displayData.length > 0)
+            // Always display the data on a new line when code location is included
+            displayData += (localConfiguration.includeCodeLocation && !useRawData ? `\n` : ` - `);
 
         if (!useRawData) {
-            const dataLength: number = additionalDataLength + 4;
+            const dataLength: number = additionalDataLength + (displayData.length > 0 ? 4 : 0);
 
             logData = logData.replace(/\n/g, (`\n`).padEnd(localConfiguration.includeCodeLocation ? 6 : dataLength, ` `));
             if (localConfiguration.includeCodeLocation)
@@ -148,7 +150,7 @@ function logWriter(data: string | Record<string, unknown>, { configuration, mess
         logData = `${displayData}${colorLog({ logString: logData, color: isError ? colors.background_red : colors.bold, options: localConfiguration })}`;
 
         // eslint-disable-next-line no-console
-        console[isError ? `log` : `error`](logData);
+        console[isError ? `error` : `log`](logData);
     }
 }
 
