@@ -1,5 +1,6 @@
 import { LogLevels } from "../lib/logger";
-import { SetLogLevel } from "./testLogging";
+import { ILogDefinition } from "../lib/interfaces";
+import { SetLogLevel, SetMulitpleLogLevels } from "./testLogging";
 
 /** Test 1) Test each preset log level set via string level identifier */
 function presetLogLevels(): void {
@@ -43,6 +44,24 @@ function testIntegerThresholdViaObject(): void {
     });
 }
 
+/** Test 5) Multiple logs set via object with string or integer values */
+function testMultipleLogs():void {
+    const logLevels: ILogDefinition = {
+        logLevel: randomlySelectStringOrNumericalLevel(),
+        log1: { logLevel: randomlySelectStringOrNumericalLevel() },
+        // log2: { logLevel: randomlySelectStringOrNumericalLevel() }
+    };
+
+    describe(`Test 5) Test multiple logs with different thresholds`, function() {
+        SetMulitpleLogLevels(logLevels);
+    });
+}
+
+function randomlySelectStringOrNumericalLevel(): string | number {
+    return (Math.random() >= 0.5) ? getRandomLogLevelByName() : getRandomLogThresholdWithinLogRange();
+}
+
+
 /** Get a random numeric log level to display */
 function getRandomLogThresholdWithinLogRange(): number {
     return Math.round(Math.random() * (LogLevels.fatal - LogLevels.dev)) + LogLevels.dev;
@@ -68,4 +87,5 @@ export {
     testRandomNumberLevel as Test2,
     testStringThresholdViaObject as Test3,
     testIntegerThresholdViaObject as Test4,
+    testMultipleLogs as Test5,
 };

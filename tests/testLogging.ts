@@ -18,6 +18,29 @@ function setLevel(level: string | number | ILogDefinition): void {
 }
 
 /**
+ * Set log levels to use for multiple named logs, and default
+ * @param levels - Levels definition object
+ */
+function setMultipleLevels(levels: ILogDefinition): void {
+    describe(`Logger set with multiple levels ${JSON.stringify(levels)}`, function() {
+        before(function() {
+            logger.InitializeLogging(levels);
+            logger.OutputFormatting({ useColors: false });
+        });
+
+        for (const prop in levels)
+            if (prop == `logLevel`)
+                describe(`Checking default logs set to "${levels[prop]}"`, function() {
+                    timestampTests(levels);
+                });
+            else
+                describe(`Checking named log "${prop}" set as ${JSON.stringify(levels[prop])}`, function() {
+                    timestampTests(levels[prop], prop);
+                });
+    });
+}
+
+/**
  * Test logging without, and with, a timestamp
  * @param level - Level name, number or object definition
  * @param namedLog - name of log when not using "default" log
@@ -148,4 +171,5 @@ function writeLog(levelName: string, asString: boolean, currentLevel: string | n
 
 export {
     setLevel as SetLogLevel,
+    setMultipleLevels as SetMulitpleLogLevels,
 };
