@@ -2,7 +2,11 @@ import { expect } from "chai";
 import * as logger from "../lib/logger";
 import { ILogDefinition } from "../lib/interfaces";
 
-function setLevel(level: string | ILogDefinition): void {
+/**
+ * Set the log level to use
+ * @param level - Level name, number or object definition
+ */
+function setLevel(level: string | number | ILogDefinition): void {
     describe(`Logger set to ${JSON.stringify(level)}`, function() {
         before(function() {
             logger.InitializeLogging(level);
@@ -13,7 +17,12 @@ function setLevel(level: string | ILogDefinition): void {
     });
 }
 
-function timestampTests(level: string | ILogDefinition, namedLog?: string): void {
+/**
+ * Test logging without, and with, a timestamp
+ * @param level - Level name, number or object definition
+ * @param namedLog - name of log when not using "default" log
+ */
+function timestampTests(level: string | number | ILogDefinition, namedLog?: string): void {
     describe(`Output without timestamp`, function() {
         before(`Turn off timestamp`, function() {
             logger.OutputFormatting({ includeTimestamp: false, includeCodeLocation: false });
@@ -31,7 +40,12 @@ function timestampTests(level: string | ILogDefinition, namedLog?: string): void
     });
 }
 
-function logLevelTests(currentLevel: string | ILogDefinition, namedLog: string) {
+/**
+ * Test for log output using each level of logging
+ * @param currentLevel - Level name, number or object definition
+ * @param namedLog - name of log when not using "default" log
+ */
+function logLevelTests(currentLevel: string | number | ILogDefinition, namedLog: string) {
     describe(`Level output`, function() {
         outputLog(`Dev`, currentLevel, namedLog);
         outputLog(`Trace`, currentLevel, namedLog);
@@ -44,18 +58,45 @@ function logLevelTests(currentLevel: string | ILogDefinition, namedLog: string) 
     });
 }
 
-function outputLog(levelName: string, currentLevel: string | ILogDefinition, namedLog: string) {
-    describe(`${levelName} output`, function() {
+/**
+ * Write the data logged first as a string, and then as an object
+ * @param levelName - The level to use when writing the log
+ * @param currentLevel - Level name, number or object definition
+ * @param namedLog - name of log when not using "default" log
+ */
+function outputLog(levelName: string, currentLevel: string | number | ILogDefinition, namedLog: string) {
+    const levelNumber = mapLevelNameToLevel(levelName) ?? `N/A`;
+    describe(`${levelName} [${levelNumber}] output`, function() {
         writeLog(levelName, true, currentLevel, namedLog);
         writeLog(levelName, false, currentLevel, namedLog);
     });
 }
 
-function isILogDefinition(level: string | ILogDefinition): level is ILogDefinition {
+/**
+ * Get the LogLevels enumeration value from the level name
+ * @param levelName - The log level to use
+ */
+function mapLevelNameToLevel(levelName: string): logger.LogLevels {
+    const mapLevelName = (levelName == `Err` ? `Error` : levelName);
+    return logger.LogLevels[mapLevelName.toLowerCase()];
+}
+
+/**
+ * Type Guard check for the level as an instance of ILogDefinition
+ * @param level - The log level to use
+ */
+function isILogDefinition(level: string | number | ILogDefinition): level is ILogDefinition {
     return (level as ILogDefinition).logLevel !== undefined;
 }
 
-function writeLog(levelName: string, asString: boolean, currentLevel: string | ILogDefinition, namedLog: string) {
+/**
+ * Write the log to the console, or not if below log level, and check for expected behavior
+ * @param levelName - The level to use when writing the log
+ * @param asString - Pass objects as string instead of directly as an object
+ * @param currentLevel - Log level used for displaying the log
+ * @param namedLog - name of log when not using "default" log
+ */
+function writeLog(levelName: string, asString: boolean, currentLevel: string | number | ILogDefinition, namedLog: string) {
     // When currentLevel is an object, use the logLevel property
     if (isILogDefinition(currentLevel))
         currentLevel = currentLevel.logLevel;
@@ -67,8 +108,7 @@ function writeLog(levelName: string, asString: boolean, currentLevel: string | I
         aboveLevel = true;
         useOutput = `log`;
     } else {
-        const mapLevelName = (levelName == `Err` ? `Error` : levelName),
-            logLevelNumber: number = logger.LogLevels[mapLevelName.toLowerCase()],
+        const logLevelNumber: number = mapLevelNameToLevel(levelName),
             loggingThreshold: number = (typeof currentLevel == `string` ? logger.LogLevels[currentLevel.toLowerCase()] : currentLevel);
 
         useOutput = (logLevelNumber >= logger.LogLevels.error ? `error` : `log`);

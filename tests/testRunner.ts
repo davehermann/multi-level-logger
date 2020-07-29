@@ -1,4 +1,4 @@
-import { Test1 } from "./testList";
+import { Test1, Test2 } from "./testList";
 import * as sinon from "sinon";
 
 
@@ -16,7 +16,7 @@ describe(`Logger`, function() {
 
     // Run Tests
     Test1();
-    // Test2();
+    Test2();
     // Test3();
     // Test4();
     // Test5();
