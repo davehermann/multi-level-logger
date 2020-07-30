@@ -15,11 +15,7 @@ function setLevel(level: string | number | ILogDefinition, runTimestamp = true, 
             logger.OutputFormatting({ useColors: false });
         });
 
-        if (runTimestamp && !runCodeLocation)
-            timestampTests(level);
-
-        if (runCodeLocation && !runTimestamp)
-            codeLocationTests(level);
+        additionalDataTests(level, runTimestamp, runCodeLocation);
     });
 }
 
@@ -37,50 +33,43 @@ function setMultipleLevels(levels: ILogDefinition): void {
         for (const prop in levels)
             if (prop == `logLevel`)
                 describe(`Checking default logs set to "${levels[prop]}"`, function() {
-                    timestampTests(levels);
+                    additionalDataTests(levels, true, false);
                 });
             else
                 describe(`Checking named log "${prop}" set as ${JSON.stringify(levels[prop])}`, function() {
-                    timestampTests(levels[prop], prop);
+                    additionalDataTests(levels[prop], true, false, prop);
                 });
     });
 }
 
 /**
- * Test logging without, and with, a timestamp
+ * Test logging without, and with, additional timestamp or code location data
  * @param level - Level name, number or object definition
+ * @param includeTimestamp - Test on timestamps
+ * @param includeCodeLocation - Test on code location
  * @param namedLog - name of log when not using "default" log
  */
-function timestampTests(level: string | number | ILogDefinition, namedLog?: string): void {
-    describe(`Output without timestamp`, function() {
-        before(`Turn off timestamp`, function() {
+
+function additionalDataTests(level: string | number | ILogDefinition, includeTimestamp: boolean, includeCodeLocation: boolean, namedLog?: string) {
+    let testCondition: string;
+    if (includeTimestamp && includeCodeLocation)
+        testCondition = `timestamp and code location`;
+    else if (includeTimestamp)
+        testCondition = `timestamp`;
+    else if (includeCodeLocation)
+        testCondition = `code location`;
+
+    describe(`Output without ${testCondition}`, function() {
+        before(`Turn off ${testCondition}`, function() {
             logger.OutputFormatting({ includeTimestamp: false, includeCodeLocation: false });
         });
 
         logLevelTests(level, namedLog);
     });
 
-    describe(`Output including timestamp`, function() {
-        before(`Turn on timestamp`, function() {
-            logger.OutputFormatting({ includeTimestamp: true, includeCodeLocation: false });
-        });
-
-        logLevelTests(level, namedLog);
-    });
-}
-
-function codeLocationTests(level: string | number | ILogDefinition, namedLog?: string): void {
-    describe(`Output without code location`, function() {
-        before(`Turn off code location`, function() {
-            logger.OutputFormatting({ includeTimestamp: false, includeCodeLocation: false });
-        });
-
-        logLevelTests(level, namedLog);
-    });
-
-    describe(`Output including code location`, function() {
-        before(`Turn on code location`, function() {
-            logger.OutputFormatting({ includeTimestamp: false, includeCodeLocation: true });
+    describe(`Output including ${testCondition}`, function() {
+        before(`Turn on ${testCondition}`, function() {
+            logger.OutputFormatting({ includeTimestamp, includeCodeLocation });
         });
 
         logLevelTests(level, namedLog);
