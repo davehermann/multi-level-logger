@@ -5,15 +5,21 @@ import { ILogDefinition } from "../lib/interfaces";
 /**
  * Set the log level to use
  * @param level - Level name, number or object definition
+ * @param runTimestamp - Include timestamp in tests
+ * @param runCodeLocation - Include code location in tests
  */
-function setLevel(level: string | number | ILogDefinition): void {
+function setLevel(level: string | number | ILogDefinition, runTimestamp = true, runCodeLocation = false): void {
     describe(`Logger set to ${JSON.stringify(level)}`, function() {
         before(function() {
             logger.InitializeLogging(level);
             logger.OutputFormatting({ useColors: false });
         });
 
-        timestampTests(level);
+        if (runTimestamp && !runCodeLocation)
+            timestampTests(level);
+
+        if (runCodeLocation && !runTimestamp)
+            codeLocationTests(level);
     });
 }
 
@@ -57,6 +63,24 @@ function timestampTests(level: string | number | ILogDefinition, namedLog?: stri
     describe(`Output including timestamp`, function() {
         before(`Turn on timestamp`, function() {
             logger.OutputFormatting({ includeTimestamp: true, includeCodeLocation: false });
+        });
+
+        logLevelTests(level, namedLog);
+    });
+}
+
+function codeLocationTests(level: string | number | ILogDefinition, namedLog?: string): void {
+    describe(`Output without code location`, function() {
+        before(`Turn off code location`, function() {
+            logger.OutputFormatting({ includeTimestamp: false, includeCodeLocation: false });
+        });
+
+        logLevelTests(level, namedLog);
+    });
+
+    describe(`Output including code location`, function() {
+        before(`Turn on code location`, function() {
+            logger.OutputFormatting({ includeTimestamp: false, includeCodeLocation: true });
         });
 
         logLevelTests(level, namedLog);
@@ -148,20 +172,40 @@ function writeLog(levelName: string, asString: boolean, currentLevel: string | n
         logger[levelName](asString ? logString : logObject, { logName: namedLog, asIs: false });
 
         if (aboveLevel) {
-            // Confirm that the log was called exactly once
-            // eslint-disable-next-line no-console
-            expect(console[useOutput].calledOnce).to.be.true;
-
             // Confirm the log contents
 
-            // Match the log text data generation
-            const dateDisplay = timestamp.toLocaleString();
-            let logText: string = asString ? logString : JSON.stringify(logObject, null, 4);
-            if (logger.GetConfiguredLogging().includeTimestamp)
-                logText = `${dateDisplay} - ${logText.replace(/\n/g, (`\n`).padEnd(dateDisplay.length + 4, ` `))}`;
+            const configuration = logger.GetConfiguredLogging(),
+                logText: string = asString ? logString : JSON.stringify(logObject, null, 4);
 
-            // eslint-disable-next-line no-console
-            expect(console[useOutput].calledWith(logText)).to.be.true;
+            if (!configuration.includeTimestamp && !configuration.includeCodeLocation)
+                // Confirm that the log was called exactly once with the data formatted as expected
+                // eslint-disable-next-line no-console
+                expect(console[useOutput].calledOnceWith(logText)).to.be.true;
+
+            if (configuration.includeTimestamp) {
+                // Match the log text to timestamp data
+                const dateDisplay = timestamp.toLocaleString();
+                const timestampedLog = `${dateDisplay} - ${logText.replace(/\n/g, (`\n`).padEnd(dateDisplay.length + 4, ` `))}`;
+
+                // Confirm that the log was called exactly once with the timestamp expected and data formatted as expected
+                // eslint-disable-next-line no-console
+                expect(console[useOutput].calledOnceWith(timestampedLog)).to.be.true;
+            }
+
+            if (configuration.includeCodeLocation) {
+                // eslint-disable-next-line no-console
+                const loggedData = console[useOutput].firstCall.firstArg;
+                let pattern = `^\\w+\\(\\) \\[line \\d+: \\S+\\]`;
+                if (asString)
+                    pattern += ` \\- ${logText}$`;
+                else
+                    pattern += `\n     ${logText.replace(/\n/g, (`\n`).padEnd(6, ` `))}$`;
+                const foundPattern = loggedData.search(new RegExp(pattern));
+
+                // eslint-disable-next-line no-console
+                expect(console[useOutput].calledOnce).to.be.true;
+                expect(foundPattern >= 0).to.be.true;
+            }
         } else
             // No logging should have occurred
             // eslint-disable-next-line no-console

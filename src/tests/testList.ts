@@ -57,6 +57,15 @@ function testMultipleLogs():void {
     });
 }
 
+/** Test 6) Repeat test #3, but with code location instead of timestamp */
+function testCodeLocation(): void {
+    const useLevel = getRandomLogLevelByName();
+
+    describe(`Test 6) Set log threshold to "${useLevel}" via an object`, function() {
+        SetLogLevel({ logLevel: useLevel }, false, true);
+    });
+}
+
 function randomlySelectStringOrNumericalLevel(): string | number {
     return (Math.random() >= 0.5) ? getRandomLogLevelByName() : getRandomLogThresholdWithinLogRange();
 }
@@ -88,4 +97,5 @@ export {
     testStringThresholdViaObject as Test3,
     testIntegerThresholdViaObject as Test4,
     testMultipleLogs as Test5,
+    testCodeLocation as Test6,
 };
