@@ -26,11 +26,19 @@ function testRandomNumberLevel(): void {
 }
 
 /** Test 3) Set via object with a random named level */
-function testStringThresholdViaObject(): void {
+function testStringThresholdViaObject(testNumber = 3, showTimestamp = true, showCodeLocation = false, useColors = false): void {
     const useLevel = getRandomLogLevelByName();
 
-    describe(`Test 3) Set log threshold to "${useLevel}" via an object`, function() {
-        SetLogLevel({ logLevel: useLevel });
+    const description = [`Test ${testNumber}) Set log threshold to "${useLevel}" via an object`];
+    if (showTimestamp)
+        description.push(`and include timestamp in logs`);
+    if (showCodeLocation)
+        description.push(`and include code location in logs`);
+    if (useColors)
+        description.push(`and colorize`);
+
+    describe(description.join(`, `), function() {
+        SetLogLevel({ logLevel: useLevel }, showTimestamp, showCodeLocation, useColors);
     });
 }
 
@@ -54,24 +62,6 @@ function testMultipleLogs():void {
 
     describe(`Test 5) Test multiple logs with different thresholds`, function() {
         SetMulitpleLogLevels(logLevels);
-    });
-}
-
-/** Test 6) Repeat test #3, but with code location instead of timestamp */
-function testCodeLocation(): void {
-    const useLevel = getRandomLogLevelByName();
-
-    describe(`Test 6) Set log threshold to "${useLevel}" via an object, and get code location in logs`, function() {
-        SetLogLevel({ logLevel: useLevel }, false, true);
-    });
-}
-
-/** Test 7) Repeat test #3, but with both timestamp and code location */
-function testTimestampWithCodeLocation(): void {
-    const useLevel = getRandomLogLevelByName();
-
-    describe(`Test 7) Set log threshold to "${useLevel}" via an object, and get timestamp with code location`, function() {
-        SetLogLevel({ logLevel: useLevel }, true, true);
     });
 }
 
@@ -106,6 +96,4 @@ export {
     testStringThresholdViaObject as Test3,
     testIntegerThresholdViaObject as Test4,
     testMultipleLogs as Test5,
-    testCodeLocation as Test6,
-    testTimestampWithCodeLocation as Test7,
 };
