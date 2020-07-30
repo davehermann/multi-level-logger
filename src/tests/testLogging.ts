@@ -170,25 +170,30 @@ function writeLog(levelName: string, asString: boolean, currentLevel: string | n
                 // Confirm that the log was called exactly once with the data formatted as expected
                 // eslint-disable-next-line no-console
                 expect(console[useOutput].calledOnceWith(logText)).to.be.true;
+            else {
+                // Match the log text to timestamp data and code location
+                const dateDisplay = timestamp.toLocaleString(),
+                    // eslint-disable-next-line no-console
+                    loggedData = console[useOutput].firstCall.firstArg,
+                    codeLocationPattern = `\\w+\\(\\) \\[line \\d+: \\S+\\]`;
 
-            if (configuration.includeTimestamp) {
-                // Match the log text to timestamp data
-                const dateDisplay = timestamp.toLocaleString();
-                const timestampedLog = `${dateDisplay} - ${logText.replace(/\n/g, (`\n`).padEnd(dateDisplay.length + 4, ` `))}`;
+                let pattern = `^`;
+                if (configuration.includeTimestamp) {
+                    pattern += `${dateDisplay} \\- `;
 
-                // Confirm that the log was called exactly once with the timestamp expected and data formatted as expected
-                // eslint-disable-next-line no-console
-                expect(console[useOutput].calledOnceWith(timestampedLog)).to.be.true;
-            }
+                    if (!configuration.includeCodeLocation)
+                        pattern += logText.replace(/\n/g, (`\n`).padEnd(dateDisplay.length + 4, ` `));
+                }
 
-            if (configuration.includeCodeLocation) {
-                // eslint-disable-next-line no-console
-                const loggedData = console[useOutput].firstCall.firstArg;
-                let pattern = `^\\w+\\(\\) \\[line \\d+: \\S+\\]`;
-                if (asString)
-                    pattern += ` \\- ${logText}$`;
-                else
-                    pattern += `\n     ${logText.replace(/\n/g, (`\n`).padEnd(6, ` `))}$`;
+                if (configuration.includeCodeLocation) {
+                    pattern += codeLocationPattern;
+
+                    if (asString)
+                        pattern += ` \\- ${logText}$`;
+                    else
+                        pattern += `\n     ${logText.replace(/\n/g, (`\n`).padEnd(6, ` `))}$`;
+                }
+
                 const foundPattern = loggedData.search(new RegExp(pattern));
 
                 // eslint-disable-next-line no-console

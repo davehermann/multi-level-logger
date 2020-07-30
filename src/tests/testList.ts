@@ -61,8 +61,17 @@ function testMultipleLogs():void {
 function testCodeLocation(): void {
     const useLevel = getRandomLogLevelByName();
 
-    describe(`Test 6) Set log threshold to "${useLevel}" via an object`, function() {
+    describe(`Test 6) Set log threshold to "${useLevel}" via an object, and get code location in logs`, function() {
         SetLogLevel({ logLevel: useLevel }, false, true);
+    });
+}
+
+/** Test 7) Repeat test #3, but with both timestamp and code location */
+function testTimestampWithCodeLocation(): void {
+    const useLevel = getRandomLogLevelByName();
+
+    describe(`Test 7) Set log threshold to "${useLevel}" via an object, and get timestamp with code location`, function() {
+        SetLogLevel({ logLevel: useLevel }, true, true);
     });
 }
 
@@ -98,4 +107,5 @@ export {
     testIntegerThresholdViaObject as Test4,
     testMultipleLogs as Test5,
     testCodeLocation as Test6,
+    testTimestampWithCodeLocation as Test7,
 };
