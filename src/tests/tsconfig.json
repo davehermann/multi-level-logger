@@ -1,0 +1,14 @@
+{
+    "extends": "../../tsconfig-base.json",
+    "compilerOptions": {
+        "target": "ES2017",
+        "moduleResolution": "node",
+        "outDir": "../../dist/test"
+    },
+    "references": [
+        { "path": "../lib" }
+    ],
+    "include": [
+        "*.ts"
+    ]
+}

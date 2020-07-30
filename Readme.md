@@ -1,6 +1,6 @@
 # multi-level-logger
 
-A simple logging module with flexibility for multiple simultaneous log levels through named logs, and optional timestamp inclusion.
+A simple logging module with flexibility for multiple simultaneous log levels through named logs, and optional timestamp, code location, and color inclusion.
 
 ## Getting Started
 

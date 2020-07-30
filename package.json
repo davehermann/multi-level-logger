@@ -2,21 +2,31 @@
   "name": "multi-level-logger",
   "version": "1.3.2",
   "description": "Enabling different logs with differing log levels within a single application",
-  "main": "logger.js",
+  "main": "./dist/lib/logger.js",
+  "types": "./dist/lib/logger.d.ts",
   "engine": {
     "node": ">=8.0.0"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha ./tests/testRunner.js",
-    "test-dev": "node ./tests/dev-test.js"
+    "build": "tsc --build ./src/lib",
+    "build:test": "tsc --build ./src/tests",
+    "test": "./node_modules/.bin/mocha ./dist/test/testRunner.js",
+    "test-dev": "node ./dist/test/dev-test.js"
   },
   "author": "Dave Hermann",
   "repository": "github:davehermann/multi-level-logger",
   "license": "MIT",
   "devDependencies": {
+    "@types/chai": "^4.2.12",
+    "@types/mocha": "^8.0.0",
+    "@types/node": "^14.0.24",
+    "@types/sinon": "^9.0.4",
+    "@typescript-eslint/eslint-plugin": "^3.7.0",
+    "@typescript-eslint/parser": "^3.7.0",
     "chai": "^4.2.0",
     "eslint": "^7.3.1",
-    "mocha": "^6.2.3",
-    "sinon": "^7.5.0"
+    "mocha": "^8.0.1",
+    "sinon": "^9.0.2",
+    "typescript": "^3.9.7"
   }
 }
