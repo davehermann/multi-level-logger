@@ -66,7 +66,7 @@ function displayAdditionalData({ additionalData, options, isError, isSublist }: 
         // Top-level display is joined by a dash, and errors are fully colored
         mergedData = displayData.join(` - `);
 
-        if (isError)
+        if (isError && (mergedData.length > 0))
             mergedData = colorLog({ logString: mergedData, options, color: colors.brightRed });
     }
 
@@ -115,7 +115,6 @@ function logWriter(data: string | Record<string, unknown>, { configuration, mess
 
             additionalData.push({ text: dateDisplay, color: colors.brightBlue });
             additionalDataLength += dateDisplay.length;
-            // additionalData.push({ text: colorLog({ logString: dateDisplay, color: colors.brightBlue, options: localConfiguration, isError }), length: dateDisplay.length });
         }
 
         if (localConfiguration.includeCodeLocation) {
@@ -127,12 +126,9 @@ function logWriter(data: string | Record<string, unknown>, { configuration, mess
                 ]
             });
             additionalDataLength += callerStackTrace[0].length + callerStackTrace[1].length;
-            // additionalData.push({ text: `${colorLog({ logString: callerStackTrace[0], color: colors.brightYellow, options: localConfiguration, isError })} ${colorLog({ logString: callerStackTrace[1], color: colors.green, options: localConfiguration, isError })}`, length: callerStackTrace.length });
         }
 
         let displayData = displayAdditionalData({ additionalData, options: localConfiguration, isError });
-
-        // let displayData = additionalData.map(s => s.text).join(` - `);
 
         // Check for inclusion of additional data
         if (displayData.length > 0)
