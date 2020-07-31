@@ -10,6 +10,11 @@
   "scripts": {
     "build": "tsc --build ./src/lib",
     "build:test": "tsc --build ./src/tests",
+    "build:consumetsdoc": "tsc --build ./docs/.typedoc",
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs",
+    "docs:tsbuild": "typedoc --options ./docs/.typedoc/typedoc.js",
+    "docs:tsparse": "node ./docs/.typedoc/consume.js",
     "test": "./node_modules/.bin/mocha ./dist/test/testRunner.js",
     "test-dev": "node ./dist/test/dev-test.js"
   },
@@ -27,6 +32,8 @@
     "eslint": "^7.3.1",
     "mocha": "^8.0.1",
     "sinon": "^9.0.2",
-    "typescript": "^3.9.7"
+    "typedoc": "^0.17.8",
+    "typescript": "^3.9.7",
+    "vuepress": "^1.5.2"
   }
 }
