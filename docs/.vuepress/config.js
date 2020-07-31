@@ -6,6 +6,7 @@ module.exports = {
         sidebar: [
             `/`,
             `/generated/Configuration`,
+            `/generated/Usage`,
             `/MigratingFrom0x`,
         ],
     },

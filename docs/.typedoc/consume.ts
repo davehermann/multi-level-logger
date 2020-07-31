@@ -6,6 +6,12 @@ interface ITypeDocComment {
     text?: string;
 }
 
+interface ITypeDocType {
+    type: string;
+    name?: string;
+    types?: Array<ITypeDocType>;
+}
+
 interface ITypeDocItem {
     id: number;
     name: string;
@@ -16,6 +22,7 @@ interface ITypeDocItem {
     signatures?: Array<ITypeDocItem>;
     parameters?: Array<ITypeDocItem>;
     target?: number;
+    type?: ITypeDocType;
     [x:string]: any;
 }
 
@@ -62,16 +69,38 @@ function displayEnumeration(enumerationToDisplay: ITypeDocItem, itemMap: Map<num
     return display;
 }
 
-function displayType(item: ITypeDocItem) {
-    switch (item.type.type) {
+function displayType(type: ITypeDocType) {
+    switch (type.type) {
         case `intrinsic`:
-            return item.type.name;
+            return type.name;
             break;
 
         case `union`:
-            return item.type.types.map(t => { return t.name; }).join(` &#124; `);
+            return type.types.map(t => {
+                return displayType(t);
+            }).join(` &#124; `);
+            break;
+
+        case `reference`:
+            return `[${type.name}](#${type.name.toLowerCase()})`;
             break;
     }
+}
+
+function displayParameters(item: ITypeDocItem) {
+    const parameters = item.signatures[0].parameters;
+
+    const parameterNames = parameters.map(p => p.name).join(`, `);
+
+    let parameterDetails =
+        `| Parameter | Required | Type | Notes |\n`
+        + `| --------- | -------- | ---- | ----- |\n`;
+
+    parameters.forEach(p => {
+        parameterDetails += `| ${p.name} | ${!!p.defaultValue ? `no` : `yes`} | ${displayType(p.type)} | ${p.comment.text.replace(/\n/g, `<br />`)} |\n`;
+    });
+
+    return { parameterNames, parameterDetails };
 }
 
 function displayFunction(functionToDisplay: ITypeDocItem, itemMap: Map<number, ITypeDocItem>) {
@@ -80,34 +109,80 @@ function displayFunction(functionToDisplay: ITypeDocItem, itemMap: Map<number, I
     if (!!functionToDisplay.target)
         functionToDisplay = itemMap.get(functionToDisplay.target);
 
-    const parameters = functionToDisplay.signatures[0].parameters;
+    const { parameterNames, parameterDetails } = displayParameters(functionToDisplay);
 
-    let display = `### ${name}(${parameters.map(p => p.name).join(`, `)})\n`
+    let display = `### ${name}(${parameterNames})\n`
         + `\n`
-        + `| Parameter | Required | Type | Notes |\n`
-        + `| --------- | -------- | ---- | ----- |\n`;
+        + parameterDetails;
 
-    parameters.forEach(p => {
-        let parameterType = [];
+    return display;
+}
 
-        display += `| ${p.name} | ${!!p.defaultValue ? `no` : `yes`} | ${displayType(p)} | ${p.comment.text.replace(/\n/g, `<br />`)} |\n`;
+function displayInterface(item: ITypeDocItem) {
+    const name = item.name;
+
+    let display = `### ${name}\n`;
+
+    display += `**${item.comment.shortText}**\n`;
+
+    display +=
+        `| Parameter | Required | Type | Notes |\n`
+        + `| --------- | :------: | :--: | ----- |\n`;
+
+    item.children.forEach(member => {
+        // Only display public members
+        if (member.flags.isExported)
+            display += `| ${member.name} | ${member.flags.isOptional ? `no` : `yes`} | ${displayType(member.type)} | ${member.comment.shortText} |\n`;
     });
 
     return display;
 }
 
-async function updateTemplate(templateName, loadedTemplates, replacementId, replacementText) {
-    if (!loadedTemplates[templateName]) {
-        const content = await loadFile(path.join(__dirname, `..`, `.templates`, templateName));
-        loadedTemplates[templateName] = content;
+function displayItem(path: string, typeMap: Map<string, Map<string, ITypeDocItem>>, itemMap: Map<number, ITypeDocItem>): string {
+    const pathParts = path.split(`.`);
+
+    const item = typeMap.get(pathParts.shift()).get(pathParts.shift());
+
+    // Determine the type of item
+    let type = item.kindString;
+    while (type == `Reference`) {
+        const linkedItem = itemMap.get(item.target);
+        type = linkedItem.kindString;
     }
 
-    loadedTemplates[templateName] = loadedTemplates[templateName].replace(`$$$${replacementId}$$$`, replacementText);
+    switch (type) {
+        case `Enumeration`:
+            return displayEnumeration(item, itemMap);
+            break;
+
+        case `Function`:
+            return displayFunction(item, itemMap);
+            break;
+
+        case `Interface`:
+            return displayInterface(item);
+            break;
+    }
 }
 
-async function writeTemplates(loadedTemplates) {
-    for (const prop in loadedTemplates)
-        await fs.writeFile(path.join(__dirname, `..`, `generated`, prop), loadedTemplates[prop], { encoding: `utf8` });
+async function fillTemplate(templateName: string, loadedTemplates: Map<string, string>, typeMap: Map<string, Map<string, ITypeDocItem>>, itemMap: Map<number, ITypeDocItem>) {
+    if (!loadedTemplates.has(templateName)) {
+        const content = await loadFile(path.join(__dirname, `..`, `.templates`, templateName));
+        loadedTemplates.set(templateName, content);
+    }
+
+    const replacements = loadedTemplates.get(templateName).match(/\$\$\$((\w+\.)*\w+)\$\$\$/g);
+
+    replacements.forEach(fullId => {
+        const replacementId = fullId.substr(3, fullId.length - 6);
+
+        loadedTemplates.set(templateName, loadedTemplates.get(templateName).replace(fullId, displayItem(replacementId, typeMap, itemMap)));
+    });
+}
+
+async function writeTemplates(loadedTemplates: Map<string, string>) {
+    for (const [fileName, template] of loadedTemplates.entries())
+        await fs.writeFile(path.join(__dirname, `..`, `generated`, fileName), template, { encoding: `utf8` });
 }
 
 async function generateMarkdown() {
@@ -123,11 +198,13 @@ async function generateMarkdown() {
         mapToType(value, typeMap);
     }
 
-    const loadedTemplates = {};
-    await updateTemplate(`Configuration.md`, loadedTemplates, `enumeration.levels`, displayEnumeration(typeMap.get("Reference").get("LogLevels"), itemMap));
-    await updateTemplate(`Configuration.md`, loadedTemplates, `function.InitializeLogging`, displayFunction(typeMap.get(`Reference`).get(`InitializeLogging`), itemMap));
+    const loadedTemplates = {},
+        knownTemplates: Map<string, string> = new Map();
 
-    await writeTemplates(loadedTemplates);
+    await fillTemplate(`Configuration.md`, knownTemplates, typeMap, itemMap);
+    await fillTemplate(`Usage.md`, knownTemplates, typeMap, itemMap);
+
+    await writeTemplates(knownTemplates);
 }
 
 generateMarkdown()

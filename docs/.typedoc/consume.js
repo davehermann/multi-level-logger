@@ -35,41 +35,90 @@ function displayEnumeration(enumerationToDisplay, itemMap, orderByValue = true) 
     });
     return display;
 }
-function displayType(item) {
-    switch (item.type.type) {
+function displayType(type) {
+    switch (type.type) {
         case `intrinsic`:
-            return item.type.name;
+            return type.name;
             break;
         case `union`:
-            return item.type.types.map(t => { return t.name; }).join(` &#124; `);
+            return type.types.map(t => {
+                return displayType(t);
+            }).join(` &#124; `);
+            break;
+        case `reference`:
+            return `[${type.name}](#${type.name.toLowerCase()})`;
             break;
     }
+}
+function displayParameters(item) {
+    const parameters = item.signatures[0].parameters;
+    const parameterNames = parameters.map(p => p.name).join(`, `);
+    let parameterDetails = `| Parameter | Required | Type | Notes |\n`
+        + `| --------- | -------- | ---- | ----- |\n`;
+    parameters.forEach(p => {
+        parameterDetails += `| ${p.name} | ${!!p.defaultValue ? `no` : `yes`} | ${displayType(p.type)} | ${p.comment.text.replace(/\n/g, `<br />`)} |\n`;
+    });
+    return { parameterNames, parameterDetails };
 }
 function displayFunction(functionToDisplay, itemMap) {
     const name = functionToDisplay.name;
     if (!!functionToDisplay.target)
         functionToDisplay = itemMap.get(functionToDisplay.target);
-    const parameters = functionToDisplay.signatures[0].parameters;
-    let display = `### ${name}(${parameters.map(p => p.name).join(`, `)})\n`
+    const { parameterNames, parameterDetails } = displayParameters(functionToDisplay);
+    let display = `### ${name}(${parameterNames})\n`
         + `\n`
-        + `| Parameter | Required | Type | Notes |\n`
-        + `| --------- | -------- | ---- | ----- |\n`;
-    parameters.forEach(p => {
-        let parameterType = [];
-        display += `| ${p.name} | ${!!p.defaultValue ? `no` : `yes`} | ${displayType(p)} | ${p.comment.text.replace(/\n/g, `<br />`)} |\n`;
+        + parameterDetails;
+    return display;
+}
+function displayInterface(item) {
+    const name = item.name;
+    let display = `### ${name}\n`;
+    display += `**${item.comment.shortText}**\n`;
+    display +=
+        `| Parameter | Required | Type | Notes |\n`
+            + `| --------- | :------: | :--: | ----- |\n`;
+    item.children.forEach(member => {
+        // Only display public members
+        if (member.flags.isExported)
+            display += `| ${member.name} | ${member.flags.isOptional ? `no` : `yes`} | ${displayType(member.type)} | ${member.comment.shortText} |\n`;
     });
     return display;
 }
-async function updateTemplate(templateName, loadedTemplates, replacementId, replacementText) {
-    if (!loadedTemplates[templateName]) {
-        const content = await loadFile(path.join(__dirname, `..`, `.templates`, templateName));
-        loadedTemplates[templateName] = content;
+function displayItem(path, typeMap, itemMap) {
+    const pathParts = path.split(`.`);
+    const item = typeMap.get(pathParts.shift()).get(pathParts.shift());
+    // Determine the type of item
+    let type = item.kindString;
+    while (type == `Reference`) {
+        const linkedItem = itemMap.get(item.target);
+        type = linkedItem.kindString;
     }
-    loadedTemplates[templateName] = loadedTemplates[templateName].replace(`$$$${replacementId}$$$`, replacementText);
+    switch (type) {
+        case `Enumeration`:
+            return displayEnumeration(item, itemMap);
+            break;
+        case `Function`:
+            return displayFunction(item, itemMap);
+            break;
+        case `Interface`:
+            return displayInterface(item);
+            break;
+    }
+}
+async function fillTemplate(templateName, loadedTemplates, typeMap, itemMap) {
+    if (!loadedTemplates.has(templateName)) {
+        const content = await loadFile(path.join(__dirname, `..`, `.templates`, templateName));
+        loadedTemplates.set(templateName, content);
+    }
+    const replacements = loadedTemplates.get(templateName).match(/\$\$\$((\w+\.)*\w+)\$\$\$/g);
+    replacements.forEach(fullId => {
+        const replacementId = fullId.substr(3, fullId.length - 6);
+        loadedTemplates.set(templateName, loadedTemplates.get(templateName).replace(fullId, displayItem(replacementId, typeMap, itemMap)));
+    });
 }
 async function writeTemplates(loadedTemplates) {
-    for (const prop in loadedTemplates)
-        await fs_1.promises.writeFile(path.join(__dirname, `..`, `generated`, prop), loadedTemplates[prop], { encoding: `utf8` });
+    for (const [fileName, template] of loadedTemplates.entries())
+        await fs_1.promises.writeFile(path.join(__dirname, `..`, `generated`, fileName), template, { encoding: `utf8` });
 }
 async function generateMarkdown() {
     const reflection = await loadFile(path.join(__dirname, `reflection.json`), true);
@@ -79,10 +128,10 @@ async function generateMarkdown() {
     for (const [key, value] of itemMap.entries()) {
         mapToType(value, typeMap);
     }
-    const loadedTemplates = {};
-    await updateTemplate(`Configuration.md`, loadedTemplates, `enumeration.levels`, displayEnumeration(typeMap.get("Reference").get("LogLevels"), itemMap));
-    await updateTemplate(`Configuration.md`, loadedTemplates, `function.InitializeLogging`, displayFunction(typeMap.get(`Reference`).get(`InitializeLogging`), itemMap));
-    await writeTemplates(loadedTemplates);
+    const loadedTemplates = {}, knownTemplates = new Map();
+    await fillTemplate(`Configuration.md`, knownTemplates, typeMap, itemMap);
+    await fillTemplate(`Usage.md`, knownTemplates, typeMap, itemMap);
+    await writeTemplates(knownTemplates);
 }
 generateMarkdown()
     .catch(err => {
