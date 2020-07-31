@@ -10,6 +10,7 @@ interface ITypeDocType {
     type: string;
     name?: string;
     types?: Array<ITypeDocType>;
+    typeArguments?: Array<ITypeDocType>;
 }
 
 interface ITypeDocItem {
@@ -82,9 +83,19 @@ function displayType(type: ITypeDocType) {
             break;
 
         case `reference`:
-            return `[${type.name}](#${type.name.toLowerCase()})`;
+            if (!!type.typeArguments) {
+                return `${type.name}&lt;${type.typeArguments.map(t => {
+                    return displayType(t);
+                }).join(`, `)}&gt;`;
+            } else
+                return `[${type.name}](#${type.name.toLowerCase()})`;
             break;
     }
+}
+
+function displayComment(item: ITypeDocItem) {
+    const text = item.comment?.text || item.comment?.shortText || ``;
+    return text.replace(/\n/g, `<br />`);
 }
 
 function displayParameters(item: ITypeDocItem) {
@@ -97,13 +108,13 @@ function displayParameters(item: ITypeDocItem) {
         + `| --------- | -------- | ---- | ----- |\n`;
 
     parameters.forEach(p => {
-        parameterDetails += `| ${p.name} | ${!!p.defaultValue ? `no` : `yes`} | ${displayType(p.type)} | ${p.comment.text.replace(/\n/g, `<br />`)} |\n`;
+        parameterDetails += `| ${p.name} | ${!!p.defaultValue ? `no` : `yes`} | ${displayType(p.type)} | ${displayComment(p)} |\n`;
     });
 
     return { parameterNames, parameterDetails };
 }
 
-function displayFunction(functionToDisplay: ITypeDocItem, itemMap: Map<number, ITypeDocItem>) {
+function displayFunction(functionToDisplay: ITypeDocItem, itemMap: Map<number, ITypeDocItem>, optionList: Array<string>) {
     const name = functionToDisplay.name;
 
     if (!!functionToDisplay.target)
@@ -111,9 +122,10 @@ function displayFunction(functionToDisplay: ITypeDocItem, itemMap: Map<number, I
 
     const { parameterNames, parameterDetails } = displayParameters(functionToDisplay);
 
-    let display = `### ${name}(${parameterNames})\n`
-        + `\n`
-        + parameterDetails;
+    let display = `### ${name}(${parameterNames})\n`;
+    if (optionList.indexOf(`noparameters`) < 0)
+        display += `\n`
+            + parameterDetails;
 
     return display;
 }
@@ -123,7 +135,8 @@ function displayInterface(item: ITypeDocItem) {
 
     let display = `### ${name}\n`;
 
-    display += `**${item.comment.shortText}**\n`;
+    if (!!item.comment && !!item.comment.shortText)
+        display += `**${item.comment.shortText}**\n`;
 
     display +=
         `| Parameter | Required | Type | Notes |\n`
@@ -132,14 +145,16 @@ function displayInterface(item: ITypeDocItem) {
     item.children.forEach(member => {
         // Only display public members
         if (member.flags.isExported)
-            display += `| ${member.name} | ${member.flags.isOptional ? `no` : `yes`} | ${displayType(member.type)} | ${member.comment.shortText} |\n`;
+            display += `| ${member.name} | ${member.flags.isOptional ? `no` : `yes`} | ${displayType(member.type)} | ${displayComment(member)} |\n`;
     });
 
     return display;
 }
 
-function displayItem(path: string, typeMap: Map<string, Map<string, ITypeDocItem>>, itemMap: Map<number, ITypeDocItem>): string {
-    const pathParts = path.split(`.`);
+function displayItem(replacementAssignment: string, typeMap: Map<string, Map<string, ITypeDocItem>>, itemMap: Map<number, ITypeDocItem>): string {
+    const [path, options] = replacementAssignment.split(`/`),
+        pathParts = path.split(`.`),
+        optionList = !!options ? options.split(`,`) : [];
 
     const item = typeMap.get(pathParts.shift()).get(pathParts.shift());
 
@@ -156,7 +171,7 @@ function displayItem(path: string, typeMap: Map<string, Map<string, ITypeDocItem
             break;
 
         case `Function`:
-            return displayFunction(item, itemMap);
+            return displayFunction(item, itemMap, optionList);
             break;
 
         case `Interface`:
@@ -171,7 +186,7 @@ async function fillTemplate(templateName: string, loadedTemplates: Map<string, s
         loadedTemplates.set(templateName, content);
     }
 
-    const replacements = loadedTemplates.get(templateName).match(/\$\$\$((\w+\.)*\w+)\$\$\$/g);
+    const replacements = loadedTemplates.get(templateName).match(/\$\$\$((\w+\.?)+\/?(\w+\,?))\$\$\$/g);
 
     replacements.forEach(fullId => {
         const replacementId = fullId.substr(3, fullId.length - 6);

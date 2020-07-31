@@ -46,9 +46,20 @@ function displayType(type) {
             }).join(` &#124; `);
             break;
         case `reference`:
-            return `[${type.name}](#${type.name.toLowerCase()})`;
+            if (!!type.typeArguments) {
+                return `${type.name}&lt;${type.typeArguments.map(t => {
+                    return displayType(t);
+                }).join(`, `)}&gt;`;
+            }
+            else
+                return `[${type.name}](#${type.name.toLowerCase()})`;
             break;
     }
+}
+function displayComment(item) {
+    var _a, _b;
+    const text = ((_a = item.comment) === null || _a === void 0 ? void 0 : _a.text) || ((_b = item.comment) === null || _b === void 0 ? void 0 : _b.shortText) || ``;
+    return text.replace(/\n/g, `<br />`);
 }
 function displayParameters(item) {
     const parameters = item.signatures[0].parameters;
@@ -56,36 +67,38 @@ function displayParameters(item) {
     let parameterDetails = `| Parameter | Required | Type | Notes |\n`
         + `| --------- | -------- | ---- | ----- |\n`;
     parameters.forEach(p => {
-        parameterDetails += `| ${p.name} | ${!!p.defaultValue ? `no` : `yes`} | ${displayType(p.type)} | ${p.comment.text.replace(/\n/g, `<br />`)} |\n`;
+        parameterDetails += `| ${p.name} | ${!!p.defaultValue ? `no` : `yes`} | ${displayType(p.type)} | ${displayComment(p)} |\n`;
     });
     return { parameterNames, parameterDetails };
 }
-function displayFunction(functionToDisplay, itemMap) {
+function displayFunction(functionToDisplay, itemMap, optionList) {
     const name = functionToDisplay.name;
     if (!!functionToDisplay.target)
         functionToDisplay = itemMap.get(functionToDisplay.target);
     const { parameterNames, parameterDetails } = displayParameters(functionToDisplay);
-    let display = `### ${name}(${parameterNames})\n`
-        + `\n`
-        + parameterDetails;
+    let display = `### ${name}(${parameterNames})\n`;
+    if (optionList.indexOf(`noparameters`) < 0)
+        display += `\n`
+            + parameterDetails;
     return display;
 }
 function displayInterface(item) {
     const name = item.name;
     let display = `### ${name}\n`;
-    display += `**${item.comment.shortText}**\n`;
+    if (!!item.comment && !!item.comment.shortText)
+        display += `**${item.comment.shortText}**\n`;
     display +=
         `| Parameter | Required | Type | Notes |\n`
             + `| --------- | :------: | :--: | ----- |\n`;
     item.children.forEach(member => {
         // Only display public members
         if (member.flags.isExported)
-            display += `| ${member.name} | ${member.flags.isOptional ? `no` : `yes`} | ${displayType(member.type)} | ${member.comment.shortText} |\n`;
+            display += `| ${member.name} | ${member.flags.isOptional ? `no` : `yes`} | ${displayType(member.type)} | ${displayComment(member)} |\n`;
     });
     return display;
 }
-function displayItem(path, typeMap, itemMap) {
-    const pathParts = path.split(`.`);
+function displayItem(replacementAssignment, typeMap, itemMap) {
+    const [path, options] = replacementAssignment.split(`/`), pathParts = path.split(`.`), optionList = !!options ? options.split(`,`) : [];
     const item = typeMap.get(pathParts.shift()).get(pathParts.shift());
     // Determine the type of item
     let type = item.kindString;
@@ -98,7 +111,7 @@ function displayItem(path, typeMap, itemMap) {
             return displayEnumeration(item, itemMap);
             break;
         case `Function`:
-            return displayFunction(item, itemMap);
+            return displayFunction(item, itemMap, optionList);
             break;
         case `Interface`:
             return displayInterface(item);
@@ -110,7 +123,7 @@ async function fillTemplate(templateName, loadedTemplates, typeMap, itemMap) {
         const content = await loadFile(path.join(__dirname, `..`, `.templates`, templateName));
         loadedTemplates.set(templateName, content);
     }
-    const replacements = loadedTemplates.get(templateName).match(/\$\$\$((\w+\.)*\w+)\$\$\$/g);
+    const replacements = loadedTemplates.get(templateName).match(/\$\$\$((\w+\.?)+\/?(\w+\,?))\$\$\$/g);
     replacements.forEach(fullId => {
         const replacementId = fullId.substr(3, fullId.length - 6);
         loadedTemplates.set(templateName, loadedTemplates.get(templateName).replace(fullId, displayItem(replacementId, typeMap, itemMap)));

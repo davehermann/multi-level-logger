@@ -56,7 +56,7 @@ interface ILogOptions {
     configuration?: ILogOptionConfiguration;
     /**
      * Override the conversion of a Javascript *Object* via *JSON*
-     *   - *When passing in an **object** as **data**
+     *   - *When passing in an **object** for the **data** property*
      */
     asIs?: boolean;
     /** When multiple named logs are configured, write to this named log */

@@ -923,7 +923,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "Override the conversion of a Javascript *Object* via *JSON*\n  - *When passing in an **object** as **data**"
+								"shortText": "Override the conversion of a Javascript *Object* via *JSON*\n  - *When passing in an **object** for the **data** property*"
 							},
 							"sources": [
 								{
