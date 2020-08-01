@@ -61,22 +61,44 @@ function displayComment(item) {
     const text = ((_a = item.comment) === null || _a === void 0 ? void 0 : _a.text) || ((_b = item.comment) === null || _b === void 0 ? void 0 : _b.shortText) || ``;
     return text.replace(/\n/g, `<br />`);
 }
-function displayParameters(item) {
-    const parameters = item.signatures[0].parameters;
-    const parameterNames = parameters.map(p => p.name).join(`, `);
-    let parameterDetails = `| Parameter | Required | Type | Notes |\n`
-        + `| --------- | -------- | ---- | ----- |\n`;
-    parameters.forEach(p => {
-        parameterDetails += `| ${p.name} | ${!!p.defaultValue ? `no` : `yes`} | ${displayType(p.type)} | ${displayComment(p)} |\n`;
-    });
+function displayParameters(item, optionList) {
+    let parameterNames = ``, parameterDetails = ``;
+    if (item.signatures[0].parameters) {
+        const hideParameters = optionList
+            .filter(option => {
+            return option.search(/^hideparams/) == 0;
+        })
+            .map(option => {
+            return option.replace(/hideparams\:/, ``);
+        });
+        const parameters = item.signatures[0].parameters.filter(p => (hideParameters.indexOf(p.name) < 0));
+        parameterNames = parameters.map(p => p.name).join(`, `);
+        parameterDetails =
+            `| Parameter | Required | Type | Notes |\n`
+                + `| --------- | -------- | ---- | ----- |\n`;
+        parameters.forEach(p => {
+            parameterDetails += `| ${p.name} | ${!!p.defaultValue ? `no` : `yes`} | ${displayType(p.type)} | ${displayComment(p)} |\n`;
+        });
+    }
     return { parameterNames, parameterDetails };
+}
+function displayReturnType(item) {
+    if (!!item.signatures && (!!item.signatures[0].type)) {
+        const itemType = item.signatures[0].type;
+        if (itemType.name !== `void`)
+            return (itemType.type == `reference` ? `[${itemType.name}](#${itemType.name.toLowerCase()})` : itemType.name);
+    }
+    return null;
 }
 function displayFunction(functionToDisplay, itemMap, optionList) {
     const name = functionToDisplay.name;
     if (!!functionToDisplay.target)
         functionToDisplay = itemMap.get(functionToDisplay.target);
-    const { parameterNames, parameterDetails } = displayParameters(functionToDisplay);
+    const { parameterNames, parameterDetails } = displayParameters(functionToDisplay, optionList);
+    const returnType = displayReturnType(functionToDisplay);
     let display = `### ${name}(${parameterNames})\n`;
+    if (!!returnType)
+        display += `**Returns:** *${returnType}*\n`;
     if (optionList.indexOf(`noparameters`) < 0)
         display += `\n`
             + parameterDetails;
@@ -92,7 +114,7 @@ function displayInterface(item) {
             + `| --------- | :------: | :--: | ----- |\n`;
     item.children.forEach(member => {
         // Only display public members
-        if (member.flags.isExported)
+        if ((member.flags.isExported === undefined) || member.flags.isExported)
             display += `| ${member.name} | ${member.flags.isOptional ? `no` : `yes`} | ${displayType(member.type)} | ${displayComment(member)} |\n`;
     });
     return display;
@@ -123,7 +145,7 @@ async function fillTemplate(templateName, loadedTemplates, typeMap, itemMap) {
         const content = await loadFile(path.join(__dirname, `..`, `.templates`, templateName));
         loadedTemplates.set(templateName, content);
     }
-    const replacements = loadedTemplates.get(templateName).match(/\$\$\$((\w+\.?)+\/?(\w+\,?))\$\$\$/g);
+    const replacements = loadedTemplates.get(templateName).match(/\$\$\$(\w+\.?)+(\/(\w+(\:\w+)*\,?)+)?\$\$\$/g);
     replacements.forEach(fullId => {
         const replacementId = fullId.substr(3, fullId.length - 6);
         loadedTemplates.set(templateName, loadedTemplates.get(templateName).replace(fullId, displayItem(replacementId, typeMap, itemMap)));
@@ -143,7 +165,7 @@ async function generateMarkdown() {
     }
     const loadedTemplates = {}, knownTemplates = new Map();
     await fillTemplate(`Configuration.md`, knownTemplates, typeMap, itemMap);
-    await fillTemplate(`Usage.md`, knownTemplates, typeMap, itemMap);
+    await fillTemplate(`WritingLogs.md`, knownTemplates, typeMap, itemMap);
     await writeTemplates(knownTemplates);
 }
 generateMarkdown()

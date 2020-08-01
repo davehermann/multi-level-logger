@@ -1,25 +1,30 @@
 # Configuration
 
+## Default Configuration
+
+::: warning Out-of-the-box Configuration
 **multi-level-logger** is ready out-of-the-box with a default log configured for display at the **Warn** level.
+:::
 
-## Configured log levels
+*Default configuration is equal to:*
+```javascript
+InitializeLogging("warn");
+```
 
-**multi-level-logger** preconfigures and exposes the following log level enumeration
+## Retrieving Configuration
 
 $$$Reference.LogLevels$$$
 
-## Interfaces
+**multi-level-logger** exposes the **LogLevels** enumeration for all named log levels.
+Levels can be referred to via the string name, the enumeration value, or an integer value between the lowest and highest level.
 
-$$$Interface.ILogDefinition$$$
+$$$Reference.GetConfiguredLogging$$$
 
-+ Any property in an *ILogDefinition* that has an *Object* as it's value which contains a **logLevel** property will be configured as a named log at that log level
-    + See the [Example: Set via configuration object](#set-via-configuration-object) below
++ Return the currently configured logging options
 
-$$$Interface.ILogOptionConfiguration$$$
+## Setting Configuration
 
-## Methods
-
-$$$Reference.InitializeLogging$$$
+$$$Reference.InitializeLogging/hideparams:_subLog$$$
 
 + The [LogLevels](#loglevels) enumeration has *number* values, and members can be passed directly to *logDefinition*
 
@@ -57,3 +62,16 @@ InitializeLogging(logDefinition);
 | Parameter | Required | Type | Notes |
 | --------- | -------- | ---- | ----- |
 | options | yes | [ILogOptionConfiguration](#ilogoptionconfiguration) | Set the formatting for output |
+
+## Interfaces for Configuration
+
+$$$Interface.IBaseConfiguration$$$
+
+$$$Interface.ILevelConfiguration$$$
+
+$$$Interface.ILogDefinition$$$
+
++ Any property in an *ILogDefinition* that has an *Object* as it's value which contains a **logLevel** property will be configured as a named log at that log level
+    + See the [Example: Set via configuration object](#set-via-configuration-object) below
+
+$$$Interface.ILogOptionConfiguration$$$

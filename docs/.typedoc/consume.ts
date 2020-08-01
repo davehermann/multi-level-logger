@@ -98,20 +98,44 @@ function displayComment(item: ITypeDocItem) {
     return text.replace(/\n/g, `<br />`);
 }
 
-function displayParameters(item: ITypeDocItem) {
-    const parameters = item.signatures[0].parameters;
+function displayParameters(item: ITypeDocItem, optionList: Array<string>) {
+    let parameterNames: string = ``,
+        parameterDetails: string = ``;
 
-    const parameterNames = parameters.map(p => p.name).join(`, `);
+    if (item.signatures[0].parameters) {
+        const hideParameters = optionList
+            .filter(option => {
+                return option.search(/^hideparams/) == 0;
+            })
+            .map(option => {
+                return option.replace(/hideparams\:/, ``);
+            });
 
-    let parameterDetails =
-        `| Parameter | Required | Type | Notes |\n`
-        + `| --------- | -------- | ---- | ----- |\n`;
+        const parameters = item.signatures[0].parameters.filter(p => (hideParameters.indexOf(p.name) < 0));
 
-    parameters.forEach(p => {
-        parameterDetails += `| ${p.name} | ${!!p.defaultValue ? `no` : `yes`} | ${displayType(p.type)} | ${displayComment(p)} |\n`;
-    });
+        parameterNames = parameters.map(p => p.name).join(`, `);
+
+        parameterDetails =
+            `| Parameter | Required | Type | Notes |\n`
+            + `| --------- | -------- | ---- | ----- |\n`;
+
+        parameters.forEach(p => {
+            parameterDetails += `| ${p.name} | ${!!p.defaultValue ? `no` : `yes`} | ${displayType(p.type)} | ${displayComment(p)} |\n`;
+        });
+    }
 
     return { parameterNames, parameterDetails };
+}
+
+function displayReturnType(item: ITypeDocItem) {
+    if (!!item.signatures && (!!item.signatures[0].type)) {
+        const itemType = item.signatures[0].type;
+
+        if (itemType.name !== `void`)
+            return (itemType.type == `reference` ? `[${itemType.name}](#${itemType.name.toLowerCase()})` : itemType.name);
+    }
+
+    return null;
 }
 
 function displayFunction(functionToDisplay: ITypeDocItem, itemMap: Map<number, ITypeDocItem>, optionList: Array<string>) {
@@ -120,9 +144,12 @@ function displayFunction(functionToDisplay: ITypeDocItem, itemMap: Map<number, I
     if (!!functionToDisplay.target)
         functionToDisplay = itemMap.get(functionToDisplay.target);
 
-    const { parameterNames, parameterDetails } = displayParameters(functionToDisplay);
+    const { parameterNames, parameterDetails } = displayParameters(functionToDisplay, optionList);
+    const returnType = displayReturnType(functionToDisplay);
 
     let display = `### ${name}(${parameterNames})\n`;
+    if (!!returnType)
+        display += `**Returns:** *${returnType}*\n`;
     if (optionList.indexOf(`noparameters`) < 0)
         display += `\n`
             + parameterDetails;
@@ -144,7 +171,7 @@ function displayInterface(item: ITypeDocItem) {
 
     item.children.forEach(member => {
         // Only display public members
-        if (member.flags.isExported)
+        if ((member.flags.isExported === undefined) || member.flags.isExported)
             display += `| ${member.name} | ${member.flags.isOptional ? `no` : `yes`} | ${displayType(member.type)} | ${displayComment(member)} |\n`;
     });
 
@@ -186,7 +213,7 @@ async function fillTemplate(templateName: string, loadedTemplates: Map<string, s
         loadedTemplates.set(templateName, content);
     }
 
-    const replacements = loadedTemplates.get(templateName).match(/\$\$\$((\w+\.?)+\/?(\w+\,?))\$\$\$/g);
+    const replacements = loadedTemplates.get(templateName).match(/\$\$\$(\w+\.?)+(\/(\w+(\:\w+)*\,?)+)?\$\$\$/g);
 
     replacements.forEach(fullId => {
         const replacementId = fullId.substr(3, fullId.length - 6);
@@ -217,7 +244,7 @@ async function generateMarkdown() {
         knownTemplates: Map<string, string> = new Map();
 
     await fillTemplate(`Configuration.md`, knownTemplates, typeMap, itemMap);
-    await fillTemplate(`Usage.md`, knownTemplates, typeMap, itemMap);
+    await fillTemplate(`WritingLogs.md`, knownTemplates, typeMap, itemMap);
 
     await writeTemplates(knownTemplates);
 }

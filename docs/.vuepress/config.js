@@ -6,11 +6,13 @@ module.exports = {
         sidebar: [
             `/`,
             `/generated/Configuration`,
-            `/generated/Usage`,
-            `/MigratingFrom0x`,
+            `/generated/WritingLogs`,
+            `/Examples`,
+            `/MigratingFrom1x`,
         ],
     },
     markdown: {
+        lineNumbers: true,
         toc: {
             includeLevel: [2, 3, 4],
         },
