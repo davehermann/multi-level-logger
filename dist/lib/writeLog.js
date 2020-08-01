@@ -86,14 +86,15 @@ function logWriter(data, { configuration, messageLevel, options = {} }) {
             additionalDataLength += dateDisplay.length;
         }
         if (localConfiguration.includeCodeLocation) {
-            const callerStackTrace = reportLineNumber();
-            additionalData.push({
-                text: [
-                    { text: callerStackTrace[0], color: levels_1.colors.brightYellow },
-                    { text: callerStackTrace[1], color: levels_1.colors.green }
-                ]
-            });
-            additionalDataLength += callerStackTrace[0].length + callerStackTrace[1].length;
+            const [functionName, functionLocation] = reportLineNumber();
+            const codeLocationData = { text: [] };
+            if (functionName !== `null()`) {
+                codeLocationData.text.push({ text: functionName, color: levels_1.colors.brightYellow });
+                additionalDataLength += functionName.length;
+            }
+            codeLocationData.text.push({ text: functionLocation, color: levels_1.colors.green });
+            additionalDataLength += functionLocation.length;
+            additionalData.push(codeLocationData);
         }
         let displayData = displayAdditionalData({ additionalData, options: localConfiguration, isError });
         // Check for inclusion of additional data

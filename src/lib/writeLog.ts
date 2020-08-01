@@ -118,14 +118,18 @@ function logWriter(data: string | Record<string, unknown>, { configuration, mess
         }
 
         if (localConfiguration.includeCodeLocation) {
-            const callerStackTrace = reportLineNumber();
-            additionalData.push({
-                text: [
-                    { text: callerStackTrace[0], color:  colors.brightYellow },
-                    { text: callerStackTrace[1], color: colors.green }
-                ]
-            });
-            additionalDataLength += callerStackTrace[0].length + callerStackTrace[1].length;
+            const [functionName, functionLocation] = reportLineNumber();
+
+            const codeLocationData: IAdditionalData = {text: []};
+            if (functionName !== `null()`) {
+                (codeLocationData.text as Array<IAdditionalData>).push({ text: functionName, color:  colors.brightYellow });
+                additionalDataLength += functionName.length;
+            }
+
+            (codeLocationData.text as Array<IAdditionalData>).push({ text: functionLocation, color: colors.green });
+            additionalDataLength += functionLocation.length;
+
+            additionalData.push(codeLocationData);
         }
 
         let displayData = displayAdditionalData({ additionalData, options: localConfiguration, isError });
