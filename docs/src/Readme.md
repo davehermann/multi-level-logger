@@ -28,8 +28,9 @@ Warn("Hello multi-level-logger");
     + **Typescript declarations are included**
 + **Code location** for log calls pulled from the stack trace!
 + Console **Colors**!
++ Support for **LOG_LEVEL** environment variable to set log level
 
-See [Migrating from v0.x](./MigratingFrom0x.md) for **breaking changes** to the API
+See [Migrating from v1.x to v2.x](./MigratingFrom1x.md) for **breaking changes** to the API
 
 # License
 

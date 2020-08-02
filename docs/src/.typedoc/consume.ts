@@ -47,13 +47,23 @@ function mapToType(item: ITypeDocItem, typeMap: Map<string, Map<string, ITypeDoc
     kindMap.set(item.name, item);
 }
 
-function displayEnumeration(enumerationToDisplay: ITypeDocItem, itemMap: Map<number, ITypeDocItem>, orderByValue = true) {
+function headerLevel(optionList: Array<string>) {
+    let header = 3;
+
+    const headerOption = optionList.filter(option => (option.search(/^headerlevel\:/) == 0)).map(option => +option.substr(12));
+    if (headerOption.length > 0)
+        header = headerOption[0];
+
+    return ``.padStart(header, `#`);
+}
+
+function displayEnumeration(enumerationToDisplay: ITypeDocItem, itemMap: Map<number, ITypeDocItem>, optionList: Array<string>, orderByValue = true) {
     const name = enumerationToDisplay.name;
 
     if (!!enumerationToDisplay.target)
         enumerationToDisplay = itemMap.get(enumerationToDisplay.target);
 
-    let display = `### ${name}\n`
+    let display = `${headerLevel(optionList)} ${name}\n`
         + `\n`
         + `| Member | Value |\n`
         + `| ------ | ----- |\n`;
@@ -147,7 +157,7 @@ function displayFunction(functionToDisplay: ITypeDocItem, itemMap: Map<number, I
     const { parameterNames, parameterDetails } = displayParameters(functionToDisplay, optionList);
     const returnType = displayReturnType(functionToDisplay);
 
-    let display = `### ${name}(${parameterNames})\n`;
+    let display = `${headerLevel(optionList)} ${name}(${parameterNames})\n`;
     if (!!returnType)
         display += `**Returns:** *${returnType}*\n`;
     if (optionList.indexOf(`noparameters`) < 0)
@@ -157,10 +167,10 @@ function displayFunction(functionToDisplay: ITypeDocItem, itemMap: Map<number, I
     return display;
 }
 
-function displayInterface(item: ITypeDocItem) {
+function displayInterface(item: ITypeDocItem, itemMap: Map<number, ITypeDocItem>, optionList: Array<string>) {
     const name = item.name;
 
-    let display = `### ${name}\n`;
+    let display = `${headerLevel(optionList)} ${name}\n`;
 
     if (!!item.comment && !!item.comment.shortText)
         display += `**${item.comment.shortText}**\n`;
@@ -194,7 +204,7 @@ function displayItem(replacementAssignment: string, typeMap: Map<string, Map<str
 
     switch (type) {
         case `Enumeration`:
-            return displayEnumeration(item, itemMap);
+            return displayEnumeration(item, itemMap, optionList);
             break;
 
         case `Function`:
@@ -202,7 +212,7 @@ function displayItem(replacementAssignment: string, typeMap: Map<string, Map<str
             break;
 
         case `Interface`:
-            return displayInterface(item);
+            return displayInterface(item, itemMap, optionList);
             break;
     }
 }

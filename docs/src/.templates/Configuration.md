@@ -24,13 +24,35 @@ $$$Reference.GetConfiguredLogging$$$
 
 ## Setting Configuration
 
-$$$Reference.InitializeLogging/hideparams:_subLog$$$
+### Environment Variable
 
-+ The [LogLevels](#loglevels) enumeration has *number* values, and members can be passed directly to *logDefinition*
+**multi-level-logger** supports setting the log level via a **LOG_LEVEL** environment variable
 
 #### Example
 
-##### Set directly
+```javascript
+const { Info } = require(`multi-level-logger`);
+
+Info("Info-level log");
+```
+
+<pre><code><span>&gt; LOG_LEVEL=debug node testLog.js</span>
+<span>&gt; </span><span style="color: rgb(59, 142, 234);">1/1/2018, 12:00:00 PM</span><span> - </span><span style="color: rgb(13, 188, 121);">[line 3: ./log-example.js]</span><span> - </span><span style="color(229, 229, 229);">Info-level log</span></code></pre>
+
+
+:::tip Note
+**multi-level-logger** defaults to *warn*, and the log above would not be shown without the use of the enviornment variable
+:::
+
+### Methods
+
+$$$Reference.InitializeLogging/hideparams:_subLog,headerlevel:4$$$
+
++ The [LogLevels](#loglevels) enumeration has *number* values, and members can be passed directly to *logDefinition*
+
+##### Example
+
+###### Set directly
 The following sets the default log level to **Info**, and a log named *webserver* to **Debug**
 
 ```javascript
@@ -40,7 +62,7 @@ InitializeLogging("info");
 InitializeLogging("debug", "webserver");
 ```
 
-##### Set via configuration object
+###### Set via configuration object
 This code does exactly the same thing using an object to define multiple logs, and using the *LogLevels* enumeration
 
 ```javascript
@@ -54,7 +76,7 @@ const logDefinition = {
 InitializeLogging(logDefinition);
 ```
 
-### OutputFormatting(options)
+#### OutputFormatting(options)
 
 + Sets the global options for formatting log output
 + Can be overridden per-log-call
