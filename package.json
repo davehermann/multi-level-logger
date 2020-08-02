@@ -1,6 +1,6 @@
 {
   "name": "multi-level-logger",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Enabling different logs with differing log levels within a single application",
   "main": "./dist/lib/logger.js",
   "types": "./dist/lib/logger.d.ts",
