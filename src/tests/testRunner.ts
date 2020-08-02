@@ -14,21 +14,31 @@ describe(`Logger`, function() {
         sinon.restore();
     });
 
+
     // Run Tests
-    Test1();
-    Test2();
-    Test3();
-    Test4();
-    Test5();
+    if (runTest(1)) Test1();
+    if (runTest(2)) Test2();
+    if (runTest(3)) Test3();
+    if (runTest(4)) Test4();
+    if (runTest(5)) Test5();
 
     // Repeat test 3 with colors
-    Test3(6, true, false, true);
+    if (runTest(6)) Test3(6, true, false, true);
     // Repeat test 3 with code location instead of timestamp
-    Test3(7, false, true);
+    if (runTest(7)) Test3(7, false, true);
     // Repeat test 7 with colors
-    Test3(8, false, true, true);
+    if (runTest(8)) Test3(8, false, true, true);
     // Repeat test 3 with both timestamp and code location
-    Test3(9, true, true);
+    if (runTest(9)) Test3(9, true, true);
     // Repeat test 9 with colors
-    Test3(10, true, true, true);
+    if (runTest(10)) Test3(10, true, true, true);
 });
+
+function runTest(testNumber: number) {
+    if (!!process.env.TEST_LIST) {
+        const tests = process.env.TEST_LIST.split(`,`).map(id => +id);
+        return tests.indexOf(testNumber) >= 0;
+    }
+
+    return true;
+}
