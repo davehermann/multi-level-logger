@@ -1,4 +1,5 @@
 module.exports = {
+    base: `/multi-level-logger/`,
     title: `multi-level-logger`,
     description: `Enabling different logs with differing log levels within a single application`,
     themeConfig: {
@@ -10,6 +11,7 @@ module.exports = {
             `/Examples`,
             `/MigratingFrom1x`,
         ],
+        sidebarDepth: 2,
     },
     markdown: {
         lineNumbers: true,
