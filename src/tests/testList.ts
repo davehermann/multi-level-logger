@@ -65,6 +65,26 @@ function testMultipleLogs():void {
     });
 }
 
+function manuallySetLevel(expectNumericalValue?: boolean) {
+    // If an environment variable is set
+    if (!!process.env.TEST_LEVEL) {
+        // Try to use a log level name
+        const levelToUse = LogLevels[process.env.TEST_LEVEL];
+
+        if (levelToUse !== undefined)
+            return expectNumericalValue ? levelToUse : process.env.TEST_LEVEL.toLowerCase();
+
+        if (expectNumericalValue) {
+            // Try to parse a number
+            const levelNumber = parseInt(process.env.TEST_LEVEL);
+            if (levelNumber !== NaN)
+                return levelNumber;
+        }
+    }
+
+    return null;
+}
+
 function randomlySelectStringOrNumericalLevel(): string | number {
     return (Math.random() >= 0.5) ? getRandomLogLevelByName() : getRandomLogThresholdWithinLogRange();
 }
@@ -72,11 +92,15 @@ function randomlySelectStringOrNumericalLevel(): string | number {
 
 /** Get a random numeric log level to display */
 function getRandomLogThresholdWithinLogRange(): number {
-    return Math.round(Math.random() * (LogLevels.fatal - LogLevels.dev)) + LogLevels.dev;
+    return (manuallySetLevel(true) as number) ?? Math.round(Math.random() * (LogLevels.fatal - LogLevels.dev)) + LogLevels.dev;
 }
 
 /** Get a random log level name from the configured names */
 function getRandomLogLevelByName(): string {
+    const manualLevel = manuallySetLevel();
+    if (!!manualLevel)
+        return (manualLevel as string);
+
     // Select a random test level
     const levelNames: Array<string> = [];
 
