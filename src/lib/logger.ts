@@ -22,7 +22,8 @@ function resetLogging(forceReset?: boolean) {
 }
 
 /** Used to proxy log writting while ensuring configuration */
-function LogWriterProxy(data: string | Record<string, unknown>, options: ILog): void {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function LogWriterProxy(data: any, options: ILog): void {
     // Set the configuration
     resetLogging();
 
@@ -99,35 +100,40 @@ function currentLogging(): IBaseConfiguration {
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
  */
-function dev(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels.dev, options }); }
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+function dev(data: any, options?: ILogOptions): void { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels.dev, options }); }
 /**
  * Trace-level
  *   - *equivalent to log level 10*
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
  */
-function trace(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels.trace, options }); }
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+function trace(data: any, options?: ILogOptions): void { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels.trace, options }); }
 /**
  * Debug-level
  *   - *equivalent to log level 20*
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
  */
-function debug(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels.debug, options }); }
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+function debug(data: any, options?: ILogOptions): void { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels.debug, options }); }
 /**
  * Info-level
  *   - *equivalent to log level 30*
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
  */
-function info(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels.info, options }); }
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+function info(data: any, options?: ILogOptions): void { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels.info, options }); }
 /**
  * Warn-level
  *   - *equivalent to log level 40*
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
  */
-function warn(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels.warn, options }); }
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+function warn(data: any, options?: ILogOptions): void { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels.warn, options }); }
 /**
  * Error-level
  *   - *equivalent to log level 50*
@@ -135,7 +141,8 @@ function warn(data: string | Record<string, unknown>, options?: ILogOptions): vo
  * @param options - Additional options for controlling log output
  * @param options.asIs - defaults to **true** for error-level
  */
-function err(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels.error, options }); }
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+function err(data: any, options?: ILogOptions): void { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels.error, options }); }
 /**
  * Fatal-level
  *   - *equivalent to log level 60*
@@ -143,14 +150,16 @@ function err(data: string | Record<string, unknown>, options?: ILogOptions): voi
  * @param options - Additional options for controlling log output
  * @param options.asIs - defaults to **true** for fatal-level
  */
-function fatal(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels.fatal, options }); }
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+function fatal(data: any, options?: ILogOptions): void { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels.fatal, options }); }
 /**
  * Always write log data irrespective of level
  *   - *equivalent to console.log()*
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
  */
-function alwaysWriteToLog(data: string | Record<string, unknown>, options?: ILogOptions): void { LogWriterProxy(data, { configuration: _configuration, messageLevel: -1, options }); }
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+function alwaysWriteToLog(data: any, options?: ILogOptions): void { LogWriterProxy(data, { configuration: _configuration, messageLevel: -1, options }); }
 
 export {
     levels as LogLevels,

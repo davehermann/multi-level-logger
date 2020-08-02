@@ -26,35 +26,35 @@ declare function currentLogging(): IBaseConfiguration;
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
  */
-declare function dev(data: string | Record<string, unknown>, options?: ILogOptions): void;
+declare function dev(data: any, options?: ILogOptions): void;
 /**
  * Trace-level
  *   - *equivalent to log level 10*
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
  */
-declare function trace(data: string | Record<string, unknown>, options?: ILogOptions): void;
+declare function trace(data: any, options?: ILogOptions): void;
 /**
  * Debug-level
  *   - *equivalent to log level 20*
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
  */
-declare function debug(data: string | Record<string, unknown>, options?: ILogOptions): void;
+declare function debug(data: any, options?: ILogOptions): void;
 /**
  * Info-level
  *   - *equivalent to log level 30*
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
  */
-declare function info(data: string | Record<string, unknown>, options?: ILogOptions): void;
+declare function info(data: any, options?: ILogOptions): void;
 /**
  * Warn-level
  *   - *equivalent to log level 40*
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
  */
-declare function warn(data: string | Record<string, unknown>, options?: ILogOptions): void;
+declare function warn(data: any, options?: ILogOptions): void;
 /**
  * Error-level
  *   - *equivalent to log level 50*
@@ -62,7 +62,7 @@ declare function warn(data: string | Record<string, unknown>, options?: ILogOpti
  * @param options - Additional options for controlling log output
  * @param options.asIs - defaults to **true** for error-level
  */
-declare function err(data: string | Record<string, unknown>, options?: ILogOptions): void;
+declare function err(data: any, options?: ILogOptions): void;
 /**
  * Fatal-level
  *   - *equivalent to log level 60*
@@ -70,12 +70,12 @@ declare function err(data: string | Record<string, unknown>, options?: ILogOptio
  * @param options - Additional options for controlling log output
  * @param options.asIs - defaults to **true** for fatal-level
  */
-declare function fatal(data: string | Record<string, unknown>, options?: ILogOptions): void;
+declare function fatal(data: any, options?: ILogOptions): void;
 /**
  * Always write log data irrespective of level
  *   - *equivalent to console.log()*
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
  */
-declare function alwaysWriteToLog(data: string | Record<string, unknown>, options?: ILogOptions): void;
+declare function alwaysWriteToLog(data: any, options?: ILogOptions): void;
 export { levels as LogLevels, initialize as InitializeLogging, outputFormatting as OutputFormatting, currentLogging as GetConfiguredLogging, dev as Dev, trace as Trace, debug as Debug, info as Info, warn as Warn, err as Err, fatal as Fatal, alwaysWriteToLog as Log, };

@@ -31,7 +31,7 @@ Always write to the log no matter the configured log level
 
 | Parameter | Required | Type | Notes |
 | --------- | -------- | ---- | ----- |
-| data | yes | string &#124; Record&lt;string, unknown&gt; | Data to write to the log |
+| data | yes | any | Data to write to the log |
 | options | yes | [ILogOptions](#ilogoptions) | Additional options for controlling log output |
 
 

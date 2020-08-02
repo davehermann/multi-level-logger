@@ -172,13 +172,13 @@
         "affectsGlobalScope": false
       },
       "../../src/lib/writeLog.ts": {
-        "version": "b2c1b325c153a0fa0c9608a6441f4af3a7760f8a3b375907459e3b7101b14810",
-        "signature": "3dc898058c51a9d6437bbe3f049d4c9d3e4f2222810b19f826d973e491f6a643",
+        "version": "fab14d23d7245fda83e717b5a30589d66475eab7de64f088f1ac872a832fa7a4",
+        "signature": "11ba0c1995352ad2f7ebe81f1fba4622a02f89d627793e4e7af42a61ed4419a8",
         "affectsGlobalScope": false
       },
       "../../src/lib/logger.ts": {
-        "version": "704a5bae71400a582d74043aea19e28bab45b2f2261d20242ecddcabb3eb43b5",
-        "signature": "f2fc54a8ee5fb1b3b8de2c0f6be3743cf94935b5cbfce2e4c47c7612016511ca",
+        "version": "2bdc12044c878c87a99416abd9f624d8a750ea3779c662058d0df7d718b7ab0e",
+        "signature": "fbbf4fa231d2023fa98febbe6184a643cc032d447c7132653b0c50521d7845fa",
         "affectsGlobalScope": false
       },
       "../../node_modules/@types/chai/index.d.ts": {

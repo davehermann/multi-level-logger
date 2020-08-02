@@ -73,7 +73,7 @@ function displayAdditionalData({ additionalData, options, isError, isSublist }: 
     return mergedData;
 }
 
-function logWriter(data: string | Record<string, unknown> | Error, { configuration, messageLevel, options = {} }: ILog): void {
+function logWriter(data: any, { configuration, messageLevel, options = {} }: ILog): void {
     const isError = messageLevel >= levels.error,
         { configuration: configurationOverride = {} } = options;
     let { logName, asIs } = options;

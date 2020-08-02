@@ -22,6 +22,7 @@ function resetLogging(forceReset) {
     }
 }
 /** Used to proxy log writting while ensuring configuration */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function LogWriterProxy(data, options) {
     // Set the configuration
     resetLogging();
@@ -96,6 +97,7 @@ exports.GetConfiguredLogging = currentLogging;
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function dev(data, options) { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels_1.levels.dev, options }); }
 exports.Dev = dev;
 /**
@@ -104,6 +106,7 @@ exports.Dev = dev;
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function trace(data, options) { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels_1.levels.trace, options }); }
 exports.Trace = trace;
 /**
@@ -112,6 +115,7 @@ exports.Trace = trace;
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function debug(data, options) { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels_1.levels.debug, options }); }
 exports.Debug = debug;
 /**
@@ -120,6 +124,7 @@ exports.Debug = debug;
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function info(data, options) { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels_1.levels.info, options }); }
 exports.Info = info;
 /**
@@ -128,6 +133,7 @@ exports.Info = info;
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function warn(data, options) { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels_1.levels.warn, options }); }
 exports.Warn = warn;
 /**
@@ -137,6 +143,7 @@ exports.Warn = warn;
  * @param options - Additional options for controlling log output
  * @param options.asIs - defaults to **true** for error-level
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function err(data, options) { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels_1.levels.error, options }); }
 exports.Err = err;
 /**
@@ -146,6 +153,7 @@ exports.Err = err;
  * @param options - Additional options for controlling log output
  * @param options.asIs - defaults to **true** for fatal-level
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function fatal(data, options) { LogWriterProxy(data, { configuration: _configuration, messageLevel: levels_1.levels.fatal, options }); }
 exports.Fatal = fatal;
 /**
@@ -154,5 +162,6 @@ exports.Fatal = fatal;
  * @param data - Data to write to the log
  * @param options - Additional options for controlling log output
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function alwaysWriteToLog(data, options) { LogWriterProxy(data, { configuration: _configuration, messageLevel: -1, options }); }
 exports.Log = alwaysWriteToLog;

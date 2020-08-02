@@ -1644,27 +1644,8 @@
 									"kindString": "Parameter",
 									"flags": {},
 									"type": {
-										"type": "union",
-										"types": [
-											{
-												"type": "intrinsic",
-												"name": "string"
-											},
-											{
-												"type": "reference",
-												"typeArguments": [
-													{
-														"type": "intrinsic",
-														"name": "string"
-													},
-													{
-														"type": "intrinsic",
-														"name": "unknown"
-													}
-												],
-												"name": "Record"
-											}
-										]
+										"type": "intrinsic",
+										"name": "any"
 									}
 								},
 								{
@@ -1689,7 +1670,7 @@
 					"sources": [
 						{
 							"fileName": "logger.ts",
-							"line": 25,
+							"line": 26,
 							"character": 23
 						}
 					]
@@ -1721,27 +1702,8 @@
 										"text": "Data to write to the log"
 									},
 									"type": {
-										"type": "union",
-										"types": [
-											{
-												"type": "intrinsic",
-												"name": "string"
-											},
-											{
-												"type": "reference",
-												"typeArguments": [
-													{
-														"type": "intrinsic",
-														"name": "string"
-													},
-													{
-														"type": "intrinsic",
-														"name": "unknown"
-													}
-												],
-												"name": "Record"
-											}
-										]
+										"type": "intrinsic",
+										"name": "any"
 									}
 								},
 								{
@@ -1771,7 +1733,7 @@
 					"sources": [
 						{
 							"fileName": "logger.ts",
-							"line": 153,
+							"line": 162,
 							"character": 25
 						}
 					]
@@ -1802,7 +1764,7 @@
 					"sources": [
 						{
 							"fileName": "logger.ts",
-							"line": 92,
+							"line": 93,
 							"character": 23
 						}
 					]
@@ -1834,27 +1796,8 @@
 										"text": "Data to write to the log"
 									},
 									"type": {
-										"type": "union",
-										"types": [
-											{
-												"type": "intrinsic",
-												"name": "string"
-											},
-											{
-												"type": "reference",
-												"typeArguments": [
-													{
-														"type": "intrinsic",
-														"name": "string"
-													},
-													{
-														"type": "intrinsic",
-														"name": "unknown"
-													}
-												],
-												"name": "Record"
-											}
-										]
+										"type": "intrinsic",
+										"name": "any"
 									}
 								},
 								{
@@ -1884,7 +1827,7 @@
 					"sources": [
 						{
 							"fileName": "logger.ts",
-							"line": 116,
+							"line": 120,
 							"character": 14
 						}
 					]
@@ -1916,27 +1859,8 @@
 										"text": "Data to write to the log"
 									},
 									"type": {
-										"type": "union",
-										"types": [
-											{
-												"type": "intrinsic",
-												"name": "string"
-											},
-											{
-												"type": "reference",
-												"typeArguments": [
-													{
-														"type": "intrinsic",
-														"name": "string"
-													},
-													{
-														"type": "intrinsic",
-														"name": "unknown"
-													}
-												],
-												"name": "Record"
-											}
-										]
+										"type": "intrinsic",
+										"name": "any"
 									}
 								},
 								{
@@ -1966,7 +1890,7 @@
 					"sources": [
 						{
 							"fileName": "logger.ts",
-							"line": 102,
+							"line": 104,
 							"character": 12
 						}
 					]
@@ -1998,27 +1922,8 @@
 										"text": "Data to write to the log"
 									},
 									"type": {
-										"type": "union",
-										"types": [
-											{
-												"type": "intrinsic",
-												"name": "string"
-											},
-											{
-												"type": "reference",
-												"typeArguments": [
-													{
-														"type": "intrinsic",
-														"name": "string"
-													},
-													{
-														"type": "intrinsic",
-														"name": "unknown"
-													}
-												],
-												"name": "Record"
-											}
-										]
+										"type": "intrinsic",
+										"name": "any"
 									}
 								},
 								{
@@ -2048,7 +1953,7 @@
 					"sources": [
 						{
 							"fileName": "logger.ts",
-							"line": 138,
+							"line": 145,
 							"character": 12
 						}
 					]
@@ -2080,27 +1985,8 @@
 										"text": "Data to write to the log"
 									},
 									"type": {
-										"type": "union",
-										"types": [
-											{
-												"type": "intrinsic",
-												"name": "string"
-											},
-											{
-												"type": "reference",
-												"typeArguments": [
-													{
-														"type": "intrinsic",
-														"name": "string"
-													},
-													{
-														"type": "intrinsic",
-														"name": "unknown"
-													}
-												],
-												"name": "Record"
-											}
-										]
+										"type": "intrinsic",
+										"name": "any"
 									}
 								},
 								{
@@ -2130,7 +2016,7 @@
 					"sources": [
 						{
 							"fileName": "logger.ts",
-							"line": 146,
+							"line": 154,
 							"character": 14
 						}
 					]
@@ -2162,27 +2048,8 @@
 										"text": "Data to write to the log"
 									},
 									"type": {
-										"type": "union",
-										"types": [
-											{
-												"type": "intrinsic",
-												"name": "string"
-											},
-											{
-												"type": "reference",
-												"typeArguments": [
-													{
-														"type": "intrinsic",
-														"name": "string"
-													},
-													{
-														"type": "intrinsic",
-														"name": "unknown"
-													}
-												],
-												"name": "Record"
-											}
-										]
+										"type": "intrinsic",
+										"name": "any"
 									}
 								},
 								{
@@ -2212,7 +2079,7 @@
 					"sources": [
 						{
 							"fileName": "logger.ts",
-							"line": 123,
+							"line": 128,
 							"character": 13
 						}
 					]
@@ -2300,7 +2167,7 @@
 					"sources": [
 						{
 							"fileName": "logger.ts",
-							"line": 43,
+							"line": 44,
 							"character": 19
 						}
 					]
@@ -2347,7 +2214,7 @@
 													"sources": [
 														{
 															"fileName": "logger.ts",
-															"line": 79,
+															"line": 80,
 															"character": 65
 														}
 													],
@@ -2365,7 +2232,7 @@
 													"sources": [
 														{
 															"fileName": "logger.ts",
-															"line": 79,
+															"line": 80,
 															"character": 44
 														}
 													],
@@ -2383,7 +2250,7 @@
 													"sources": [
 														{
 															"fileName": "logger.ts",
-															"line": 79,
+															"line": 80,
 															"character": 80
 														}
 													],
@@ -2401,7 +2268,7 @@
 													"sources": [
 														{
 															"fileName": "logger.ts",
-															"line": 79,
+															"line": 80,
 															"character": 91
 														}
 													],
@@ -2426,7 +2293,7 @@
 											"sources": [
 												{
 													"fileName": "logger.ts",
-													"line": 79,
+													"line": 80,
 													"character": 26
 												}
 											]
@@ -2443,7 +2310,7 @@
 					"sources": [
 						{
 							"fileName": "logger.ts",
-							"line": 79,
+							"line": 80,
 							"character": 25
 						}
 					]
@@ -2523,27 +2390,8 @@
 										"text": "Data to write to the log"
 									},
 									"type": {
-										"type": "union",
-										"types": [
-											{
-												"type": "intrinsic",
-												"name": "string"
-											},
-											{
-												"type": "reference",
-												"typeArguments": [
-													{
-														"type": "intrinsic",
-														"name": "string"
-													},
-													{
-														"type": "intrinsic",
-														"name": "unknown"
-													}
-												],
-												"name": "Record"
-											}
-										]
+										"type": "intrinsic",
+										"name": "any"
 									}
 								},
 								{
@@ -2573,7 +2421,7 @@
 					"sources": [
 						{
 							"fileName": "logger.ts",
-							"line": 109,
+							"line": 112,
 							"character": 14
 						}
 					]
@@ -2605,27 +2453,8 @@
 										"text": "Data to write to the log"
 									},
 									"type": {
-										"type": "union",
-										"types": [
-											{
-												"type": "intrinsic",
-												"name": "string"
-											},
-											{
-												"type": "reference",
-												"typeArguments": [
-													{
-														"type": "intrinsic",
-														"name": "string"
-													},
-													{
-														"type": "intrinsic",
-														"name": "unknown"
-													}
-												],
-												"name": "Record"
-											}
-										]
+										"type": "intrinsic",
+										"name": "any"
 									}
 								},
 								{
@@ -2655,7 +2484,7 @@
 					"sources": [
 						{
 							"fileName": "logger.ts",
-							"line": 130,
+							"line": 136,
 							"character": 13
 						}
 					]
@@ -3070,27 +2899,8 @@
 									"kindString": "Parameter",
 									"flags": {},
 									"type": {
-										"type": "union",
-										"types": [
-											{
-												"type": "intrinsic",
-												"name": "string"
-											},
-											{
-												"type": "reference",
-												"typeArguments": [
-													{
-														"type": "intrinsic",
-														"name": "string"
-													},
-													{
-														"type": "intrinsic",
-														"name": "unknown"
-													}
-												],
-												"name": "Record"
-											}
-										]
+										"type": "intrinsic",
+										"name": "any"
 									}
 								},
 								{
@@ -3119,7 +2929,7 @@
 														{
 															"fileName": "writeLog.ts",
 															"line": 76,
-															"character": 74
+															"character": 45
 														}
 													],
 													"type": {
@@ -3138,7 +2948,7 @@
 														{
 															"fileName": "writeLog.ts",
 															"line": 76,
-															"character": 88
+															"character": 59
 														}
 													],
 													"type": {
@@ -3156,7 +2966,7 @@
 														{
 															"fileName": "writeLog.ts",
 															"line": 76,
-															"character": 97
+															"character": 68
 														}
 													],
 													"type": {
@@ -3181,7 +2991,7 @@
 												{
 													"fileName": "writeLog.ts",
 													"line": 76,
-													"character": 58
+													"character": 29
 												}
 											]
 										}
