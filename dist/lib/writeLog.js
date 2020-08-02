@@ -76,7 +76,19 @@ function logWriter(data, { configuration, messageLevel, options = {} }) {
     // Any log level below 0 means always write the log data
     if ((configuration.logLevel[logName] <= messageLevel) || (messageLevel < 0)) {
         const useRawData = asIs || (typeof data !== `object`);
-        let logData = (useRawData ? data.toString() : JSON.stringify(data, null, localConfiguration.jsonFormatter));
+        let logData;
+        if (useRawData) {
+            if (typeof data === `string`)
+                logData = data;
+            else if (!!data.stack)
+                // Handle errors using the stack trace
+                logData = data.stack;
+            else
+                // Catch anything else and convert to a string
+                logData = data.toString();
+        }
+        else
+            logData = JSON.stringify(data, null, localConfiguration.jsonFormatter);
         // Handle timestamp and code location
         const additionalData = [];
         let additionalDataLength = 0;

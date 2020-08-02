@@ -172,8 +172,8 @@
         "affectsGlobalScope": false
       },
       "../../src/lib/writeLog.ts": {
-        "version": "19ee3414f58fbed47c8a388832cab138198715fa0f2fac348f3722cbdecbd85a",
-        "signature": "e72721ac4e59a34de288ba9aaa49a392fcf929d6673f8ba6edbafcfeeac18c80",
+        "version": "b2c1b325c153a0fa0c9608a6441f4af3a7760f8a3b375907459e3b7101b14810",
+        "signature": "3dc898058c51a9d6437bbe3f049d4c9d3e4f2222810b19f826d973e491f6a643",
         "affectsGlobalScope": false
       },
       "../../src/lib/logger.ts": {
