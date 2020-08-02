@@ -32,10 +32,10 @@ Warn("Hello multi-level-logger");
 
 See [Migrating from v1.x to v2.x](./MigratingFrom1x.md) for **breaking changes** to the API
 
-# License
+## License
 
 *multi-level-logger* is released under the MIT License.
 See [License](https://github.com/davehermann/multi-level-logger/blob/master/LICENSE.md) file for more details.
 
-# Contributing
+## Contributing
 Pull requests may be considered provided they follow existing code's styling, are well commented, and pass all existing tests as well as provide new tests as-needed.
