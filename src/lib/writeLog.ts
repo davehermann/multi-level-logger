@@ -73,7 +73,7 @@ function displayAdditionalData({ additionalData, options, isError, isSublist }: 
     return mergedData;
 }
 
-function logWriter(data: string | Record<string, unknown>, { configuration, messageLevel, options = {} }: ILog): void {
+function logWriter(data: string | Record<string, unknown> | Error, { configuration, messageLevel, options = {} }: ILog): void {
     const isError = messageLevel >= levels.error,
         { configuration: configurationOverride = {} } = options;
     let { logName, asIs } = options;
@@ -103,7 +103,18 @@ function logWriter(data: string | Record<string, unknown>, { configuration, mess
     // Any log level below 0 means always write the log data
     if ((configuration.logLevel[logName] <= messageLevel) || (messageLevel < 0)) {
         const useRawData = asIs || (typeof data !== `object`);
-        let logData = (useRawData ? data.toString() : JSON.stringify(data, null, localConfiguration.jsonFormatter));
+        let logData: string;
+        if (useRawData) {
+            if (typeof data === `string`)
+                logData = data;
+            else if (!!data.stack)
+                // Handle errors using the stack trace
+                logData = (data as Error).stack;
+            else
+                // Catch anything else and convert to a string
+                logData = data.toString();
+        } else
+            logData = JSON.stringify(data, null, localConfiguration.jsonFormatter);
 
         // Handle timestamp and code location
         const additionalData: Array<IAdditionalData> = [];
@@ -118,14 +129,18 @@ function logWriter(data: string | Record<string, unknown>, { configuration, mess
         }
 
         if (localConfiguration.includeCodeLocation) {
-            const callerStackTrace = reportLineNumber();
-            additionalData.push({
-                text: [
-                    { text: callerStackTrace[0], color:  colors.brightYellow },
-                    { text: callerStackTrace[1], color: colors.green }
-                ]
-            });
-            additionalDataLength += callerStackTrace[0].length + callerStackTrace[1].length;
+            const [functionName, functionLocation] = reportLineNumber();
+
+            const codeLocationData: IAdditionalData = {text: []};
+            if (functionName !== `null()`) {
+                (codeLocationData.text as Array<IAdditionalData>).push({ text: functionName, color:  colors.brightYellow });
+                additionalDataLength += functionName.length;
+            }
+
+            (codeLocationData.text as Array<IAdditionalData>).push({ text: functionLocation, color: colors.green });
+            additionalDataLength += functionLocation.length;
+
+            additionalData.push(codeLocationData);
         }
 
         let displayData = displayAdditionalData({ additionalData, options: localConfiguration, isError });
