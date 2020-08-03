@@ -1,3 +1,4 @@
+import { DevTests } from "./dev-test";
 import { Test1, Test2, Test3, Test4, Test5 } from "./testList";
 import * as sinon from "sinon";
 
@@ -16,6 +17,8 @@ describe(`Logger`, function() {
 
 
     // Run Tests
+    if (runTest(-1)) DevTests();
+
     if (runTest(1)) Test1();
     if (runTest(2)) Test2();
     if (runTest(3)) Test3();
@@ -39,10 +42,11 @@ describe(`Logger`, function() {
 });
 
 function runTest(testNumber: number) {
-    if (!!process.env.TEST_LIST) {
-        const tests = process.env.TEST_LIST.split(`,`).map(id => +id);
+    const list = process.env.TEST_LIST;
+    if (!!list) {
+        const tests = (list.toLowerCase() == `dev`) ? [-1] : list.split(`,`).map(id => +id);
         return tests.indexOf(testNumber) >= 0;
     }
 
-    return true;
+    return (testNumber > 0);
 }

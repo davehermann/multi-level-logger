@@ -15,8 +15,7 @@
     "docs:build": "vuepress build docs/src",
     "docs:tsbuild": "typedoc --options ./docs/src/.typedoc/typedoc.js",
     "docs:tsparse": "node ./docs/src/.typedoc/consume.js",
-    "test": "./node_modules/.bin/mocha ./dist/test/testRunner.js",
-    "test-dev": "node ./dist/test/dev-test.js"
+    "test": "./node_modules/.bin/mocha ./dist/test/testRunner.js"
   },
   "author": "Dave Hermann",
   "repository": "github:davehermann/multi-level-logger",
