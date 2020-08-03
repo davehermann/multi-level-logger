@@ -71,8 +71,9 @@ function logWriter(data, { configuration, messageLevel, options = {} }) {
         jsonFormatter: (overrideJsonFormatter !== undefined) ? overrideJsonFormatter : configuration.jsonFormatter,
         useColors: (overrideUseColors !== undefined) ? overrideUseColors : configuration.useColors,
     };
-    if (!logName || !configuration.logLevel[logName])
+    if (!logName || (configuration.logLevel[logName] === undefined))
         logName = `default`;
+    console.log({ logName, asIs, messageLevel, configuration });
     // Any log level below 0 means always write the log data
     if ((configuration.logLevel[logName] <= messageLevel) || (messageLevel < 0)) {
         const useRawData = asIs || (typeof data !== `object`);

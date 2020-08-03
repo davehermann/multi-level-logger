@@ -97,7 +97,7 @@ function logWriter(data: any, { configuration, messageLevel, options = {} }: ILo
         useColors: (overrideUseColors !== undefined) ? overrideUseColors : configuration.useColors,
     };
 
-    if (!logName || !configuration.logLevel[logName])
+    if (!logName || (configuration.logLevel[logName] === undefined))
         logName = `default`;
 
     // Any log level below 0 means always write the log data
