@@ -26,7 +26,7 @@ function reportLineNumber(belowFn?): Array<string> {
     // Filter out the stack elements from this module, or a calling module in node_modules
     const callerStack = v8StackTrace.filter(callSite => {
         const fileName = callSite.getFileName();
-        return (fileName.indexOf(`/multi-level-logger/`) < 0) && (fileName.indexOf(`/node_modules/`) < 0);
+        return !!fileName ? (fileName.indexOf(`/multi-level-logger/`) < 0) && (fileName.indexOf(`/node_modules/`) < 0) : false;
     });
 
     // Return the formatted first item on the stack
