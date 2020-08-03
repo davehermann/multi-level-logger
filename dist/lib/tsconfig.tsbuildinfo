@@ -172,7 +172,7 @@
         "affectsGlobalScope": false
       },
       "../../src/lib/writeLog.ts": {
-        "version": "f1e546fc174b27c61a6e53820e0aed917a6d98b86dd718cece97f5facc031010",
+        "version": "2e8367f8ffedc367a9736622ab809f175aa3237daf423d8cf6968021b9926706",
         "signature": "11ba0c1995352ad2f7ebe81f1fba4622a02f89d627793e4e7af42a61ed4419a8",
         "affectsGlobalScope": false
       },

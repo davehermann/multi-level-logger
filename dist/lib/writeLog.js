@@ -73,7 +73,6 @@ function logWriter(data, { configuration, messageLevel, options = {} }) {
     };
     if (!logName || (configuration.logLevel[logName] === undefined))
         logName = `default`;
-    console.log({ logName, asIs, messageLevel, configuration });
     // Any log level below 0 means always write the log data
     if ((configuration.logLevel[logName] <= messageLevel) || (messageLevel < 0)) {
         const useRawData = asIs || (typeof data !== `object`);
