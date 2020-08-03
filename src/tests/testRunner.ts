@@ -20,7 +20,11 @@ describe(`Logger`, function() {
     if (runTest(2)) Test2();
     if (runTest(3)) Test3();
     if (runTest(4)) Test4();
-    if (runTest(5)) Test5();
+    if (runTest(5)) {
+        Test5();
+        // Repeat test 5 with a fixed level of WARN and sub-log level of DEV
+        Test5(`warn`, `dev`);
+    }
 
     // Repeat test 3 with colors
     if (runTest(6)) Test3(6, true, false, true);

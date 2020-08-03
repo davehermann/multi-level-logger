@@ -53,14 +53,14 @@ function testIntegerThresholdViaObject(): void {
 }
 
 /** Test 5) Multiple logs set via object with string or integer values */
-function testMultipleLogs():void {
+function testMultipleLogs(logLevel?: string, subLogLevel?: string):void {
     const logLevels: ILogDefinition = {
-        logLevel: randomlySelectStringOrNumericalLevel(),
-        log1: { logLevel: randomlySelectStringOrNumericalLevel() },
+        logLevel: logLevel ?? randomlySelectStringOrNumericalLevel(),
+        log1: { logLevel: subLogLevel ?? randomlySelectStringOrNumericalLevel() },
         // log2: { logLevel: randomlySelectStringOrNumericalLevel() }
     };
 
-    describe(`Test 5) Test multiple logs with different thresholds`, function() {
+    describe(`Test 5${!!logLevel || !!subLogLevel ? ` - using fixed log levels` : ``}) Test multiple logs with different thresholds`, function() {
         SetMulitpleLogLevels(logLevels);
     });
 }
