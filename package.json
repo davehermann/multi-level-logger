@@ -8,6 +8,7 @@
     "node": ">=8.0.0"
   },
   "scripts": {
+    "prepare": "npm run build",
     "build": "tsc --build ./src/lib",
     "build:test": "tsc --build ./src/tests",
     "build:consumetsdoc": "tsc --build ./docs/src/.typedoc",
