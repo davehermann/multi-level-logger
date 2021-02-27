@@ -280,7 +280,7 @@
 							"kindString": "Property",
 							"flags": {},
 							"comment": {
-								"shortText": "Amount of whitespace to include for the JSON.stringify() function"
+								"shortText": "Amount of whitespace to include for the `JSON.stringify()` function"
 							},
 							"sources": [
 								{
@@ -777,7 +777,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "Amount of whitespace to include for the JSON.stringify() function"
+								"shortText": "Amount of whitespace to include for the `JSON.stringify()` function"
 							},
 							"sources": [
 								{
@@ -921,7 +921,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "Don't evaluate a function when passed in as data\n  - When **true**, writes the function code to the log output\n  - Useful for debugging"
+								"shortText": "Don't evaluate a function when passed in as data\n  - When **true**, writes the function code to the log output instead of the evaluated result\n  - Useful for debugging"
 							},
 							"sources": [
 								{

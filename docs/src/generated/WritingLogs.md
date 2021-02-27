@@ -52,10 +52,10 @@ The configured log level will write any messages at or above that level.
 ### ILogOptions
 | Parameter | Required | Type | Notes |
 | --------- | :------: | :--: | ----- |
-| asIs | no | boolean | Override the conversion of a Javascript *Object* via *JSON*<br />  - *When passing in an **object** for the **data** property* |
+| asIs | no | boolean | Override the conversion of a Javascript *Object* via *JSON*<br /><ul><li> - *When passing in an **object** for the **data** property*</li></ul> |
 | configuration | no | [ILogOptionConfiguration](#ilogoptionconfiguration) | Override formatting configuration |
 | logName | no | string | When multiple named logs are configured, write to this named log |
-| noFunctionEval | no | boolean | Don't evaluate a function when passed in as data<br />  - When **true**, writes the function code to the log output<br />  - Useful for debugging |
+| noFunctionEval | no | boolean | Don't evaluate a function when passed in as data<br /><ul><li> - When **true**, writes the function code to the log output instead of the evaluated result</li><li> - Useful for debugging</li></ul> |
 
 
 ### ILogOptionConfiguration
@@ -64,6 +64,6 @@ The configured log level will write any messages at or above that level.
 | --------- | :------: | :--: | ----- |
 | includeCodeLocation | no | boolean | Show the code location when printing to the log |
 | includeTimestamp | no | boolean | Show a timestamp when printing to the log |
-| jsonFormatter | no | number | Amount of whitespace to include for the JSON.stringify() function |
+| jsonFormatter | no | number | Amount of whitespace to include for the `JSON.stringify()` function |
 | useColors | no | boolean | Display colors in a terminal capable of showing them |
 

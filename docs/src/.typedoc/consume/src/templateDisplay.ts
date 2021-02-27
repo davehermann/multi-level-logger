@@ -74,7 +74,61 @@ function displayType(type: ITypeDocType) {
  */
 function displayComment(item: ITypeDocItem) {
     const text = item.comment?.text || item.comment?.shortText || ``;
-    return text.replace(/\n/g, `<br />`);
+
+    let html = [];
+    // Convert markdown-style lists to HTML (internally)
+    const lines = text.split(`\n`);
+
+    // Won't nest
+    let inOList = false,
+        inUList = false;
+
+    const olFind = /^\s+\d+\.\s+/,
+        ulFind = /^\s+\-\s+/;
+
+    lines.forEach(line => {
+        const isOLItem = (line.search(olFind) == 0),
+            isULItem = (line.search(ulFind) == 0);
+
+        if (isOLItem || isULItem) {
+            if (isOLItem && !inOList) {
+                inOList = true;
+                html.push(`<ol>`);
+            }
+
+            if (isULItem && !inUList) {
+                inUList = true;
+                html.push(`<ul>`);
+            }
+
+            const lineText = line.substring(line.indexOf(`.`) + 2);
+            html[html.length - 1] += `<li>${lineText}</li>`;
+        } else {
+            if (inOList) {
+                html[html.length - 1] += `</ol>`;
+                inOList = false;
+            }
+
+            if (inUList) {
+                html[html.length - 1] += `</ul>`;
+                inUList = false;
+            }
+
+            html.push(line);
+        }
+    });
+
+    if (inOList) {
+        html[html.length - 1] += `</ol>`;
+        inOList = false;
+    }
+
+    if (inUList) {
+        html[html.length - 1] += `</ul>`;
+        inUList = false;
+    }
+
+    return html.join(`<br />`);
 }
 
 /**

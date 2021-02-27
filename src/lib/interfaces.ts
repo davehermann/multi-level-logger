@@ -23,7 +23,7 @@ interface IBaseConfiguration {
     includeTimestamp: boolean;
     /** Show the code location when printing to the log */
     includeCodeLocation: boolean;
-    /** Amount of whitespace to include for the JSON.stringify() function */
+    /** Amount of whitespace to include for the `JSON.stringify()` function */
     jsonFormatter: number;
     /** Display colors in a terminal capable of showing them */
     useColors: boolean;
@@ -35,7 +35,7 @@ interface ILogOptionConfiguration {
     includeTimestamp?: boolean;
     /** Show the code location when printing to the log */
     includeCodeLocation?: boolean;
-    /** Amount of whitespace to include for the JSON.stringify() function */
+    /** Amount of whitespace to include for the `JSON.stringify()` function */
     jsonFormatter?: number;
     /** Display colors in a terminal capable of showing them */
     useColors?: boolean;
