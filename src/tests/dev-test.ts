@@ -54,6 +54,17 @@ function devTests(): void {
     // eslint-disable-next-line no-console
     console.log(`\n-- Test 7: Log without colors, using an in-line configuration, and add code location back in --`);
     Log(testObject, { configuration: { useColors: false, includeCodeLocation: true } });
+
+    // Log to a function
+    // eslint-disable-next-line no-console
+    console.log(`\n-- Test 8: Log a function --`);
+    const fLog = () => {
+        const data = Math.round(Math.random() * 1000000);
+        const testString = `The ${testObject.fox.stats.join(` `)} fox ${testObject.fox.action} the ${testObject.dog} dog`;
+        return `Not evaluated until logging: ${data} says, "${testString}."`;
+    };
+    Log(fLog, { noFunctionEval: true });
+    Log(fLog);
 }
 
 export {

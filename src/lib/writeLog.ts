@@ -1,5 +1,6 @@
 import { IAdditionalData, IAdditionalDataDisplay, ILogOptionConfiguration, ILog, IStackTraceObject, ILogColor } from "./interfaces";
 import { levels, colors } from "./levels";
+import tLogObject from "./types";
 
 function formatStackTrace(callSite: NodeJS.CallSite): Array<string> {
     const functionName = callSite.getFunctionName(),
@@ -73,9 +74,9 @@ function displayAdditionalData({ additionalData, options, isError, isSublist }: 
     return mergedData;
 }
 
-function logWriter(data: any, { configuration, messageLevel, options = {} }: ILog): void {
+function logWriter(data: tLogObject, { configuration, messageLevel, options = {} }: ILog): void {
     const isError = messageLevel >= levels.error,
-        { configuration: configurationOverride = {} } = options;
+        { configuration: configurationOverride = {}, noFunctionEval } = options;
     let { logName, asIs } = options;
 
     // By default, any errors should be logged asIs to handle the stack trace
@@ -102,12 +103,19 @@ function logWriter(data: any, { configuration, messageLevel, options = {} }: ILo
 
     // Any log level below 0 means always write the log data
     if ((configuration.logLevel[logName] <= messageLevel) || (messageLevel < 0)) {
+        // Handle functions as data
+        if ((typeof data === `function`) && !noFunctionEval) {
+            // Use the return value of the function
+            data = data();
+        }
+
         const useRawData = asIs || (typeof data !== `object`);
         let logData: string;
         if (useRawData) {
             if (typeof data === `string`)
                 logData = data;
-            else if (!!data.stack)
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            else if (!!(data as any).stack)
                 // Handle errors using the stack trace
                 logData = (data as Error).stack;
             else
@@ -165,6 +173,4 @@ function logWriter(data: any, { configuration, messageLevel, options = {} }: ILo
     }
 }
 
-export {
-    logWriter as LogWriter,
-};
+export default logWriter;
