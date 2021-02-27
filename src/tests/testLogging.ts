@@ -3,6 +3,19 @@ import { colors } from "../lib/levels";
 import * as logger from "../lib/logger";
 import { ILogDefinition } from "../lib/interfaces";
 
+enum eLogTestType {
+    string,
+    object,
+    function,
+    unevaluatedFunction,
+}
+
+interface ILogData {
+    description: string;
+    data: string | unknown | (() => string | unknown);
+    expectedResult: string;
+}
+
 /**
  * Set the log level to use
  * @param level - Level name, number or object definition
@@ -105,8 +118,10 @@ function logLevelTests(currentLevel: string | number | ILogDefinition, namedLog:
 function outputLog(levelName: string, currentLevel: string | number | ILogDefinition, namedLog: string) {
     const levelNumber = mapLevelNameToLevel(levelName) ?? `N/A`;
     describe(`${levelName} [${levelNumber}] output`, function() {
-        writeLog(levelName, true, currentLevel, namedLog);
-        writeLog(levelName, false, currentLevel, namedLog);
+        writeLog(levelName, eLogTestType.string, currentLevel, namedLog);
+        writeLog(levelName, eLogTestType.object, currentLevel, namedLog);
+        writeLog(levelName, eLogTestType.unevaluatedFunction, currentLevel, namedLog);
+        writeLog(levelName, eLogTestType.function, currentLevel, namedLog);
     });
 }
 
@@ -132,13 +147,44 @@ function safeColor(fixColor: colors | string): string {
 }
 
 /**
+ * Get the description for the type of data to be logged
+ * @param dataType - Log data type
+ */
+function logDataInUse(dataType: eLogTestType, levelName: string): ILogData {
+    const fEvalData = () => {
+        const a = Array.from(Array(10).keys());
+        return `${levelName}: [${a.join(`, `)}]`;
+    };
+
+    switch (dataType) {
+        case eLogTestType.string: {
+            const data = `${levelName} level`;
+            return { description: `a string`, data, expectedResult: data };
+        }
+
+        case eLogTestType.object: {
+            const data = { level: levelName };
+            return { description: `an object`, data, expectedResult: JSON.stringify(data, null, 4) };
+        }
+
+        case eLogTestType.unevaluatedFunction: {
+            return { description: `function code`, data: fEvalData, expectedResult: fEvalData.toString() };
+        }
+
+        case eLogTestType.function: {
+            return { description: `function return value`, data: fEvalData, expectedResult: fEvalData() };
+        }
+    }
+}
+
+/**
  * Write the log to the console, or not if below log level, and check for expected behavior
  * @param levelName - The level to use when writing the log
  * @param asString - Pass objects as string instead of directly as an object
  * @param currentLevel - Log level used for displaying the log
  * @param namedLog - name of log when not using "default" log
  */
-function writeLog(levelName: string, asString: boolean, currentLevel: string | number | ILogDefinition, namedLog: string) {
+function writeLog(levelName: string, dataType: eLogTestType, currentLevel: string | number | ILogDefinition, namedLog: string) {
     // When currentLevel is an object, use the logLevel property
     if (isILogDefinition(currentLevel))
         currentLevel = currentLevel.logLevel;
@@ -157,20 +203,19 @@ function writeLog(levelName: string, asString: boolean, currentLevel: string | n
         aboveLevel = (logLevelNumber >= loggingThreshold);
     }
 
-    it(`should${aboveLevel ? `` : ` not`} output ${asString ? `a string` : `an object`} to console.${useOutput}`, function() {
-        const logString = `${levelName} level`,
-            logObject = { level: levelName };
+    const { description: dataDescription, data: logData, expectedResult } = logDataInUse(dataType, levelName);
 
+    it(`should${aboveLevel ? `` : ` not`} output ${dataDescription} to console.${useOutput}`, function() {
         // Get the timestamp at the moment the log is written
         const timestamp = new Date();
         // Write to the log, specifying asIs == false to properly handle object testing with error and fatal levels
-        logger[levelName](asString ? logString : logObject, { logName: namedLog, asIs: false });
+        logger[levelName](logData, { logName: namedLog, asIs: false, noFunctionEval: (dataType === eLogTestType.unevaluatedFunction) });
 
         if (aboveLevel) {
             // Confirm the log contents
 
             const configuration = logger.GetConfiguredLogging();
-            let logText: string = asString ? logString : JSON.stringify(logObject, null, 4);
+            let logText: string = expectedResult;
 
             if (configuration.useColors)
                 logText = `${useOutput == `log` ? colors.bold : colors.background_red}${logText}${colors.reset}`;
@@ -207,7 +252,16 @@ function writeLog(levelName: string, asString: boolean, currentLevel: string | n
                             pattern += safeColor(colors.reset);
 
                         pattern += ` \\- `;
-                        pattern += logText.replace(/\n/g, (`\n`).padEnd(dateDisplay.length + 4, ` `));
+
+                        switch (dataType) {
+                            case eLogTestType.unevaluatedFunction:
+                                pattern += logText.replace(/\./g, `\\.`).replace(/\$/g, `\\$`).replace(/\(/g, `\\(`).replace(/\)/g, `\\)`);
+                                break;
+
+                            default:
+                                pattern += logText.replace(/\n/g, (`\n`).padEnd(dateDisplay.length + 4, ` `));
+                                break;
+                        }
                     }
                 }
 
@@ -223,14 +277,27 @@ function writeLog(levelName: string, asString: boolean, currentLevel: string | n
                     } else
                         pattern += `${codeFunction} ${codeFile}`;
 
-                    if (asString)
-                        pattern += ` \\- ${logText}$`;
-                    else
-                        // Add five spaces before the first open brace in the JSON object to match log output
-                        pattern += `\n${logText.replace(/\{/, `     {`).replace(/\n/g, (`\n`).padEnd(6, ` `))}$`;
+                    switch (dataType) {
+                        case eLogTestType.object:
+                            // Add five spaces before the first open brace in the JSON object to match log output
+                            pattern += `\n${logText.replace(/\{/, `     {`).replace(/\n/g, (`\n`).padEnd(6, ` `))}$`;
+                            break;
+
+                        case eLogTestType.unevaluatedFunction:
+                            pattern += ` \\- ${logText.replace(/\./g, `\\.`).replace(/\$/g, `\\$`).replace(/\(/g, `\\(`).replace(/\)/g, `\\)`)}`;
+                            break;
+
+                        default:
+                            pattern += ` \\- ${logText}$`;
+                            break;
+                    }
                 }
 
                 const foundPattern = loggedData.search(new RegExp(pattern));
+
+                // Debugging new log data types
+                // if (dataType == eLogTestType.unevaluatedFunction)
+                //     console.log({ pattern, loggedData, logText });
 
                 // eslint-disable-next-line no-console
                 // expect(console[useOutput].calledOnce).to.be.true;

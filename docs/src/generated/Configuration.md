@@ -64,7 +64,7 @@ Info("Info-level log");
 
 | Parameter | Required | Type | Notes |
 | --------- | -------- | ---- | ----- |
-| logDefinition | yes | string &#124; number &#124; [ILogDefinition](#ilogdefinition) | The log level initializer matching one of four types<br />     1. *String* - a string matching a log level in the levels object<br />     1. *Number* - an integer value to use as the log level<br />     1. *Object* - an object with a `logLevel` property, matching 1 or 2 above<br />     1. *Object* - an object with each key matching a named log, and the value as 1, 2, or 3 above |
+| logDefinition | yes | string &#124; number &#124; [ILogDefinition](#ilogdefinition) | The log level initializer matching one of four types<br /><ol><li>*String* - a string matching a log level in the levels object</li><li>*Number* - an integer value to use as the log level</li><li>*Object* - an object with a `logLevel` property, matching 1 or 2 above</li><li>*Object* - an object with each key matching a named log, and the value as 1, 2, or 3 above</li></ol> |
 | logName | no | string | Name of the log, defaulting to "default" |
 
 
@@ -113,7 +113,7 @@ InitializeLogging(logDefinition);
 | --------- | :------: | :--: | ----- |
 | includeCodeLocation | yes | boolean | Show the code location when printing to the log |
 | includeTimestamp | yes | boolean | Show a timestamp when printing to the log |
-| jsonFormatter | yes | number | Amount of whitespace to include for the JSON.stringify() function |
+| jsonFormatter | yes | number | Amount of whitespace to include for the `JSON.stringify()` function |
 | logLevel | yes | [ILevelConfiguration](#ilevelconfiguration) | Minimum log level to display |
 | useColors | yes | boolean | Display colors in a terminal capable of showing them |
 
@@ -141,6 +141,6 @@ InitializeLogging(logDefinition);
 | --------- | :------: | :--: | ----- |
 | includeCodeLocation | no | boolean | Show the code location when printing to the log |
 | includeTimestamp | no | boolean | Show a timestamp when printing to the log |
-| jsonFormatter | no | number | Amount of whitespace to include for the JSON.stringify() function |
+| jsonFormatter | no | number | Amount of whitespace to include for the `JSON.stringify()` function |
 | useColors | no | boolean | Display colors in a terminal capable of showing them |
 

@@ -18,7 +18,7 @@ $$$Reference.LogLevels$$$
 **multi-level-logger** exposes the **LogLevels** enumeration for all named log levels.
 Levels can be referred to via the string name, the enumeration value, or an integer value between the lowest and highest level.
 
-$$$Reference.GetConfiguredLogging$$$
+$$$Function.GetConfiguredLogging$$$
 
 + Return the currently configured logging options
 
@@ -46,7 +46,7 @@ Info("Info-level log");
 
 ### Methods
 
-$$$Reference.InitializeLogging/hideparams:_subLog,headerlevel:4$$$
+$$$Function.InitializeLogging/hideparams:_subLog,headerlevel:4$$$
 
 + The [LogLevels](#loglevels) enumeration has *number* values, and members can be passed directly to *logDefinition*
 

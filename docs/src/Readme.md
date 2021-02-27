@@ -22,7 +22,13 @@ Warn("Hello multi-level-logger");
 
 <pre><code><span>&gt; </span><span style="color: rgb(59, 142, 234);">1/1/2018, 12:00:00 PM</span><span> - </span><span style="color: rgb(13, 188, 121);">[line 3: ./log-example.js]</span><span> - </span><span style="color(229, 229, 229);">Hello multi-level-logger</span></code></pre>
 
-## What's new in v2.0.0
+## What's New
+
+### v2.1.0
+
++ Lazy evaluate log data when a log is written by passing a function that returns a string/object instead of passing the string/object
+
+### v2.0.0
 
 + Rewritten in Typescript
     + **Typescript declarations are included**
