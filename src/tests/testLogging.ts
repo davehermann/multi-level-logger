@@ -6,11 +6,12 @@ import { ILogDefinition } from "../lib/interfaces";
 enum eLogTestType {
     string,
     object,
+    unevaluatedFunction,
 }
 
 interface ILogData {
     description: string;
-    data: string | unknown;
+    data: string | unknown | (() => string | unknown);
     expectedResult: string;
 }
 
@@ -118,6 +119,7 @@ function outputLog(levelName: string, currentLevel: string | number | ILogDefini
     describe(`${levelName} [${levelNumber}] output`, function() {
         writeLog(levelName, eLogTestType.string, currentLevel, namedLog);
         writeLog(levelName, eLogTestType.object, currentLevel, namedLog);
+        writeLog(levelName, eLogTestType.unevaluatedFunction, currentLevel, namedLog);
     });
 }
 
@@ -147,14 +149,24 @@ function safeColor(fixColor: colors | string): string {
  * @param dataType - Log data type
  */
 function logDataInUse(dataType: eLogTestType, levelName: string): ILogData {
+    const fEvalData = () => {
+        const a = Array.from(Array(10).keys());
+        return `${levelName}: [${a.join(`, `)}]`;
+    };
+
     switch (dataType) {
         case eLogTestType.string: {
             const data = `${levelName} level`;
             return { description: `a string`, data, expectedResult: data };
         }
+
         case eLogTestType.object: {
             const data = { level: levelName };
             return { description: `an object`, data, expectedResult: JSON.stringify(data, null, 4) };
+        }
+
+        case eLogTestType.unevaluatedFunction: {
+            return { description: `an unevaluated function`, data: fEvalData, expectedResult: fEvalData.toString() };
         }
     }
 }
@@ -191,7 +203,7 @@ function writeLog(levelName: string, dataType: eLogTestType, currentLevel: strin
         // Get the timestamp at the moment the log is written
         const timestamp = new Date();
         // Write to the log, specifying asIs == false to properly handle object testing with error and fatal levels
-        logger[levelName](logData, { logName: namedLog, asIs: false });
+        logger[levelName](logData, { logName: namedLog, asIs: false, noFunctionEval: (dataType === eLogTestType.unevaluatedFunction) });
 
         if (aboveLevel) {
             // Confirm the log contents
@@ -234,7 +246,16 @@ function writeLog(levelName: string, dataType: eLogTestType, currentLevel: strin
                             pattern += safeColor(colors.reset);
 
                         pattern += ` \\- `;
-                        pattern += logText.replace(/\n/g, (`\n`).padEnd(dateDisplay.length + 4, ` `));
+
+                        switch (dataType) {
+                            case eLogTestType.unevaluatedFunction:
+                                pattern += logText.replace(/\./g, `\\.`).replace(/\$/g, `\\$`).replace(/\(/g, `\\(`).replace(/\)/g, `\\)`);
+                                break;
+
+                            default:
+                                pattern += logText.replace(/\n/g, (`\n`).padEnd(dateDisplay.length + 4, ` `));
+                                break;
+                        }
                     }
                 }
 
@@ -256,6 +277,10 @@ function writeLog(levelName: string, dataType: eLogTestType, currentLevel: strin
                             pattern += `\n${logText.replace(/\{/, `     {`).replace(/\n/g, (`\n`).padEnd(6, ` `))}$`;
                             break;
 
+                        case eLogTestType.unevaluatedFunction:
+                            pattern += ` \\- ${logText.replace(/\./g, `\\.`).replace(/\$/g, `\\$`).replace(/\(/g, `\\(`).replace(/\)/g, `\\)`)}`;
+                            break;
+
                         default:
                             pattern += ` \\- ${logText}$`;
                             break;
@@ -263,6 +288,10 @@ function writeLog(levelName: string, dataType: eLogTestType, currentLevel: strin
                 }
 
                 const foundPattern = loggedData.search(new RegExp(pattern));
+
+                // Debugging new log data types
+                // if (dataType == eLogTestType.unevaluatedFunction)
+                //     console.log({ pattern, loggedData, logText });
 
                 // eslint-disable-next-line no-console
                 // expect(console[useOutput].calledOnce).to.be.true;
