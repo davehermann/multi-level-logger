@@ -11,11 +11,11 @@
     "prepare": "npm run build",
     "build": "tsc --build ./src/lib",
     "build:test": "tsc --build ./src/tests",
-    "build:consumetsdoc": "tsc --build ./docs/src/.typedoc",
+    "build:consumetsdoc": "tsc --build ./docs/src/.typedoc/consume",
     "docs:dev": "vuepress dev docs/src",
     "docs:build": "vuepress build docs/src",
     "docs:tsbuild": "typedoc --options ./docs/src/.typedoc/typedoc.js",
-    "docs:tsparse": "node ./docs/src/.typedoc/consume.js",
+    "docs:tsparse": "node ./docs/src/.typedoc/consume/dist/consume.js",
     "test": "./node_modules/.bin/mocha ./dist/test/testRunner.js"
   },
   "author": "Dave Hermann",
