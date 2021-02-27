@@ -6,6 +6,7 @@ import { ILogDefinition } from "../lib/interfaces";
 enum eLogTestType {
     string,
     object,
+    function,
     unevaluatedFunction,
 }
 
@@ -120,6 +121,7 @@ function outputLog(levelName: string, currentLevel: string | number | ILogDefini
         writeLog(levelName, eLogTestType.string, currentLevel, namedLog);
         writeLog(levelName, eLogTestType.object, currentLevel, namedLog);
         writeLog(levelName, eLogTestType.unevaluatedFunction, currentLevel, namedLog);
+        writeLog(levelName, eLogTestType.function, currentLevel, namedLog);
     });
 }
 
@@ -166,7 +168,11 @@ function logDataInUse(dataType: eLogTestType, levelName: string): ILogData {
         }
 
         case eLogTestType.unevaluatedFunction: {
-            return { description: `an unevaluated function`, data: fEvalData, expectedResult: fEvalData.toString() };
+            return { description: `function code`, data: fEvalData, expectedResult: fEvalData.toString() };
+        }
+
+        case eLogTestType.function: {
+            return { description: `function return value`, data: fEvalData, expectedResult: fEvalData() };
         }
     }
 }
