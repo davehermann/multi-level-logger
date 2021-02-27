@@ -105,6 +105,8 @@ export {
     IAdditionalData,
     IAdditionalDataDisplay,
     IBaseConfiguration,
+    // Export to support TypeDoc
+    ILevelConfiguration,
     ILog,
     ILogColor,
     ILogDefinition,

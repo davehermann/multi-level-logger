@@ -6,34 +6,28 @@
 	"originalName": "",
 	"children": [
 		{
-			"id": 20,
-			"name": "\"interfaces\"",
+			"id": 1,
+			"name": "interfaces",
 			"kind": 1,
 			"kindString": "Module",
-			"flags": {
-				"isExported": true
-			},
-			"originalName": "/mnt/general/General_Development/multi-level-logger/src/lib/interfaces.ts",
+			"flags": {},
 			"children": [
 				{
-					"id": 54,
+					"id": 2,
 					"name": "IAdditionalData",
 					"kind": 256,
 					"kindString": "Interface",
-					"flags": {
-						"isExported": true
-					},
+					"flags": {},
 					"comment": {
 						"shortText": "Pre-entry display data (e.g. timestamp)"
 					},
 					"children": [
 						{
-							"id": 56,
+							"id": 4,
 							"name": "color",
 							"kind": 1024,
 							"kindString": "Property",
 							"flags": {
-								"isExported": true,
 								"isOptional": true
 							},
 							"comment": {
@@ -42,31 +36,29 @@
 							"sources": [
 								{
 									"fileName": "interfaces.ts",
-									"line": 87,
+									"line": 89,
 									"character": 9
 								}
 							],
 							"type": {
 								"type": "reference",
-								"id": 10,
+								"id": 53,
 								"name": "colors"
 							}
 						},
 						{
-							"id": 55,
+							"id": 3,
 							"name": "text",
 							"kind": 1024,
 							"kindString": "Property",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"comment": {
 								"shortText": "Data to display, or sub-list of data to display"
 							},
 							"sources": [
 								{
 									"fileName": "interfaces.ts",
-									"line": 85,
+									"line": 87,
 									"character": 8
 								}
 							],
@@ -78,15 +70,12 @@
 										"name": "string"
 									},
 									{
-										"type": "reference",
-										"typeArguments": [
-											{
-												"type": "reference",
-												"id": 54,
-												"name": "IAdditionalData"
-											}
-										],
-										"name": "Array"
+										"type": "array",
+										"elementType": {
+											"type": "reference",
+											"id": 2,
+											"name": "IAdditionalData"
+										}
 									}
 								]
 							}
@@ -97,76 +86,67 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								56,
-								55
+								4,
+								3
 							]
 						}
 					],
 					"sources": [
 						{
 							"fileName": "interfaces.ts",
-							"line": 83,
+							"line": 85,
 							"character": 25
 						}
 					]
 				},
 				{
-					"id": 57,
+					"id": 5,
 					"name": "IAdditionalDataDisplay",
 					"kind": 256,
 					"kindString": "Interface",
-					"flags": {
-						"isExported": true
-					},
+					"flags": {},
 					"comment": {
 						"shortText": "Displaying timestamp and code location data, with color highlights"
 					},
 					"children": [
 						{
-							"id": 58,
+							"id": 6,
 							"name": "additionalData",
 							"kind": 1024,
 							"kindString": "Property",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"comment": {
 								"shortText": "Pre-entry display data"
 							},
 							"sources": [
 								{
 									"fileName": "interfaces.ts",
-									"line": 93,
+									"line": 95,
 									"character": 18
 								}
 							],
 							"type": {
-								"type": "reference",
-								"typeArguments": [
-									{
-										"type": "reference",
-										"id": 54,
-										"name": "IAdditionalData"
-									}
-								],
-								"name": "Array"
+								"type": "array",
+								"elementType": {
+									"type": "reference",
+									"id": 2,
+									"name": "IAdditionalData"
+								}
 							}
 						},
 						{
-							"id": 60,
+							"id": 8,
 							"name": "isError",
 							"kind": 1024,
 							"kindString": "Property",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"comment": {
 								"shortText": "Is this an error-level log"
 							},
 							"sources": [
 								{
 									"fileName": "interfaces.ts",
-									"line": 97,
+									"line": 99,
 									"character": 11
 								}
 							],
@@ -176,12 +156,11 @@
 							}
 						},
 						{
-							"id": 61,
+							"id": 9,
 							"name": "isSublist",
 							"kind": 1024,
 							"kindString": "Property",
 							"flags": {
-								"isExported": true,
 								"isOptional": true
 							},
 							"comment": {
@@ -190,7 +169,7 @@
 							"sources": [
 								{
 									"fileName": "interfaces.ts",
-									"line": 99,
+									"line": 101,
 									"character": 13
 								}
 							],
@@ -200,26 +179,24 @@
 							}
 						},
 						{
-							"id": 59,
+							"id": 7,
 							"name": "options",
 							"kind": 1024,
 							"kindString": "Property",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"comment": {
 								"shortText": "Log writting configuration for the single message"
 							},
 							"sources": [
 								{
 									"fileName": "interfaces.ts",
-									"line": 95,
+									"line": 97,
 									"character": 11
 								}
 							],
 							"type": {
 								"type": "reference",
-								"id": 35,
+								"id": 37,
 								"name": "ILogOptionConfiguration"
 							}
 						}
@@ -229,41 +206,37 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								58,
-								60,
-								61,
-								59
+								6,
+								8,
+								9,
+								7
 							]
 						}
 					],
 					"sources": [
 						{
 							"fileName": "interfaces.ts",
-							"line": 91,
+							"line": 93,
 							"character": 32
 						}
 					]
 				},
 				{
-					"id": 29,
+					"id": 10,
 					"name": "IBaseConfiguration",
 					"kind": 256,
 					"kindString": "Interface",
-					"flags": {
-						"isExported": true
-					},
+					"flags": {},
 					"comment": {
 						"shortText": "Configuration for the module"
 					},
 					"children": [
 						{
-							"id": 32,
+							"id": 13,
 							"name": "includeCodeLocation",
 							"kind": 1024,
 							"kindString": "Property",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"comment": {
 								"shortText": "Show the code location when printing to the log"
 							},
@@ -280,13 +253,11 @@
 							}
 						},
 						{
-							"id": 31,
+							"id": 12,
 							"name": "includeTimestamp",
 							"kind": 1024,
 							"kindString": "Property",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"comment": {
 								"shortText": "Show a timestamp when printing to the log"
 							},
@@ -303,13 +274,11 @@
 							}
 						},
 						{
-							"id": 33,
+							"id": 14,
 							"name": "jsonFormatter",
 							"kind": 1024,
 							"kindString": "Property",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"comment": {
 								"shortText": "Amount of whitespace to include for the JSON.stringify() function"
 							},
@@ -326,13 +295,11 @@
 							}
 						},
 						{
-							"id": 30,
+							"id": 11,
 							"name": "logLevel",
 							"kind": 1024,
 							"kindString": "Property",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"comment": {
 								"shortText": "Minimum log level to display"
 							},
@@ -345,18 +312,16 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 25,
+								"id": 16,
 								"name": "ILevelConfiguration"
 							}
 						},
 						{
-							"id": 34,
+							"id": 15,
 							"name": "useColors",
 							"kind": 1024,
 							"kindString": "Property",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"comment": {
 								"shortText": "Display colors in a terminal capable of showing them"
 							},
@@ -378,11 +343,11 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								32,
-								31,
-								33,
-								30,
-								34
+								13,
+								12,
+								14,
+								11,
+								15
 							]
 						}
 					],
@@ -395,7 +360,7 @@
 					]
 				},
 				{
-					"id": 25,
+					"id": 16,
 					"name": "ILevelConfiguration",
 					"kind": 256,
 					"kindString": "Interface",
@@ -403,38 +368,9 @@
 					"comment": {
 						"shortText": "Log level display"
 					},
-					"indexSignature": [
-						{
-							"id": 27,
-							"name": "__index",
-							"kind": 8192,
-							"kindString": "Index signature",
-							"flags": {},
-							"comment": {
-								"shortText": "Additional named log(s) and their level"
-							},
-							"parameters": [
-								{
-									"id": 28,
-									"name": "x",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"type": {
-										"type": "intrinsic",
-										"name": "string"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "number"
-							}
-						}
-					],
 					"children": [
 						{
-							"id": 26,
+							"id": 17,
 							"name": "default",
 							"kind": 1024,
 							"kindString": "Property",
@@ -460,7 +396,7 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								26
+								17
 							]
 						}
 					],
@@ -470,28 +406,50 @@
 							"line": 11,
 							"character": 29
 						}
-					]
+					],
+					"indexSignature": {
+						"id": 18,
+						"name": "__index",
+						"kind": 8192,
+						"kindString": "Index signature",
+						"flags": {},
+						"comment": {
+							"shortText": "Additional named log(s) and their level"
+						},
+						"parameters": [
+							{
+								"id": 19,
+								"name": "x",
+								"kind": 32768,
+								"flags": {},
+								"type": {
+									"type": "intrinsic",
+									"name": "string"
+								}
+							}
+						],
+						"type": {
+							"type": "intrinsic",
+							"name": "number"
+						}
+					}
 				},
 				{
-					"id": 40,
+					"id": 20,
 					"name": "ILog",
 					"kind": 256,
 					"kindString": "Interface",
-					"flags": {
-						"isExported": true
-					},
+					"flags": {},
 					"comment": {
 						"shortText": "Configuration and options passed to the log writting function"
 					},
 					"children": [
 						{
-							"id": 41,
+							"id": 21,
 							"name": "configuration",
 							"kind": 1024,
 							"kindString": "Property",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"comment": {
 								"shortText": "The base configuration for the module instance"
 							},
@@ -504,18 +462,16 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 29,
+								"id": 10,
 								"name": "IBaseConfiguration"
 							}
 						},
 						{
-							"id": 42,
+							"id": 22,
 							"name": "messageLevel",
 							"kind": 1024,
 							"kindString": "Property",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"comment": {
 								"shortText": "The level at which this message will appear in the log"
 							},
@@ -532,12 +488,11 @@
 							}
 						},
 						{
-							"id": 43,
+							"id": 23,
 							"name": "options",
 							"kind": 1024,
 							"kindString": "Property",
 							"flags": {
-								"isExported": true,
 								"isOptional": true
 							},
 							"comment": {
@@ -552,7 +507,7 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 44,
+								"id": 32,
 								"name": "ILogOptions"
 							}
 						}
@@ -562,9 +517,9 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								41,
-								42,
-								43
+								21,
+								22,
+								23
 							]
 						}
 					],
@@ -577,56 +532,50 @@
 					]
 				},
 				{
-					"id": 50,
+					"id": 24,
 					"name": "ILogColor",
 					"kind": 256,
 					"kindString": "Interface",
-					"flags": {
-						"isExported": true
-					},
+					"flags": {},
 					"comment": {
 						"shortText": "Color parameters"
 					},
 					"children": [
 						{
-							"id": 52,
+							"id": 26,
 							"name": "color",
 							"kind": 1024,
 							"kindString": "Property",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"comment": {
 								"shortText": "Color value"
 							},
 							"sources": [
 								{
 									"fileName": "interfaces.ts",
-									"line": 77,
+									"line": 79,
 									"character": 9
 								}
 							],
 							"type": {
 								"type": "reference",
-								"id": 10,
+								"id": 53,
 								"name": "colors"
 							}
 						},
 						{
-							"id": 51,
+							"id": 25,
 							"name": "logString",
 							"kind": 1024,
 							"kindString": "Property",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"comment": {
 								"shortText": "Text to color"
 							},
 							"sources": [
 								{
 									"fileName": "interfaces.ts",
-									"line": 75,
+									"line": 77,
 									"character": 13
 								}
 							],
@@ -636,26 +585,24 @@
 							}
 						},
 						{
-							"id": 53,
+							"id": 27,
 							"name": "options",
 							"kind": 1024,
 							"kindString": "Property",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"comment": {
 								"shortText": "Logging options"
 							},
 							"sources": [
 								{
 									"fileName": "interfaces.ts",
-									"line": 79,
+									"line": 81,
 									"character": 11
 								}
 							],
 							"type": {
 								"type": "reference",
-								"id": 35,
+								"id": 37,
 								"name": "ILogOptionConfiguration"
 							}
 						}
@@ -665,72 +612,36 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								52,
-								51,
-								53
+								26,
+								25,
+								27
 							]
 						}
 					],
 					"sources": [
 						{
 							"fileName": "interfaces.ts",
-							"line": 73,
+							"line": 75,
 							"character": 19
 						}
 					]
 				},
 				{
-					"id": 21,
+					"id": 28,
 					"name": "ILogDefinition",
 					"kind": 256,
 					"kindString": "Interface",
-					"flags": {
-						"isExported": true
-					},
+					"flags": {},
 					"comment": {
 						"shortText": "Interface for object used as log initializer"
 					},
-					"indexSignature": [
-						{
-							"id": 23,
-							"name": "__index",
-							"kind": 8192,
-							"kindString": "Index signature",
-							"flags": {
-								"isExported": true
-							},
-							"comment": {
-								"shortText": "Interface for object used as log initializer"
-							},
-							"parameters": [
-								{
-									"id": 24,
-									"name": "x",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {
-										"isExported": true
-									},
-									"type": {
-										"type": "intrinsic",
-										"name": "string"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "any"
-							}
-						}
-					],
 					"children": [
 						{
-							"id": 22,
+							"id": 29,
 							"name": "logLevel",
 							"kind": 1024,
 							"kindString": "Property",
 							"flags": {
-								"isExported": true,
 								"isOptional": true
 							},
 							"comment": {
@@ -763,7 +674,7 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								22
+								29
 							]
 						}
 					],
@@ -773,27 +684,50 @@
 							"line": 4,
 							"character": 24
 						}
-					]
+					],
+					"indexSignature": {
+						"id": 30,
+						"name": "__index",
+						"kind": 8192,
+						"kindString": "Index signature",
+						"flags": {},
+						"comment": {
+							"shortText": "Interface for object used as log initializer"
+						},
+						"parameters": [
+							{
+								"id": 31,
+								"name": "x",
+								"kind": 32768,
+								"flags": {},
+								"type": {
+									"type": "intrinsic",
+									"name": "string"
+								}
+							}
+						],
+						"type": {
+							"type": "intrinsic",
+							"name": "any"
+						}
+					}
 				},
 				{
-					"id": 35,
+					"id": 37,
 					"name": "ILogOptionConfiguration",
 					"kind": 256,
 					"kindString": "Interface",
-					"flags": {
-						"isExported": true
-					},
+					"flags": {},
 					"comment": {
 						"shortText": "Log writting configuration for the single message"
 					},
 					"children": [
 						{
-							"id": 37,
+							"id": 39,
 							"name": "includeCodeLocation",
 							"kind": 1024,
 							"kindString": "Property",
 							"flags": {
-								"isExported": true,
 								"isOptional": true
 							},
 							"comment": {
@@ -812,12 +746,11 @@
 							}
 						},
 						{
-							"id": 36,
+							"id": 38,
 							"name": "includeTimestamp",
 							"kind": 1024,
 							"kindString": "Property",
 							"flags": {
-								"isExported": true,
 								"isOptional": true
 							},
 							"comment": {
@@ -836,12 +769,11 @@
 							}
 						},
 						{
-							"id": 38,
+							"id": 40,
 							"name": "jsonFormatter",
 							"kind": 1024,
 							"kindString": "Property",
 							"flags": {
-								"isExported": true,
 								"isOptional": true
 							},
 							"comment": {
@@ -860,12 +792,11 @@
 							}
 						},
 						{
-							"id": 39,
+							"id": 41,
 							"name": "useColors",
 							"kind": 1024,
 							"kindString": "Property",
 							"flags": {
-								"isExported": true,
 								"isOptional": true
 							},
 							"comment": {
@@ -889,10 +820,10 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								37,
-								36,
+								39,
 								38,
-								39
+								40,
+								41
 							]
 						}
 					],
@@ -905,21 +836,18 @@
 					]
 				},
 				{
-					"id": 44,
+					"id": 32,
 					"name": "ILogOptions",
 					"kind": 256,
 					"kindString": "Interface",
-					"flags": {
-						"isExported": true
-					},
+					"flags": {},
 					"children": [
 						{
-							"id": 46,
+							"id": 34,
 							"name": "asIs",
 							"kind": 1024,
 							"kindString": "Property",
 							"flags": {
-								"isExported": true,
 								"isOptional": true
 							},
 							"comment": {
@@ -938,12 +866,11 @@
 							}
 						},
 						{
-							"id": 45,
+							"id": 33,
 							"name": "configuration",
 							"kind": 1024,
 							"kindString": "Property",
 							"flags": {
-								"isExported": true,
 								"isOptional": true
 							},
 							"comment": {
@@ -958,17 +885,16 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 35,
+								"id": 37,
 								"name": "ILogOptionConfiguration"
 							}
 						},
 						{
-							"id": 47,
+							"id": 35,
 							"name": "logName",
 							"kind": 1024,
 							"kindString": "Property",
 							"flags": {
-								"isExported": true,
 								"isOptional": true
 							},
 							"comment": {
@@ -985,6 +911,29 @@
 								"type": "intrinsic",
 								"name": "string"
 							}
+						},
+						{
+							"id": 36,
+							"name": "noFunctionEval",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"comment": {
+								"shortText": "Don't evaluate a function when passed in as data"
+							},
+							"sources": [
+								{
+									"fileName": "interfaces.ts",
+									"line": 65,
+									"character": 18
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "boolean"
+							}
 						}
 					],
 					"groups": [
@@ -992,9 +941,10 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								46,
-								45,
-								47
+								34,
+								33,
+								35,
+								36
 							]
 						}
 					],
@@ -1007,24 +957,21 @@
 					]
 				},
 				{
-					"id": 48,
+					"id": 42,
 					"name": "IStackTraceObject",
 					"kind": 256,
 					"kindString": "Interface",
-					"flags": {
-						"isExported": true
-					},
+					"flags": {},
 					"comment": {
 						"shortText": "Object properties generated by Error.captureStackTrace()"
 					},
 					"children": [
 						{
-							"id": 49,
+							"id": 43,
 							"name": "stack",
 							"kind": 1024,
 							"kindString": "Property",
 							"flags": {
-								"isExported": true,
 								"isOptional": true
 							},
 							"comment": {
@@ -1033,19 +980,16 @@
 							"sources": [
 								{
 									"fileName": "interfaces.ts",
-									"line": 69,
+									"line": 71,
 									"character": 9
 								}
 							],
 							"type": {
-								"type": "reference",
-								"typeArguments": [
-									{
-										"type": "reference",
-										"name": "CallSite"
-									}
-								],
-								"name": "Array"
+								"type": "array",
+								"elementType": {
+									"type": "reference",
+									"name": "CallSite"
+								}
 							}
 						}
 					],
@@ -1054,14 +998,14 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								49
+								43
 							]
 						}
 					],
 					"sources": [
 						{
 							"fileName": "interfaces.ts",
-							"line": 67,
+							"line": 69,
 							"character": 27
 						}
 					]
@@ -1072,16 +1016,16 @@
 					"title": "Interfaces",
 					"kind": 256,
 					"children": [
-						54,
-						57,
-						29,
-						25,
-						40,
-						50,
-						21,
-						35,
-						44,
-						48
+						2,
+						5,
+						10,
+						16,
+						20,
+						24,
+						28,
+						37,
+						32,
+						42
 					]
 				}
 			],
@@ -1094,35 +1038,28 @@
 			]
 		},
 		{
-			"id": 1,
-			"name": "\"levels\"",
+			"id": 44,
+			"name": "levels",
 			"kind": 1,
 			"kindString": "Module",
-			"flags": {
-				"isExported": true
-			},
-			"originalName": "/mnt/general/General_Development/multi-level-logger/src/lib/levels.ts",
+			"flags": {},
 			"children": [
 				{
-					"id": 10,
+					"id": 53,
 					"name": "colors",
 					"kind": 4,
 					"kindString": "Enumeration",
-					"flags": {
-						"isExported": true
-					},
+					"flags": {},
 					"comment": {
 						"shortText": "ANSI colors defined for use in logs"
 					},
 					"children": [
 						{
-							"id": 19,
+							"id": 62,
 							"name": "background_red",
 							"kind": 16,
 							"kindString": "Enumeration member",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"sources": [
 								{
 									"fileName": "levels.ts",
@@ -1130,16 +1067,14 @@
 									"character": 18
 								}
 							],
-							"defaultValue": "`\\x1b[41m`"
+							"defaultValue": "\"\\u001b[41m\""
 						},
 						{
-							"id": 14,
+							"id": 57,
 							"name": "bold",
 							"kind": 16,
 							"kindString": "Enumeration member",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"sources": [
 								{
 									"fileName": "levels.ts",
@@ -1147,16 +1082,14 @@
 									"character": 8
 								}
 							],
-							"defaultValue": "`\\x1b[1m`"
+							"defaultValue": "\"\\u001b[1m\""
 						},
 						{
-							"id": 11,
+							"id": 54,
 							"name": "brightBlue",
 							"kind": 16,
 							"kindString": "Enumeration member",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"sources": [
 								{
 									"fileName": "levels.ts",
@@ -1164,16 +1097,14 @@
 									"character": 14
 								}
 							],
-							"defaultValue": "`\\x1b[94m`"
+							"defaultValue": "\"\\u001b[94m\""
 						},
 						{
-							"id": 12,
+							"id": 55,
 							"name": "brightRed",
 							"kind": 16,
 							"kindString": "Enumeration member",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"sources": [
 								{
 									"fileName": "levels.ts",
@@ -1181,16 +1112,14 @@
 									"character": 13
 								}
 							],
-							"defaultValue": "`\\x1b[91m`"
+							"defaultValue": "\"\\u001b[91m\""
 						},
 						{
-							"id": 13,
+							"id": 56,
 							"name": "brightYellow",
 							"kind": 16,
 							"kindString": "Enumeration member",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"sources": [
 								{
 									"fileName": "levels.ts",
@@ -1198,16 +1127,14 @@
 									"character": 16
 								}
 							],
-							"defaultValue": "`\\x1b[93m`"
+							"defaultValue": "\"\\u001b[93m\""
 						},
 						{
-							"id": 15,
+							"id": 58,
 							"name": "green",
 							"kind": 16,
 							"kindString": "Enumeration member",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"sources": [
 								{
 									"fileName": "levels.ts",
@@ -1215,16 +1142,14 @@
 									"character": 9
 								}
 							],
-							"defaultValue": "`\\x1b[32m`"
+							"defaultValue": "\"\\u001b[32m\""
 						},
 						{
-							"id": 16,
+							"id": 59,
 							"name": "red",
 							"kind": 16,
 							"kindString": "Enumeration member",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"sources": [
 								{
 									"fileName": "levels.ts",
@@ -1232,16 +1157,14 @@
 									"character": 7
 								}
 							],
-							"defaultValue": "`\\x1b[31m`"
+							"defaultValue": "\"\\u001b[31m\""
 						},
 						{
-							"id": 17,
+							"id": 60,
 							"name": "reset",
 							"kind": 16,
 							"kindString": "Enumeration member",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"sources": [
 								{
 									"fileName": "levels.ts",
@@ -1249,16 +1172,14 @@
 									"character": 9
 								}
 							],
-							"defaultValue": "`\\x1b[0m`"
+							"defaultValue": "\"\\u001b[0m\""
 						},
 						{
-							"id": 18,
+							"id": 61,
 							"name": "yellow",
 							"kind": 16,
 							"kindString": "Enumeration member",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"sources": [
 								{
 									"fileName": "levels.ts",
@@ -1266,7 +1187,7 @@
 									"character": 10
 								}
 							],
-							"defaultValue": "`\\x1b[33m`"
+							"defaultValue": "\"\\u001b[33m\""
 						}
 					],
 					"groups": [
@@ -1274,15 +1195,15 @@
 							"title": "Enumeration members",
 							"kind": 16,
 							"children": [
-								19,
-								14,
-								11,
-								12,
-								13,
-								15,
-								16,
-								17,
-								18
+								62,
+								57,
+								54,
+								55,
+								56,
+								58,
+								59,
+								60,
+								61
 							]
 						}
 					],
@@ -1295,25 +1216,21 @@
 					]
 				},
 				{
-					"id": 2,
+					"id": 45,
 					"name": "levels",
 					"kind": 4,
 					"kindString": "Enumeration",
-					"flags": {
-						"isExported": true
-					},
+					"flags": {},
 					"comment": {
 						"shortText": "Available log levels"
 					},
 					"children": [
 						{
-							"id": 5,
+							"id": 48,
 							"name": "debug",
 							"kind": 16,
 							"kindString": "Enumeration member",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"sources": [
 								{
 									"fileName": "levels.ts",
@@ -1324,13 +1241,11 @@
 							"defaultValue": "20"
 						},
 						{
-							"id": 3,
+							"id": 46,
 							"name": "dev",
 							"kind": 16,
 							"kindString": "Enumeration member",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"sources": [
 								{
 									"fileName": "levels.ts",
@@ -1341,13 +1256,11 @@
 							"defaultValue": "0"
 						},
 						{
-							"id": 8,
+							"id": 51,
 							"name": "error",
 							"kind": 16,
 							"kindString": "Enumeration member",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"sources": [
 								{
 									"fileName": "levels.ts",
@@ -1358,13 +1271,11 @@
 							"defaultValue": "50"
 						},
 						{
-							"id": 9,
+							"id": 52,
 							"name": "fatal",
 							"kind": 16,
 							"kindString": "Enumeration member",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"sources": [
 								{
 									"fileName": "levels.ts",
@@ -1375,13 +1286,11 @@
 							"defaultValue": "60"
 						},
 						{
-							"id": 6,
+							"id": 49,
 							"name": "info",
 							"kind": 16,
 							"kindString": "Enumeration member",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"sources": [
 								{
 									"fileName": "levels.ts",
@@ -1392,13 +1301,11 @@
 							"defaultValue": "30"
 						},
 						{
-							"id": 4,
+							"id": 47,
 							"name": "trace",
 							"kind": 16,
 							"kindString": "Enumeration member",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"sources": [
 								{
 									"fileName": "levels.ts",
@@ -1409,13 +1316,11 @@
 							"defaultValue": "10"
 						},
 						{
-							"id": 7,
+							"id": 50,
 							"name": "warn",
 							"kind": 16,
 							"kindString": "Enumeration member",
-							"flags": {
-								"isExported": true
-							},
+							"flags": {},
 							"sources": [
 								{
 									"fileName": "levels.ts",
@@ -1431,13 +1336,13 @@
 							"title": "Enumeration members",
 							"kind": 16,
 							"children": [
-								5,
-								3,
-								8,
-								9,
-								6,
-								4,
-								7
+								48,
+								46,
+								51,
+								52,
+								49,
+								47,
+								50
 							]
 						}
 					],
@@ -1455,8 +1360,8 @@
 					"title": "Enumerations",
 					"kind": 4,
 					"children": [
-						10,
-						2
+						53,
+						45
 					]
 				}
 			],
@@ -1469,316 +1374,44 @@
 			]
 		},
 		{
-			"id": 93,
-			"name": "\"logger\"",
+			"id": 63,
+			"name": "logger",
 			"kind": 1,
 			"kindString": "Module",
-			"flags": {
-				"isExported": true
-			},
-			"originalName": "/mnt/general/General_Development/multi-level-logger/src/lib/logger.ts",
+			"flags": {},
 			"children": [
 				{
-					"id": 155,
-					"name": "Debug",
-					"kind": 16777216,
-					"kindString": "Reference",
-					"flags": {
-						"isExported": true
-					},
-					"target": 125
-				},
-				{
-					"id": 153,
-					"name": "Dev",
-					"kind": 16777216,
-					"kindString": "Reference",
-					"flags": {
-						"isExported": true
-					},
-					"target": 117
-				},
-				{
-					"id": 158,
-					"name": "Err",
-					"kind": 16777216,
-					"kindString": "Reference",
-					"flags": {
-						"isExported": true
-					},
-					"target": 137
-				},
-				{
-					"id": 159,
-					"name": "Fatal",
-					"kind": 16777216,
-					"kindString": "Reference",
-					"flags": {
-						"isExported": true
-					},
-					"target": 141
-				},
-				{
-					"id": 152,
-					"name": "GetConfiguredLogging",
-					"kind": 16777216,
-					"kindString": "Reference",
-					"flags": {
-						"isExported": true
-					},
-					"target": 115
-				},
-				{
-					"id": 156,
-					"name": "Info",
-					"kind": 16777216,
-					"kindString": "Reference",
-					"flags": {
-						"isExported": true
-					},
-					"target": 129
-				},
-				{
-					"id": 150,
-					"name": "InitializeLogging",
-					"kind": 16777216,
-					"kindString": "Reference",
-					"flags": {
-						"isExported": true
-					},
-					"target": 102
-				},
-				{
-					"id": 160,
-					"name": "Log",
-					"kind": 16777216,
-					"kindString": "Reference",
-					"flags": {
-						"isExported": true
-					},
-					"target": 145
-				},
-				{
-					"id": 149,
+					"id": 115,
 					"name": "LogLevels",
 					"kind": 16777216,
 					"kindString": "Reference",
-					"flags": {
-						"isExported": true
-					},
-					"target": 2
-				},
-				{
-					"id": 151,
-					"name": "OutputFormatting",
-					"kind": 16777216,
-					"kindString": "Reference",
-					"flags": {
-						"isExported": true
-					},
-					"target": 107
-				},
-				{
-					"id": 154,
-					"name": "Trace",
-					"kind": 16777216,
-					"kindString": "Reference",
-					"flags": {
-						"isExported": true
-					},
-					"target": 121
-				},
-				{
-					"id": 157,
-					"name": "Warn",
-					"kind": 16777216,
-					"kindString": "Reference",
-					"flags": {
-						"isExported": true
-					},
-					"target": 133
-				},
-				{
-					"id": 94,
-					"name": "_configuration",
-					"kind": 32,
-					"kindString": "Variable",
-					"flags": {
-						"isConst": true
-					},
-					"sources": [
-						{
-							"fileName": "logger.ts",
-							"line": 5,
-							"character": 20
-						}
-					],
-					"type": {
-						"type": "reference",
-						"id": 29,
-						"name": "IBaseConfiguration"
-					},
-					"defaultValue": "<IBaseConfiguration>{}"
-				},
-				{
-					"id": 98,
-					"name": "LogWriterProxy",
-					"kind": 64,
-					"kindString": "Function",
 					"flags": {},
-					"signatures": [
-						{
-							"id": 99,
-							"name": "LogWriterProxy",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"comment": {
-								"shortText": "Used to proxy log writting while ensuring configuration"
-							},
-							"parameters": [
-								{
-									"id": 100,
-									"name": "data",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"type": {
-										"type": "intrinsic",
-										"name": "any"
-									}
-								},
-								{
-									"id": 101,
-									"name": "options",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"type": {
-										"type": "reference",
-										"id": 40,
-										"name": "ILog"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							}
-						}
-					],
 					"sources": [
 						{
 							"fileName": "logger.ts",
-							"line": 26,
+							"line": 166,
 							"character": 23
 						}
-					]
+					],
+					"target": 45
 				},
 				{
-					"id": 145,
-					"name": "alwaysWriteToLog",
+					"id": 82,
+					"name": "Debug",
 					"kind": 64,
 					"kindString": "Function",
 					"flags": {},
-					"signatures": [
-						{
-							"id": 146,
-							"name": "alwaysWriteToLog",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"comment": {
-								"shortText": "Always write log data irrespective of level\n  - *equivalent to console.log()*"
-							},
-							"parameters": [
-								{
-									"id": 147,
-									"name": "data",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"comment": {
-										"text": "Data to write to the log"
-									},
-									"type": {
-										"type": "intrinsic",
-										"name": "any"
-									}
-								},
-								{
-									"id": 148,
-									"name": "options",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {
-										"isOptional": true
-									},
-									"comment": {
-										"text": "Additional options for controlling log output\n"
-									},
-									"type": {
-										"type": "reference",
-										"id": 44,
-										"name": "ILogOptions"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							}
-						}
-					],
 					"sources": [
 						{
 							"fileName": "logger.ts",
-							"line": 162,
-							"character": 25
-						}
-					]
-				},
-				{
-					"id": 115,
-					"name": "currentLogging",
-					"kind": 64,
-					"kindString": "Function",
-					"flags": {},
-					"signatures": [
-						{
-							"id": 116,
-							"name": "currentLogging",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"comment": {
-								"shortText": "Get the current log settings"
-							},
-							"type": {
-								"type": "reference",
-								"id": 29,
-								"name": "IBaseConfiguration"
-							}
+							"line": 121,
+							"character": 14
 						}
 					],
-					"sources": [
-						{
-							"fileName": "logger.ts",
-							"line": 93,
-							"character": 23
-						}
-					]
-				},
-				{
-					"id": 125,
-					"name": "debug",
-					"kind": 64,
-					"kindString": "Function",
-					"flags": {},
 					"signatures": [
 						{
-							"id": 126,
-							"name": "debug",
+							"id": 83,
+							"name": "Debug",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -1787,7 +1420,7 @@
 							},
 							"parameters": [
 								{
-									"id": 127,
+									"id": 84,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1796,12 +1429,13 @@
 										"text": "Data to write to the log"
 									},
 									"type": {
-										"type": "intrinsic",
-										"name": "any"
+										"type": "reference",
+										"id": 107,
+										"name": "tLogObject"
 									}
 								},
 								{
-									"id": 128,
+									"id": 85,
 									"name": "options",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1813,7 +1447,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 44,
+										"id": 32,
 										"name": "ILogOptions"
 									}
 								}
@@ -1823,25 +1457,25 @@
 								"name": "void"
 							}
 						}
-					],
-					"sources": [
-						{
-							"fileName": "logger.ts",
-							"line": 120,
-							"character": 14
-						}
 					]
 				},
 				{
-					"id": 117,
-					"name": "dev",
+					"id": 74,
+					"name": "Dev",
 					"kind": 64,
 					"kindString": "Function",
 					"flags": {},
+					"sources": [
+						{
+							"fileName": "logger.ts",
+							"line": 105,
+							"character": 12
+						}
+					],
 					"signatures": [
 						{
-							"id": 118,
-							"name": "dev",
+							"id": 75,
+							"name": "Dev",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -1850,7 +1484,7 @@
 							},
 							"parameters": [
 								{
-									"id": 119,
+									"id": 76,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1859,12 +1493,13 @@
 										"text": "Data to write to the log"
 									},
 									"type": {
-										"type": "intrinsic",
-										"name": "any"
+										"type": "reference",
+										"id": 107,
+										"name": "tLogObject"
 									}
 								},
 								{
-									"id": 120,
+									"id": 77,
 									"name": "options",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1876,7 +1511,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 44,
+										"id": 32,
 										"name": "ILogOptions"
 									}
 								}
@@ -1886,25 +1521,25 @@
 								"name": "void"
 							}
 						}
-					],
-					"sources": [
-						{
-							"fileName": "logger.ts",
-							"line": 104,
-							"character": 12
-						}
 					]
 				},
 				{
-					"id": 137,
-					"name": "err",
+					"id": 94,
+					"name": "Err",
 					"kind": 64,
 					"kindString": "Function",
 					"flags": {},
+					"sources": [
+						{
+							"fileName": "logger.ts",
+							"line": 146,
+							"character": 12
+						}
+					],
 					"signatures": [
 						{
-							"id": 138,
-							"name": "err",
+							"id": 95,
+							"name": "Err",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -1913,7 +1548,7 @@
 							},
 							"parameters": [
 								{
-									"id": 139,
+									"id": 96,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1922,12 +1557,13 @@
 										"text": "Data to write to the log"
 									},
 									"type": {
-										"type": "intrinsic",
-										"name": "any"
+										"type": "reference",
+										"id": 107,
+										"name": "tLogObject"
 									}
 								},
 								{
-									"id": 140,
+									"id": 97,
 									"name": "options",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1939,7 +1575,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 44,
+										"id": 32,
 										"name": "ILogOptions"
 									}
 								}
@@ -1949,25 +1585,25 @@
 								"name": "void"
 							}
 						}
-					],
-					"sources": [
-						{
-							"fileName": "logger.ts",
-							"line": 145,
-							"character": 12
-						}
 					]
 				},
 				{
-					"id": 141,
-					"name": "fatal",
+					"id": 98,
+					"name": "Fatal",
 					"kind": 64,
 					"kindString": "Function",
 					"flags": {},
+					"sources": [
+						{
+							"fileName": "logger.ts",
+							"line": 155,
+							"character": 14
+						}
+					],
 					"signatures": [
 						{
-							"id": 142,
-							"name": "fatal",
+							"id": 99,
+							"name": "Fatal",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -1976,7 +1612,7 @@
 							},
 							"parameters": [
 								{
-									"id": 143,
+									"id": 100,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -1985,12 +1621,13 @@
 										"text": "Data to write to the log"
 									},
 									"type": {
-										"type": "intrinsic",
-										"name": "any"
+										"type": "reference",
+										"id": 107,
+										"name": "tLogObject"
 									}
 								},
 								{
-									"id": 144,
+									"id": 101,
 									"name": "options",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2002,7 +1639,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 44,
+										"id": 32,
 										"name": "ILogOptions"
 									}
 								}
@@ -2012,25 +1649,56 @@
 								"name": "void"
 							}
 						}
-					],
+					]
+				},
+				{
+					"id": 72,
+					"name": "GetConfiguredLogging",
+					"kind": 64,
+					"kindString": "Function",
+					"flags": {},
 					"sources": [
 						{
 							"fileName": "logger.ts",
-							"line": 154,
-							"character": 14
+							"line": 94,
+							"character": 23
+						}
+					],
+					"signatures": [
+						{
+							"id": 73,
+							"name": "GetConfiguredLogging",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"shortText": "Get the current log settings"
+							},
+							"type": {
+								"type": "reference",
+								"id": 10,
+								"name": "IBaseConfiguration"
+							}
 						}
 					]
 				},
 				{
-					"id": 129,
-					"name": "info",
+					"id": 86,
+					"name": "Info",
 					"kind": 64,
 					"kindString": "Function",
 					"flags": {},
+					"sources": [
+						{
+							"fileName": "logger.ts",
+							"line": 129,
+							"character": 13
+						}
+					],
 					"signatures": [
 						{
-							"id": 130,
-							"name": "info",
+							"id": 87,
+							"name": "Info",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -2039,7 +1707,7 @@
 							},
 							"parameters": [
 								{
-									"id": 131,
+									"id": 88,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2048,12 +1716,13 @@
 										"text": "Data to write to the log"
 									},
 									"type": {
-										"type": "intrinsic",
-										"name": "any"
+										"type": "reference",
+										"id": 107,
+										"name": "tLogObject"
 									}
 								},
 								{
-									"id": 132,
+									"id": 89,
 									"name": "options",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2065,7 +1734,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 44,
+										"id": 32,
 										"name": "ILogOptions"
 									}
 								}
@@ -2075,32 +1744,32 @@
 								"name": "void"
 							}
 						}
-					],
-					"sources": [
-						{
-							"fileName": "logger.ts",
-							"line": 128,
-							"character": 13
-						}
 					]
 				},
 				{
-					"id": 102,
-					"name": "initialize",
+					"id": 64,
+					"name": "InitializeLogging",
 					"kind": 64,
 					"kindString": "Function",
 					"flags": {},
+					"sources": [
+						{
+							"fileName": "logger.ts",
+							"line": 45,
+							"character": 19
+						}
+					],
 					"signatures": [
 						{
-							"id": 103,
-							"name": "initialize",
+							"id": 65,
+							"name": "InitializeLogging",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
 							"comment": {},
 							"parameters": [
 								{
-									"id": 104,
+									"id": 66,
 									"name": "logDefinition",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2121,14 +1790,14 @@
 											},
 											{
 												"type": "reference",
-												"id": 21,
+												"id": 28,
 												"name": "ILogDefinition"
 											}
 										]
 									}
 								},
 								{
-									"id": 105,
+									"id": 67,
 									"name": "logName",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2140,10 +1809,10 @@
 										"type": "intrinsic",
 										"name": "string"
 									},
-									"defaultValue": "`default`"
+									"defaultValue": "..."
 								},
 								{
-									"id": 106,
+									"id": 68,
 									"name": "_subLog",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2163,25 +1832,89 @@
 								"name": "void"
 							}
 						}
-					],
+					]
+				},
+				{
+					"id": 102,
+					"name": "Log",
+					"kind": 64,
+					"kindString": "Function",
+					"flags": {},
 					"sources": [
 						{
 							"fileName": "logger.ts",
-							"line": 44,
-							"character": 19
+							"line": 163,
+							"character": 25
+						}
+					],
+					"signatures": [
+						{
+							"id": 103,
+							"name": "Log",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"shortText": "Always write log data irrespective of level\n  - *equivalent to console.log()*"
+							},
+							"parameters": [
+								{
+									"id": 104,
+									"name": "data",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"text": "Data to write to the log"
+									},
+									"type": {
+										"type": "reference",
+										"id": 107,
+										"name": "tLogObject"
+									}
+								},
+								{
+									"id": 105,
+									"name": "options",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {
+										"isOptional": true
+									},
+									"comment": {
+										"text": "Additional options for controlling log output\n"
+									},
+									"type": {
+										"type": "reference",
+										"id": 32,
+										"name": "ILogOptions"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
 						}
 					]
 				},
 				{
-					"id": 107,
-					"name": "outputFormatting",
+					"id": 69,
+					"name": "OutputFormatting",
 					"kind": 64,
 					"kindString": "Function",
 					"flags": {},
+					"sources": [
+						{
+							"fileName": "logger.ts",
+							"line": 81,
+							"character": 25
+						}
+					],
 					"signatures": [
 						{
-							"id": 108,
-							"name": "outputFormatting",
+							"id": 70,
+							"name": "OutputFormatting",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -2190,114 +1923,15 @@
 							},
 							"parameters": [
 								{
-									"id": 109,
+									"id": 71,
 									"name": "__namedParameters",
 									"kind": 32768,
 									"kindString": "Parameter",
 									"flags": {},
-									"originalName": "__0",
 									"type": {
-										"type": "reflection",
-										"declaration": {
-											"id": 110,
-											"name": "__type",
-											"kind": 65536,
-											"kindString": "Type literal",
-											"flags": {},
-											"children": [
-												{
-													"id": 112,
-													"name": "includeCodeLocation",
-													"kind": 32,
-													"kindString": "Variable",
-													"flags": {},
-													"sources": [
-														{
-															"fileName": "logger.ts",
-															"line": 80,
-															"character": 65
-														}
-													],
-													"type": {
-														"type": "intrinsic",
-														"name": "boolean"
-													}
-												},
-												{
-													"id": 111,
-													"name": "includeTimestamp",
-													"kind": 32,
-													"kindString": "Variable",
-													"flags": {},
-													"sources": [
-														{
-															"fileName": "logger.ts",
-															"line": 80,
-															"character": 44
-														}
-													],
-													"type": {
-														"type": "intrinsic",
-														"name": "boolean"
-													}
-												},
-												{
-													"id": 113,
-													"name": "jsonFormatter",
-													"kind": 32,
-													"kindString": "Variable",
-													"flags": {},
-													"sources": [
-														{
-															"fileName": "logger.ts",
-															"line": 80,
-															"character": 80
-														}
-													],
-													"type": {
-														"type": "intrinsic",
-														"name": "number"
-													}
-												},
-												{
-													"id": 114,
-													"name": "useColors",
-													"kind": 32,
-													"kindString": "Variable",
-													"flags": {},
-													"sources": [
-														{
-															"fileName": "logger.ts",
-															"line": 80,
-															"character": 91
-														}
-													],
-													"type": {
-														"type": "intrinsic",
-														"name": "boolean"
-													}
-												}
-											],
-											"groups": [
-												{
-													"title": "Variables",
-													"kind": 32,
-													"children": [
-														112,
-														111,
-														113,
-														114
-													]
-												}
-											],
-											"sources": [
-												{
-													"fileName": "logger.ts",
-													"line": 80,
-													"character": 26
-												}
-											]
-										}
+										"type": "reference",
+										"id": 37,
+										"name": "ILogOptionConfiguration"
 									}
 								}
 							],
@@ -2306,73 +1940,25 @@
 								"name": "void"
 							}
 						}
-					],
-					"sources": [
-						{
-							"fileName": "logger.ts",
-							"line": 80,
-							"character": 25
-						}
 					]
 				},
 				{
-					"id": 95,
-					"name": "resetLogging",
+					"id": 78,
+					"name": "Trace",
 					"kind": 64,
 					"kindString": "Function",
 					"flags": {},
-					"signatures": [
-						{
-							"id": 96,
-							"name": "resetLogging",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"comment": {
-								"shortText": "Reset the configuration object to default settings"
-							},
-							"parameters": [
-								{
-									"id": 97,
-									"name": "forceReset",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {
-										"isOptional": true
-									},
-									"comment": {
-										"text": "Reset the configuration when a configuration object already exists\n"
-									},
-									"type": {
-										"type": "intrinsic",
-										"name": "boolean"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							}
-						}
-					],
 					"sources": [
 						{
 							"fileName": "logger.ts",
-							"line": 11,
-							"character": 21
+							"line": 113,
+							"character": 14
 						}
-					]
-				},
-				{
-					"id": 121,
-					"name": "trace",
-					"kind": 64,
-					"kindString": "Function",
-					"flags": {},
+					],
 					"signatures": [
 						{
-							"id": 122,
-							"name": "trace",
+							"id": 79,
+							"name": "Trace",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -2381,7 +1967,7 @@
 							},
 							"parameters": [
 								{
-									"id": 123,
+									"id": 80,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2390,12 +1976,13 @@
 										"text": "Data to write to the log"
 									},
 									"type": {
-										"type": "intrinsic",
-										"name": "any"
+										"type": "reference",
+										"id": 107,
+										"name": "tLogObject"
 									}
 								},
 								{
-									"id": 124,
+									"id": 81,
 									"name": "options",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2407,7 +1994,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 44,
+										"id": 32,
 										"name": "ILogOptions"
 									}
 								}
@@ -2417,25 +2004,25 @@
 								"name": "void"
 							}
 						}
-					],
-					"sources": [
-						{
-							"fileName": "logger.ts",
-							"line": 112,
-							"character": 14
-						}
 					]
 				},
 				{
-					"id": 133,
-					"name": "warn",
+					"id": 90,
+					"name": "Warn",
 					"kind": 64,
 					"kindString": "Function",
 					"flags": {},
+					"sources": [
+						{
+							"fileName": "logger.ts",
+							"line": 137,
+							"character": 13
+						}
+					],
 					"signatures": [
 						{
-							"id": 134,
-							"name": "warn",
+							"id": 91,
+							"name": "Warn",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
@@ -2444,7 +2031,7 @@
 							},
 							"parameters": [
 								{
-									"id": 135,
+									"id": 92,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2453,12 +2040,13 @@
 										"text": "Data to write to the log"
 									},
 									"type": {
-										"type": "intrinsic",
-										"name": "any"
+										"type": "reference",
+										"id": 107,
+										"name": "tLogObject"
 									}
 								},
 								{
-									"id": 136,
+									"id": 93,
 									"name": "options",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2470,7 +2058,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 44,
+										"id": 32,
 										"name": "ILogOptions"
 									}
 								}
@@ -2479,13 +2067,6 @@
 								"type": "intrinsic",
 								"name": "void"
 							}
-						}
-					],
-					"sources": [
-						{
-							"fileName": "logger.ts",
-							"line": 136,
-							"character": 13
 						}
 					]
 				}
@@ -2495,44 +2076,24 @@
 					"title": "References",
 					"kind": 16777216,
 					"children": [
-						155,
-						153,
-						158,
-						159,
-						152,
-						156,
-						150,
-						160,
-						149,
-						151,
-						154,
-						157
-					]
-				},
-				{
-					"title": "Variables",
-					"kind": 32,
-					"children": [
-						94
+						115
 					]
 				},
 				{
 					"title": "Functions",
 					"kind": 64,
 					"children": [
+						82,
+						74,
+						94,
 						98,
-						145,
-						115,
-						125,
-						117,
-						137,
-						141,
-						129,
+						72,
+						86,
+						64,
 						102,
-						107,
-						95,
-						121,
-						133
+						69,
+						78,
+						90
 					]
 				}
 			],
@@ -2545,456 +2106,133 @@
 			]
 		},
 		{
-			"id": 62,
-			"name": "\"writeLog\"",
+			"id": 106,
+			"name": "types",
 			"kind": 1,
 			"kindString": "Module",
-			"flags": {
-				"isExported": true
-			},
-			"originalName": "/mnt/general/General_Development/multi-level-logger/src/lib/writeLog.ts",
+			"flags": {},
 			"children": [
 				{
-					"id": 92,
-					"name": "LogWriter",
-					"kind": 16777216,
-					"kindString": "Reference",
-					"flags": {
-						"isExported": true
-					},
-					"target": 84
-				},
-				{
-					"id": 69,
-					"name": "colorLog",
-					"kind": 64,
-					"kindString": "Function",
+					"id": 107,
+					"name": "default",
+					"kind": 4194304,
+					"kindString": "Type alias",
 					"flags": {},
-					"signatures": [
-						{
-							"id": 70,
-							"name": "colorLog",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"parameters": [
-								{
-									"id": 71,
-									"name": "__namedParameters",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"originalName": "__0",
-									"type": {
-										"type": "reflection",
-										"declaration": {
-											"id": 72,
-											"name": "__type",
-											"kind": 65536,
-											"kindString": "Type literal",
-											"flags": {},
-											"children": [
-												{
-													"id": 74,
-													"name": "color",
-													"kind": 32,
-													"kindString": "Variable",
-													"flags": {},
-													"sources": [
-														{
-															"fileName": "writeLog.ts",
-															"line": 36,
-															"character": 36
-														}
-													],
-													"type": {
-														"type": "reference",
-														"id": 10,
-														"name": "colors"
-													}
-												},
-												{
-													"id": 73,
-													"name": "logString",
-													"kind": 32,
-													"kindString": "Variable",
-													"flags": {},
-													"sources": [
-														{
-															"fileName": "writeLog.ts",
-															"line": 36,
-															"character": 29
-														}
-													],
-													"type": {
-														"type": "intrinsic",
-														"name": "string"
-													}
-												},
-												{
-													"id": 75,
-													"name": "options",
-													"kind": 32,
-													"kindString": "Variable",
-													"flags": {},
-													"sources": [
-														{
-															"fileName": "writeLog.ts",
-															"line": 36,
-															"character": 45
-														}
-													],
-													"type": {
-														"type": "reference",
-														"id": 35,
-														"name": "ILogOptionConfiguration"
-													}
-												}
-											],
-											"groups": [
-												{
-													"title": "Variables",
-													"kind": 32,
-													"children": [
-														74,
-														73,
-														75
-													]
-												}
-											],
-											"sources": [
-												{
-													"fileName": "writeLog.ts",
-													"line": 36,
-													"character": 18
-												}
-											]
-										}
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "string"
-							}
-						}
-					],
 					"sources": [
 						{
-							"fileName": "writeLog.ts",
-							"line": 36,
-							"character": 17
-						}
-					]
-				},
-				{
-					"id": 76,
-					"name": "displayAdditionalData",
-					"kind": 64,
-					"kindString": "Function",
-					"flags": {},
-					"signatures": [
-						{
-							"id": 77,
-							"name": "displayAdditionalData",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"parameters": [
-								{
-									"id": 78,
-									"name": "__namedParameters",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"originalName": "__0",
-									"type": {
-										"type": "reflection",
-										"declaration": {
-											"id": 79,
-											"name": "__type",
-											"kind": 65536,
-											"kindString": "Type literal",
-											"flags": {},
-											"children": [
-												{
-													"id": 80,
-													"name": "additionalData",
-													"kind": 32,
-													"kindString": "Variable",
-													"flags": {},
-													"sources": [
-														{
-															"fileName": "writeLog.ts",
-															"line": 43,
-															"character": 47
-														}
-													],
-													"type": {
-														"type": "array",
-														"elementType": {
-															"type": "reference",
-															"id": 54,
-															"name": "IAdditionalData"
-														}
-													}
-												},
-												{
-													"id": 82,
-													"name": "isError",
-													"kind": 32,
-													"kindString": "Variable",
-													"flags": {},
-													"sources": [
-														{
-															"fileName": "writeLog.ts",
-															"line": 43,
-															"character": 65
-														}
-													],
-													"type": {
-														"type": "intrinsic",
-														"name": "boolean"
-													}
-												},
-												{
-													"id": 83,
-													"name": "isSublist",
-													"kind": 32,
-													"kindString": "Variable",
-													"flags": {},
-													"sources": [
-														{
-															"fileName": "writeLog.ts",
-															"line": 43,
-															"character": 76
-														}
-													],
-													"type": {
-														"type": "intrinsic",
-														"name": "boolean"
-													}
-												},
-												{
-													"id": 81,
-													"name": "options",
-													"kind": 32,
-													"kindString": "Variable",
-													"flags": {},
-													"sources": [
-														{
-															"fileName": "writeLog.ts",
-															"line": 43,
-															"character": 56
-														}
-													],
-													"type": {
-														"type": "reference",
-														"id": 35,
-														"name": "ILogOptionConfiguration"
-													}
-												}
-											],
-											"groups": [
-												{
-													"title": "Variables",
-													"kind": 32,
-													"children": [
-														80,
-														82,
-														83,
-														81
-													]
-												}
-											],
-											"sources": [
-												{
-													"fileName": "writeLog.ts",
-													"line": 43,
-													"character": 31
-												}
-											]
-										}
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "string"
-							}
+							"fileName": "types.ts",
+							"line": 3,
+							"character": 15
 						}
 					],
-					"sources": [
-						{
-							"fileName": "writeLog.ts",
-							"line": 43,
-							"character": 30
-						}
-					]
-				},
-				{
-					"id": 63,
-					"name": "formatStackTrace",
-					"kind": 64,
-					"kindString": "Function",
-					"flags": {},
-					"signatures": [
-						{
-							"id": 64,
-							"name": "formatStackTrace",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"parameters": [
-								{
-									"id": 65,
-									"name": "callSite",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"type": {
-										"type": "reference",
-										"name": "CallSite"
-									}
-								}
-							],
-							"type": {
+					"type": {
+						"type": "union",
+						"types": [
+							{
 								"type": "reference",
-								"typeArguments": [
-									{
-										"type": "intrinsic",
-										"name": "string"
-									}
-								],
-								"name": "Array"
+								"name": "tLoggable"
+							},
+							{
+								"type": "reflection",
+								"declaration": {
+									"id": 108,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "types.ts",
+											"line": 3,
+											"character": 31
+										}
+									],
+									"signatures": [
+										{
+											"id": 109,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"name": "tLoggable"
+											}
+										}
+									]
+								}
 							}
-						}
-					],
-					"sources": [
-						{
-							"fileName": "writeLog.ts",
-							"line": 4,
-							"character": 25
-						}
-					]
-				},
+						]
+					}
+				}
+			],
+			"groups": [
 				{
-					"id": 84,
-					"name": "logWriter",
+					"title": "Type aliases",
+					"kind": 4194304,
+					"children": [
+						107
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "types.ts",
+					"line": 1,
+					"character": 0
+				}
+			]
+		},
+		{
+			"id": 110,
+			"name": "writeLog",
+			"kind": 1,
+			"kindString": "Module",
+			"flags": {},
+			"children": [
+				{
+					"id": 111,
+					"name": "default",
 					"kind": 64,
 					"kindString": "Function",
 					"flags": {},
+					"sources": [
+						{
+							"fileName": "writeLog.ts",
+							"line": 77,
+							"character": 18
+						}
+					],
 					"signatures": [
 						{
-							"id": 85,
-							"name": "logWriter",
+							"id": 112,
+							"name": "default",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
 							"parameters": [
 								{
-									"id": 86,
+									"id": 113,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
 									"flags": {},
 									"type": {
-										"type": "intrinsic",
-										"name": "any"
+										"type": "reference",
+										"id": 107,
+										"name": "tLogObject"
 									}
 								},
 								{
-									"id": 87,
+									"id": 114,
 									"name": "__namedParameters",
 									"kind": 32768,
 									"kindString": "Parameter",
 									"flags": {},
-									"originalName": "__1",
 									"type": {
-										"type": "reflection",
-										"declaration": {
-											"id": 88,
-											"name": "__type",
-											"kind": 65536,
-											"kindString": "Type literal",
-											"flags": {},
-											"children": [
-												{
-													"id": 89,
-													"name": "configuration",
-													"kind": 32,
-													"kindString": "Variable",
-													"flags": {},
-													"sources": [
-														{
-															"fileName": "writeLog.ts",
-															"line": 76,
-															"character": 45
-														}
-													],
-													"type": {
-														"type": "reference",
-														"id": 29,
-														"name": "IBaseConfiguration"
-													}
-												},
-												{
-													"id": 90,
-													"name": "messageLevel",
-													"kind": 32,
-													"kindString": "Variable",
-													"flags": {},
-													"sources": [
-														{
-															"fileName": "writeLog.ts",
-															"line": 76,
-															"character": 59
-														}
-													],
-													"type": {
-														"type": "intrinsic",
-														"name": "number"
-													}
-												},
-												{
-													"id": 91,
-													"name": "options",
-													"kind": 32,
-													"kindString": "Variable",
-													"flags": {},
-													"sources": [
-														{
-															"fileName": "writeLog.ts",
-															"line": 76,
-															"character": 68
-														}
-													],
-													"type": {
-														"type": "reference",
-														"id": 44,
-														"name": "ILogOptions"
-													}
-												}
-											],
-											"groups": [
-												{
-													"title": "Variables",
-													"kind": 32,
-													"children": [
-														89,
-														90,
-														91
-													]
-												}
-											],
-											"sources": [
-												{
-													"fileName": "writeLog.ts",
-													"line": 76,
-													"character": 29
-												}
-											]
-										}
+										"type": "reference",
+										"id": 20,
+										"name": "ILog"
 									}
 								}
 							],
@@ -3003,81 +2241,15 @@
 								"name": "void"
 							}
 						}
-					],
-					"sources": [
-						{
-							"fileName": "writeLog.ts",
-							"line": 76,
-							"character": 18
-						}
-					]
-				},
-				{
-					"id": 66,
-					"name": "reportLineNumber",
-					"kind": 64,
-					"kindString": "Function",
-					"flags": {},
-					"signatures": [
-						{
-							"id": 67,
-							"name": "reportLineNumber",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"parameters": [
-								{
-									"id": 68,
-									"name": "belowFn",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {
-										"isOptional": true
-									},
-									"type": {
-										"type": "intrinsic",
-										"name": "any"
-									}
-								}
-							],
-							"type": {
-								"type": "reference",
-								"typeArguments": [
-									{
-										"type": "intrinsic",
-										"name": "string"
-									}
-								],
-								"name": "Array"
-							}
-						}
-					],
-					"sources": [
-						{
-							"fileName": "writeLog.ts",
-							"line": 13,
-							"character": 25
-						}
 					]
 				}
 			],
 			"groups": [
 				{
-					"title": "References",
-					"kind": 16777216,
-					"children": [
-						92
-					]
-				},
-				{
 					"title": "Functions",
 					"kind": 64,
 					"children": [
-						69,
-						76,
-						63,
-						84,
-						66
+						111
 					]
 				}
 			],
@@ -3095,10 +2267,11 @@
 			"title": "Modules",
 			"kind": 1,
 			"children": [
-				20,
 				1,
-				93,
-				62
+				44,
+				63,
+				106,
+				110
 			]
 		}
 	]

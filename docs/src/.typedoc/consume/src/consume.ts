@@ -26,8 +26,7 @@ async function generateMarkdown() {
 
     const { itemMap, typeMap } = GenerateMaps(reflection);
 
-    const loadedTemplates = {},
-        knownTemplates: Map<string, string> = new Map();
+    const knownTemplates: Map<string, string> = new Map();
 
     await fillTemplate(`Configuration.md`, knownTemplates, typeMap, itemMap);
     await fillTemplate(`WritingLogs.md`, knownTemplates, typeMap, itemMap);

@@ -3,7 +3,7 @@
     "compilerOptions": {
         "outDir": "./dist"
     },
-    "files": [
-        "./src/consume.ts"
+    "include": [
+        "./src/**/*.ts"
     ]
 }
