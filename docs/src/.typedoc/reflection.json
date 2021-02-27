@@ -36,7 +36,7 @@
 							"sources": [
 								{
 									"fileName": "interfaces.ts",
-									"line": 89,
+									"line": 93,
 									"character": 9
 								}
 							],
@@ -58,7 +58,7 @@
 							"sources": [
 								{
 									"fileName": "interfaces.ts",
-									"line": 87,
+									"line": 91,
 									"character": 8
 								}
 							],
@@ -94,7 +94,7 @@
 					"sources": [
 						{
 							"fileName": "interfaces.ts",
-							"line": 85,
+							"line": 89,
 							"character": 25
 						}
 					]
@@ -121,7 +121,7 @@
 							"sources": [
 								{
 									"fileName": "interfaces.ts",
-									"line": 95,
+									"line": 99,
 									"character": 18
 								}
 							],
@@ -146,7 +146,7 @@
 							"sources": [
 								{
 									"fileName": "interfaces.ts",
-									"line": 99,
+									"line": 103,
 									"character": 11
 								}
 							],
@@ -169,7 +169,7 @@
 							"sources": [
 								{
 									"fileName": "interfaces.ts",
-									"line": 101,
+									"line": 105,
 									"character": 13
 								}
 							],
@@ -190,7 +190,7 @@
 							"sources": [
 								{
 									"fileName": "interfaces.ts",
-									"line": 97,
+									"line": 101,
 									"character": 11
 								}
 							],
@@ -216,7 +216,7 @@
 					"sources": [
 						{
 							"fileName": "interfaces.ts",
-							"line": 93,
+							"line": 97,
 							"character": 32
 						}
 					]
@@ -553,7 +553,7 @@
 							"sources": [
 								{
 									"fileName": "interfaces.ts",
-									"line": 79,
+									"line": 83,
 									"character": 9
 								}
 							],
@@ -575,7 +575,7 @@
 							"sources": [
 								{
 									"fileName": "interfaces.ts",
-									"line": 77,
+									"line": 81,
 									"character": 13
 								}
 							],
@@ -596,7 +596,7 @@
 							"sources": [
 								{
 									"fileName": "interfaces.ts",
-									"line": 81,
+									"line": 85,
 									"character": 11
 								}
 							],
@@ -621,7 +621,7 @@
 					"sources": [
 						{
 							"fileName": "interfaces.ts",
-							"line": 75,
+							"line": 79,
 							"character": 19
 						}
 					]
@@ -921,12 +921,12 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "Don't evaluate a function when passed in as data"
+								"shortText": "Don't evaluate a function when passed in as data\n  - When **true**, writes the function code to the log output\n  - Useful for debugging"
 							},
 							"sources": [
 								{
 									"fileName": "interfaces.ts",
-									"line": 65,
+									"line": 69,
 									"character": 18
 								}
 							],
@@ -980,7 +980,7 @@
 							"sources": [
 								{
 									"fileName": "interfaces.ts",
-									"line": 71,
+									"line": 75,
 									"character": 9
 								}
 							],
@@ -1005,7 +1005,7 @@
 					"sources": [
 						{
 							"fileName": "interfaces.ts",
-							"line": 69,
+							"line": 73,
 							"character": 27
 						}
 					]

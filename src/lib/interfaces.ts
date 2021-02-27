@@ -61,7 +61,11 @@ interface ILogOptions {
     asIs?: boolean;
     /** When multiple named logs are configured, write to this named log */
     logName?: string;
-    /** Don't evaluate a function when passed in as data */
+    /**
+     * Don't evaluate a function when passed in as data
+     *   - When **true**, writes the function code to the log output instead of the evaluated result
+     *   - Useful for debugging
+     */
     noFunctionEval?: boolean;
 }
 
