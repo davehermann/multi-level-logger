@@ -101,7 +101,7 @@ function displayComment(item: ITypeDocItem) {
                 html.push(`<ul>`);
             }
 
-            const lineText = line.substring(line.indexOf(`.`) + 2);
+            const lineText = line.substring(line.indexOf(isOLItem ? `.` : `-`) + 2);
             html[html.length - 1] += `<li>${lineText}</li>`;
         } else {
             if (inOList) {
