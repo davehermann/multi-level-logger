@@ -4,6 +4,7 @@
   "description": "Enabling different logs with differing log levels within a single application",
   "main": "./dist/lib/logger.js",
   "types": "./dist/lib/logger.d.ts",
+  "files": ["dist/lib/"],
   "engine": {
     "node": ">=8.0.0"
   },
